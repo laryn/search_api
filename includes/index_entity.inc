@@ -778,7 +778,7 @@ class SearchApiIndex extends Entity {
 
     // First, try the static cache and the persistent cache bin.
     if (empty($this->fields[$only_indexed][$get_additional])) {
-      $cid = $this->getCacheId() . "-$only_indexed-$get_additional-{$language->language}";
+      $cid = $this->getCacheId() . "-$only_indexed-$get_additional-{$language->langcode}";
       $cache = cache_get($cid);
       if ($cache) {
         $this->fields[$only_indexed][$get_additional] = $cache->data;

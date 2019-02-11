@@ -74,11 +74,14 @@ class SearchApiHighlight extends SearchApiAbstractProcessor {
       '#default_value' => $this->options['excerpt'],
     );
     $form['excerpt_length'] = array(
-      '#type' => 'textfield',
       '#title' => t('Excerpt length'),
       '#description' => t('The requested length of the excerpt, in characters.'),
       '#default_value' => $this->options['excerpt_length'],
-      '#element_validate' => array('element_validate_integer_positive'),
+      '#type' => 'number',
+      '#min' => 1,
+      '#step' => 1,
+      '#size' => 4,
+      '#maxlength' => 4,
       '#states' => array(
         'visible' => array(
           '#edit-processors-search-api-highlighting-settings-excerpt' => array(

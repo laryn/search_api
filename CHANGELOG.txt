@@ -93,13 +93,13 @@ Search API 1.21 (2017-02-23):
   error in facet adapter's getSearchKeys() method.
 - #2838075 by dsnopek: Fixed possible race condition in
   hook_system_info_alter().
-- #2836687 by sarthak drupal: Fixed one doc comment typo.
+- #2836687 by sarthak backdrop: Fixed one doc comment typo.
 - #2632880 by drunken monkey, donquixote: Added possibility to change indexed
   bundles on disabled indexes.
 - #2828380 by jansete: Fixed taxonomy term access tag in Views filter.
 - #2827717 by Fabien.Godineau, drunken monkey: Fixed disabling of search views
   when reverting an index.
-- #2822836 by prince_zyxware: Fixed some Drupal coding standards violations.
+- #2822836 by prince_zyxware: Fixed some Backdrop coding standards violations.
 - #2822145 by drunken monkey: Fixed problem with phrase search in Views
   fulltext filter.
 - #2778261 by drunken monkey, BAHbKA: Fixed "Index items immediately"
@@ -519,7 +519,7 @@ Search API 1.2 (2012-07-07):
   objects.
 - #1363114 by nbucknor: Fixed inclusion of upper bound in range facets.
 - #1580780 by drunken monkey: Fixed default regexps of the Tokenizer.
-- #1468678 by znerol: Fixed erroneous use of Drupal multibyte wrapper functions.
+- #1468678 by znerol: Fixed erroneous use of Backdrop multibyte wrapper functions.
 - #1600986 by DamienMcKenna: Fixed dependencies of exported search servers.
 - #1569874 by cpliakas: Fixed removal/adding of facets when indexed fields are
   changed.

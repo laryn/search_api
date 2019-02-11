@@ -85,8 +85,11 @@ class SearchApiViewsHandlerFilterFulltext extends SearchApiViewsHandlerFilterTex
     $form['min_length'] = array(
       '#title' => t('Minimum keyword length'),
       '#description' => t('Minimum length of each word in the search keys. Leave empty to allow all words.'),
-      '#type' => 'textfield',
-      '#element_validate' => array('element_validate_integer_positive'),
+      '#type' => 'number',
+      '#min' => 1,
+      '#step' => 1,
+      '#size' => 4,
+      '#maxlength' => 4,
       '#default_value' => $this->options['min_length'],
     );
   }
