@@ -46,7 +46,7 @@ class SearchApiViewsHandlerFilterLanguage extends SearchApiViewsHandlerFilterOpt
       elseif ($v == 'fallback' && module_exists('language_hierarchy')) {
         $fallbacks = array($language_content->language => $language_content->language);
         $fallbacks += array_keys(language_hierarchy_get_ancestors($language_content->language));
-        $this->value[$i] = drupal_map_assoc($fallbacks);
+        $this->value[$i] = backdrop_map_assoc($fallbacks);
       }
     }
     parent::query();

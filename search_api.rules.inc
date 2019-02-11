@@ -11,7 +11,7 @@
  */
 function search_api_rules_action_info() {
   $items['search_api_index'] = array(
-   'parameter' => array(
+    'parameter' => array(
       'entity' => array(
         'type' => 'entity',
         'label' => t('Entity'),
@@ -51,10 +51,10 @@ function _search_api_rules_access() {
 /**
  * Rules action for indexing an item.
  */
-function _search_api_rules_action_index(EntityDrupalWrapper $wrapper, SearchApiIndex $index = NULL, $index_immediately = TRUE) {
+function _search_api_rules_action_index(EntityBackdropWrapper $wrapper, SearchApiIndex $index = NULL, $index_immediately = TRUE) {
   // If we do not have an index, we need to guess the item type to use.
   // @todo Since this can only be used with entities anyways, we can just loop
-  //   over the item type information and use all types with that entity type.
+//   over the item type information and use all types with that entity type.
   $type = $wrapper->type();
   $item_ids = array($wrapper->getIdentifier());
 

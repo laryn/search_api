@@ -1,10 +1,9 @@
 name = Search API Test
 description = "Some dummy implementations for testing the Search API."
-core = 7.x
+backdrop = 1.x
+type = module
 package = Search
 
 dependencies[] = search_api:search_api
-
-files[] = search_api_test.module
 
 hidden = TRUE

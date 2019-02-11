@@ -9,37 +9,29 @@
  * Implements hook_install().
  */
 function search_api_facetapi_install() {
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_YEAR, 'Y');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_MONTH, 'F Y');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_DAY, 'F j, Y');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_HOUR, 'H:__');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_MINUTE, 'H:i');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_SECOND, 'H:i:S');
+  config_set('search_api_facetapi.settings', 'date_format_search_api_facetapi_' . FACETAPI_DATE_YEAR, 'Y');
+  config_set('search_api_facetapi.settings', 'date_format_search_api_facetapi_' . FACETAPI_DATE_MONTH, 'F Y');
+  config_set('search_api_facetapi.settings', 'date_format_search_api_facetapi_' . FACETAPI_DATE_DAY, 'F j, Y');
+  config_set('search_api_facetapi.settings', 'date_format_search_api_facetapi_' . FACETAPI_DATE_HOUR, 'H:__');
+  config_set('search_api_facetapi.settings', 'date_format_search_api_facetapi_' . FACETAPI_DATE_MINUTE, 'H:i');
+  config_set('search_api_facetapi.settings', 'date_format_search_api_facetapi_' . FACETAPI_DATE_SECOND, 'H:i:S');
 }
 
 /**
  * Implements hook_uninstall().
  */
 function search_api_facetapi_uninstall() {
+  // TODO This variable was probably removed in Backdrop without replacement.
   variable_del('search_api_facets_search_ids');
   // We have to use the literal values here, as the Facet API module could have
   // already been disabled at this point.
-  variable_del('date_format_search_api_facetapi_YEAR');
-  variable_del('date_format_search_api_facetapi_MONTH');
-  variable_del('date_format_search_api_facetapi_DAY');
-  variable_del('date_format_search_api_facetapi_HOUR');
-  variable_del('date_format_search_api_facetapi_MINUTE');
-  variable_del('date_format_search_api_facetapi_SECOND');
+  config_clear('search_api_facetapi.settings', 'date_format_search_api_facetapi_YEAR');
+  config_clear('search_api_facetapi.settings', 'date_format_search_api_facetapi_MONTH');
+  config_clear('search_api_facetapi.settings', 'date_format_search_api_facetapi_DAY');
+  config_clear('search_api_facetapi.settings', 'date_format_search_api_facetapi_HOUR');
+  config_clear('search_api_facetapi.settings', 'date_format_search_api_facetapi_MINUTE');
+  config_clear('search_api_facetapi.settings', 'date_format_search_api_facetapi_SECOND');
 }
 
-/**
- * Set up date formats.
- */
-function search_api_facetapi_update_7101() {
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_YEAR, 'Y');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_MONTH, 'F Y');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_DAY, 'F j, Y');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_HOUR, 'H:__');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_MINUTE, 'H:i');
-  variable_set('date_format_search_api_facetapi_' . FACETAPI_DATE_SECOND, 'H:i:S');
-}
+// TODO The old hook_update_N functions cannot be applied to Backdrop.
+function search_api_facetapi_update_7101() { }

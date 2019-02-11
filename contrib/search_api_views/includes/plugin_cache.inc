@@ -108,7 +108,7 @@ class SearchApiViewsCache extends views_plugin_cache_time {
         $key_data['exposed_info'] = $_GET['exposed_info'];
       }
     }
-    $key = drupal_hash_base64(serialize($key_data));
+    $key = backdrop_hash_base64(serialize($key_data));
     return $key;
   }
 

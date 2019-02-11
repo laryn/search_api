@@ -35,7 +35,7 @@ class SearchApiViewsHandlerFilterUser extends SearchApiViewsHandlerFilterEntity 
     }
     foreach ($ids as $uid) {
       if (!$uid) {
-        $names[] = variable_get('anonymous', t('Anonymous'));
+        $names[] = config_get('system.performance', 'anonymous');
       }
       elseif (isset($result[$uid])) {
         $names[] = $result[$uid];
@@ -51,7 +51,7 @@ class SearchApiViewsHandlerFilterUser extends SearchApiViewsHandlerFilterEntity 
     $uids = array();
     $missing = array();
     foreach ($values as $value) {
-      if (drupal_strtolower($value) === drupal_strtolower(variable_get('anonymous', t('Anonymous')))) {
+      if (backdrop_strtolower($value) === backdrop_strtolower(config_get('system.performance', 'anonymous'))) {
         $uids[] = 0;
       }
       else {

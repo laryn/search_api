@@ -9,9 +9,9 @@
  * Base class for data source controllers for external data sources.
  *
  * This data source controller is a base implementation for item types that
- * represent external data, not directly accessible in Drupal. You can use this
+ * represent external data, not directly accessible in Backdrop. You can use this
  * controller as a base class when you don't want to index items of the type via
- * Drupal, but only want the search capabilities of the Search API. In addition
+ * Backdrop, but only want the search capabilities of the Search API. In addition
  * you most probably also have to create a fitting service class for executing
  * the actual searches.
  *

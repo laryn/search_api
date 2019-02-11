@@ -28,7 +28,10 @@ class SearchApiViewsHandlerFilterTaxonomyTerm extends SearchApiViewsHandlerFilte
     $options['type'] = array('default' => !empty($this->definition['vocabulary']) ? 'textfield' : 'select');
     $options['hierarchy'] = array('default' => 0);
     $options['expose']['contains']['reduce'] = array('default' => FALSE);
-    $options['error_message'] = array('default' => TRUE, 'bool' => TRUE);
+    $options['error_message'] = array(
+      'default' => TRUE,
+      'bool' => TRUE,
+    );
 
     return $options;
   }
@@ -40,7 +43,10 @@ class SearchApiViewsHandlerFilterTaxonomyTerm extends SearchApiViewsHandlerFilte
     $form['type'] = array(
       '#type' => 'radios',
       '#title' => t('Selection type'),
-      '#options' => array('select' => t('Dropdown'), 'textfield' => t('Autocomplete')),
+      '#options' => array(
+        'select' => t('Dropdown'),
+        'textfield' => t('Autocomplete'),
+      ),
       '#default_value' => $this->options['type'],
     );
 
@@ -228,7 +234,7 @@ class SearchApiViewsHandlerFilterTaxonomyTerm extends SearchApiViewsHandlerFilte
         $input = $this->options['group_info']['group_items'][$input]['value'];
       }
 
-      if ($input != 'All')  {
+      if ($input != 'All') {
         $this->validated_exposed_input = (array) $input;
       }
       return;

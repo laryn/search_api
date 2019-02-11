@@ -142,7 +142,7 @@ class SearchApiHighlight extends SearchApiAbstractProcessor {
 
     $fulltext_fields = $this->index->getFulltextFields();
     if (!empty($this->options['exclude_fields'])) {
-      $fulltext_fields = drupal_map_assoc($fulltext_fields);
+      $fulltext_fields = backdrop_map_assoc($fulltext_fields);
       foreach ($this->options['exclude_fields'] as $field) {
         unset($fulltext_fields[$field]);
       }
@@ -267,12 +267,12 @@ class SearchApiHighlight extends SearchApiAbstractProcessor {
     $keywords = preg_split(self::$split, $keys);
     // Assure there are no duplicates. (This is actually faster than
     // array_unique() by a factor of 3 to 4.)
-    $keywords = drupal_map_assoc(array_filter($keywords));
+    $keywords = backdrop_map_assoc(array_filter($keywords));
     // Remove quotes from keywords.
     foreach ($keywords as $key) {
       $keywords[$key] = trim($key, "'\"");
     }
-    return drupal_map_assoc(array_filter($keywords));
+    return backdrop_map_assoc(array_filter($keywords));
   }
 
   /**

@@ -163,13 +163,13 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
   }
 
   public function configurationForm() {
-    $form['#attached']['css'][] = drupal_get_path('module', 'search_api') . '/search_api.admin.css';
+    $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
 
     $fields = $this->index->getFields();
     $field_options = array();
     $default_fields = array();
     if (isset($this->options['fields'])) {
-      $default_fields = drupal_map_assoc(array_keys($this->options['fields']));
+      $default_fields = backdrop_map_assoc(array_keys($this->options['fields']));
     }
     foreach ($fields as $name => $field) {
       $field_options[$name] = check_plain($field['name']);
@@ -261,7 +261,10 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
             continue;
           }
           if (!is_array($v)) {
-            $v = array(array('value' => $v, 'score' => 1));
+            $v = array(array(
+                'value' => $v,
+                'score' => 1,
+              ));
           }
         }
       }

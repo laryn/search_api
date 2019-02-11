@@ -524,7 +524,7 @@ class SearchApiQuery implements SearchApiQueryInterface {
           }
           elseif ($v[0] == '"') {
             $len = strlen($v);
-            if ($len > 1 && $v[$len-1] == '"') {
+            if ($len > 1 && $v[$len -1] == '"') {
               $ret[$k] = substr($v, 1, -1);
             }
             else {
@@ -671,7 +671,7 @@ class SearchApiQuery implements SearchApiQueryInterface {
       $languages[] = LANGUAGE_NONE;
     }
 
-    $languages = drupal_map_assoc($languages);
+    $languages = backdrop_map_assoc($languages);
     $langs_to_add = $languages;
     $filters = $this->filter->getFilters();
     while ($filters && $langs_to_add) {
@@ -728,7 +728,7 @@ class SearchApiQuery implements SearchApiQueryInterface {
       $this->index->preprocessSearchQuery($this);
 
       // Let modules alter the query.
-      drupal_alter('search_api_query', $this);
+      backdrop_alter('search_api_query', $this);
     }
   }
 
@@ -740,7 +740,7 @@ class SearchApiQuery implements SearchApiQueryInterface {
     $this->index->postprocessSearchResults($results, $this);
 
     // Let modules alter the results.
-    drupal_alter('search_api_results', $results, $this);
+    backdrop_alter('search_api_results', $results, $this);
   }
 
   /**
@@ -1019,7 +1019,7 @@ class SearchApiQueryFilter implements SearchApiQueryFilterInterface {
   public function __construct($conjunction = 'AND', array $tags = array()) {
     $this->setConjunction($conjunction);
     $this->filters = array();
-    $this->tags = drupal_map_assoc($tags);
+    $this->tags = backdrop_map_assoc($tags);
   }
 
   /**

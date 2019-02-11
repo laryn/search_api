@@ -32,7 +32,7 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
   protected $fulltextReductionSeparator;
 
   public function configurationForm() {
-    $form['#attached']['css'][] = drupal_get_path('module', 'search_api') . '/search_api.admin.css';
+    $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
 
     $fields = $this->index->getFields(FALSE);
     $field_options = array();
@@ -112,7 +112,7 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
         '#type' => 'checkboxes',
         '#title' => t('Contained fields'),
         '#options' => $field_options,
-        '#default_value' => drupal_map_assoc($field['fields']),
+        '#default_value' => backdrop_map_assoc($field['fields']),
         '#attributes' => array('class' => array('search-api-alter-add-aggregation-fields')),
         '#required' => TRUE,
       ));
@@ -236,7 +236,7 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
         if (isset($a) || $b === '') {
           return $a;
         }
-        return drupal_substr($b, 0, 1);
+        return backdrop_substr($b, 0, 1);
       case 'last':
         return isset($b) ? $b : $a;
       case 'list':

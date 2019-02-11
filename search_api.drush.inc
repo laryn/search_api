@@ -126,12 +126,12 @@ function search_api_drush_command() {
     'examples' => array(
       'drush search-api-execute-tasks my_solr_server' => dt('Execute all pending tasks on !server', array('!server' => 'my_solr_server')),
       'drush sapi-et my_solr_server' => dt('Execute all pending tasks on !server', array('!server' => 'my_solr_server')),
-      'drush sapi-et' => dt('Execute all pending tasks on all servers.')
+      'drush sapi-et' => dt('Execute all pending tasks on all servers.'),
     ),
     'arguments' => array(
       'server_id' => dt('The numeric ID or machine name of a server to execute tasks on.'),
     ),
-    'aliases' => array('sapi-et')
+    'aliases' => array('sapi-et'),
   );
 
   $items['search-api-set-index-server'] = array(
@@ -317,12 +317,12 @@ function drush_search_api_status($index_id = NULL) {
   }
   // See search_api_index_status()
   $rows = array(array(
-    dt('Id'),
-    dt('Index'),
-    dt('% Complete'),
-    dt('Indexed'),
-    dt('Total'),
-  ));
+      dt('Id'),
+      dt('Index'),
+      dt('% Complete'),
+      dt('Indexed'),
+      dt('Total'),
+    ));
   foreach ($indexes as $index) {
     $status = search_api_index_status($index);
     $complete = ($status['total'] > 0) ? 100 * round($status['indexed'] / $status['total'], 3) . '%' : '-';

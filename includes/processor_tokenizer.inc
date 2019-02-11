@@ -40,7 +40,7 @@ class SearchApiTokenizer extends SearchApiAbstractProcessor {
         '#title' => t('Whitespace characters'),
         '#description' => t('Specify the characters that should be regarded as whitespace and therefore used as word-delimiters. ' .
             'Specify the characters as a <a href="@link">PCRE character class</a>. ' .
-            'Note: For non-English content, the default setting might not be suitable.',
+            'Note: For non-English content, the default setting might not be suitable.', 
             array('@link' => url('http://www.php.net/manual/en/regexp.reference.character-classes.php'))),
         '#default_value' => "[^[:alnum:]]",
       ),

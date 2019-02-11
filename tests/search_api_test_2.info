@@ -1,10 +1,9 @@
 name = Search API Test Service 2
 description = "A module providing a second test search service."
-core = 7.x
+backdrop = 1.x
+type = module
 package = Search
 
 dependencies[] = search_api:search_api
-
-files[] = search_api_test_service_2.module
 
 hidden = TRUE

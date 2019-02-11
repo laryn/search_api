@@ -57,7 +57,7 @@ class SearchApiEntityDataSourceController extends SearchApiAbstractDataSourceCon
    * {@inheritdoc}
    */
   public function getIdFieldInfo() {
-    $properties = entity_get_property_info($this->entityType);
+    $properties = entity_plus_get_property_info($this->entityType);
     if (!$this->idKey) {
       throw new SearchApiDataSourceException(t("Entity type @type doesn't specify an ID key.", array('@type' => $this->entityInfo['label'])));
     }
@@ -81,7 +81,7 @@ class SearchApiEntityDataSourceController extends SearchApiAbstractDataSourceCon
    * {@inheritdoc}
    */
   public function loadItems(array $ids) {
-    $items = entity_load($this->entityType, $ids);
+    $items = entity_load_multiple($this->entityType, $ids);
     // If some items couldn't be loaded, remove them from tracking.
     if (count($items) != count($ids)) {
       $ids = array_flip($ids);
@@ -145,7 +145,7 @@ class SearchApiEntityDataSourceController extends SearchApiAbstractDataSourceCon
     $this->stopTracking($indexes);
 
     if (!empty($this->entityInfo['base table']) && $this->idKey) {
-      // Use a subselect, which will probably be much faster than entity_load().
+      // Use a subselect, which will probably be much faster than entity_load_multiple().
 
       // Assumes that all entities use the "base table" property and the
       // "entity keys[id]" in the same way as the default controller.
@@ -251,8 +251,8 @@ class SearchApiEntityDataSourceController extends SearchApiAbstractDataSourceCon
     foreach ($indexes as $index_id => $index) {
       $ids = $item_ids;
       if ($bundles = $this->getIndexBundles($index)) {
-        $ids = drupal_map_assoc($ids);
-        foreach (entity_load($this->entityType, $ids) as $id => $entity) {
+        $ids = backdrop_map_assoc($ids);
+        foreach (entity_load_multiple($this->entityType, $ids) as $id => $entity) {
           if (empty($bundles[$entity->{$this->bundleKey}])) {
             unset($ids[$id]);
           }
@@ -284,7 +284,7 @@ class SearchApiEntityDataSourceController extends SearchApiAbstractDataSourceCon
       '#disabled' => !empty($form_state['index']) && $form_state['index']->enabled,
     );
     if (!empty($form_state['index']->options['datasource'])) {
-      $form['bundles']['#default_value'] = drupal_map_assoc($form_state['index']->options['datasource']['bundles']);
+      $form['bundles']['#default_value'] = backdrop_map_assoc($form_state['index']->options['datasource']['bundles']);
     }
     return $form;
   }

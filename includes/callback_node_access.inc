@@ -42,7 +42,7 @@ class SearchApiAlterNodeAccess extends SearchApiAbstractAlterCallback {
 
     if (!isset($account)) {
       // Load the anonymous user.
-      $account = drupal_anonymous_user();
+      $account = backdrop_anonymous_user();
     }
 
     foreach ($items as $id => $item) {

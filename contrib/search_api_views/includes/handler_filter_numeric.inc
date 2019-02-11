@@ -73,9 +73,9 @@ class SearchApiViewsHandlerFilterNumeric extends SearchApiViewsHandlerFilter {
 
     $single_field_operators = $this->operator_options();
     unset(
-      $single_field_operators['empty'],
-      $single_field_operators['not empty'],
-      $single_field_operators['between'],
+      $single_field_operators['empty'], 
+      $single_field_operators['not empty'], 
+      $single_field_operators['between'], 
       $single_field_operators['not between']
     );
     $between_operators = array('between', 'not between');
@@ -98,7 +98,7 @@ class SearchApiViewsHandlerFilterNumeric extends SearchApiViewsHandlerFilter {
         $which = in_array($this->operator, $between_operators) ? 'minmax' : 'value';
       }
       else {
-        $source = 'edit-' . drupal_html_id($this->options['expose']['operator_id']);
+        $source = 'edit-' . backdrop_html_id($this->options['expose']['operator_id']);
       }
     }
 

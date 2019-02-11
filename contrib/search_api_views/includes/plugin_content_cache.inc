@@ -108,7 +108,7 @@ class SearchApiViewsContentCache extends views_content_cache_plugin_cache {
         $key_data['exposed_info'] = $_GET['exposed_info'];
       }
     }
-    $key = drupal_hash_base64(serialize($key_data));
+    $key = backdrop_hash_base64(serialize($key_data));
     return $key;
   }
 

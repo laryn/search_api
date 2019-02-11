@@ -290,7 +290,14 @@ class SearchApiIndex extends Entity {
    *   the specified values.
    */
   public function update(array $fields) {
-    $changeable = array('name' => 1, 'enabled' => 1, 'description' => 1, 'server' => 1, 'options' => 1, 'read_only' => 1);
+    $changeable = array(
+      'name' => 1,
+      'enabled' => 1,
+      'description' => 1,
+      'server' => 1,
+      'options' => 1,
+      'read_only' => 1,
+    );
     $changed = FALSE;
     foreach ($fields as $field => $value) {
       if (isset($changeable[$field]) && $value !== $this->$field) {
@@ -482,7 +489,7 @@ class SearchApiIndex extends Entity {
 
     // Mark all items that are rejected as indexed.
     $ret = array_keys($items);
-    drupal_alter('search_api_index_items', $items, $this);
+    backdrop_alter('search_api_index_items', $items, $this);
     if ($items) {
       $this->dataAlter($items);
     }
@@ -556,10 +563,10 @@ class SearchApiIndex extends Entity {
    *   The altered property info.
    */
   public function propertyInfoAlter(EntityMetadataWrapper $wrapper, array $property_info) {
-    if (entity_get_property_info($wrapper->type())) {
+    if (entity_plus_get_property_info($wrapper->type())) {
       // Overwrite the existing properties with the list of properties including
       // all fields regardless of the used bundle.
-      $property_info['properties'] = entity_get_all_property_info($wrapper->type());
+      $property_info['properties'] = entity_plus_get_all_property_info($wrapper->type());
     }
 
     if (!isset($this->added_properties)) {
@@ -813,7 +820,7 @@ class SearchApiIndex extends Entity {
       $wrappers = array('' => $wrapper);
       // Display names for the prefixes
       $prefix_names = array('' => '');
-        // The list nesting level for entities with a certain prefix
+      // The list nesting level for entities with a certain prefix
       $nesting_levels = array('' => 0);
 
       $types = search_api_default_field_types();
@@ -868,9 +875,9 @@ class SearchApiIndex extends Entity {
               }
               else {
                 $flat[$key] = array(
-                  'name'    => $prefix_name . $info['label'],
+                  'name' => $prefix_name . $info['label'],
                   'description' => empty($info['description']) ? NULL : $info['description'],
-                  'type'    => $info['type'],
+                  'type' => $info['type'],
                   'boost' => '1.0',
                   'indexed' => FALSE,
                 );
@@ -1029,6 +1036,34 @@ class SearchApiIndex extends Entity {
     $this->added_properties = NULL;
     $this->fields = array();
     $this->fulltext_fields = array();
+  }
+
+  /**
+   * Return a label for a signup form.
+   */
+  public function label() {
+    // return $this->title;
+    return 'the index entity label';
+  }
+
+  /**
+   * Overrides Entity\Entity::uri().
+   */
+  public function uri() {
+    return array();
+  }
+  /**
+   * Implements EntityInterface::id().
+   */
+  public function id() {
+    return $this->id;
+  }
+
+  /**
+   * Implements EntityInterface::entityType().
+   */
+  public function entityType() {
+    return 'search_api_index';
   }
 
 }

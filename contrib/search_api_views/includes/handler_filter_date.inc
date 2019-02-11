@@ -53,7 +53,7 @@ class SearchApiViewsHandlerFilterDate extends SearchApiViewsHandlerFilterNumeric
         '#title' => t('Date format'),
         '#default_value' => $this->options['date_popup_format'],
         '#description' => t('A date in any format understood by <a href="@doc-link">PHP</a>. For example, "Y-m-d" or "m/d/Y".', array(
-          '@doc-link' => 'http://php.net/manual/en/function.date.php'
+          '@doc-link' => 'http://php.net/manual/en/function.date.php',
         )),
         '#states' => array(
           'visible' => array(

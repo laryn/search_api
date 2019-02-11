@@ -27,7 +27,10 @@ class SearchApiViewsHandlerFilterBoolean extends SearchApiViewsHandlerFilter {
     $form['value'] = array(
       '#type' => 'select',
       '#title' => empty($form_state['exposed']) ? t('Value') : '',
-      '#options' => array(1 => t('True'), 0 => t('False')),
+      '#options' => array(
+        1 => t('True'),
+        0 => t('False'),
+      ),
       '#default_value' => isset($this->value) ? $this->value : '',
     );
   }

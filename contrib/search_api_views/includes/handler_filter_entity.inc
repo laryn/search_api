@@ -93,7 +93,7 @@ abstract class SearchApiViewsHandlerFilterEntity extends SearchApiViewsHandlerFi
     if (!empty($form['value'])) {
       $value = &$form_state['values']['options']['value'];
       if (strlen($value)) {
-        $values = $this->isMultiValued($form_state['values']['options']) ? drupal_explode_tags($value) : array($value);
+        $values = $this->isMultiValued($form_state['values']['options']) ? backdrop_explode_tags($value) : array($value);
         $ids = $this->validate_entity_strings($form['value'], $values);
 
         if ($ids) {
@@ -139,7 +139,7 @@ abstract class SearchApiViewsHandlerFilterEntity extends SearchApiViewsHandlerFi
     if (!strlen($input)) {
       return;
     }
-    $values = $this->isMultiValued() ? drupal_explode_tags($input) : array($input);
+    $values = $this->isMultiValued() ? backdrop_explode_tags($input) : array($input);
 
     if (!$this->options['is_grouped'] || ($this->options['is_grouped'] && ($input != 'All'))) {
       $this->validated_exposed_input = $this->validate_entity_strings($form[$identifier], $values);

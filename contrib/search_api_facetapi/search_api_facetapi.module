@@ -16,29 +16,29 @@ function search_api_facetapi_menu() {
     if ($first) {
       $first = FALSE;
       $items['admin/config/search/search_api/index/%search_api_index/facets'] = array(
-        'title'            => 'Facets',
-        'page callback'    => 'search_api_facetapi_settings',
-        'page arguments'   =>  array($realm_name, 5),
-        'weight'           => -1,
+        'title' => 'Facets',
+        'page callback' => 'search_api_facetapi_settings',
+        'page arguments' => array($realm_name, 5),
+        'weight' => -1,
         'access arguments' => array('administer search_api'),
-        'type'             => MENU_LOCAL_TASK,
-        'context'          => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+        'type' => MENU_LOCAL_TASK,
+        'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
       );
       $items['admin/config/search/search_api/index/%search_api_index/facets/' . $realm_name] = array(
-        'title'            => $realm['label'],
-        'type'             => MENU_DEFAULT_LOCAL_TASK,
-        'weight'           => $realm['weight'],
+        'title' => $realm['label'],
+        'type' => MENU_DEFAULT_LOCAL_TASK,
+        'weight' => $realm['weight'],
       );
     }
     else {
       $items['admin/config/search/search_api/index/%search_api_index/facets/' . $realm_name] = array(
-        'title'            => $realm['label'],
-        'page callback'    => 'search_api_facetapi_settings',
-        'page arguments'   => array($realm_name, 5),
+        'title' => $realm['label'],
+        'page callback' => 'search_api_facetapi_settings',
+        'page arguments' => array($realm_name, 5),
         'access arguments' => array('administer search_api'),
-        'type'             => MENU_LOCAL_TASK,
-        'context'          => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
-        'weight'           => $realm['weight'],
+        'type' => MENU_LOCAL_TASK,
+        'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+        'weight' => $realm['weight'],
       );
     }
   }
@@ -275,7 +275,7 @@ function search_api_facetapi_settings($realm_name, SearchApiIndex $index) {
   }
   $searcher_name = 'search_api@' . $index->machine_name;
   module_load_include('inc', 'facetapi', 'facetapi.admin');
-  return drupal_get_form('facetapi_realm_settings_form', $searcher_name, $realm_name);
+  return backdrop_get_form('facetapi_realm_settings_form', $searcher_name, $realm_name);
 }
 
 /**
@@ -437,7 +437,7 @@ function _search_api_facetapi_facet_create_label(array $values, array $options) 
   // For entities, we can simply use the entity labels.
   if (isset($field['entity_type'])) {
     $type = $field['entity_type'];
-    $entities = entity_load($type, $values);
+    $entities = entity_load_multiple($type, $values);
     foreach ($entities as $id => $entity) {
       $label = entity_label($type, $entity);
       if ($label !== FALSE) {
@@ -452,7 +452,7 @@ function _search_api_facetapi_facet_create_label(array $values, array $options) 
   // Then, we check whether there is an options list for the field.
   $index = search_api_index_load($options['index id']);
   $wrapper = $index->entityWrapper();
-  $values = drupal_map_assoc($values);
+  $values = backdrop_map_assoc($values);
   foreach (explode(':', $field['key']) as $part) {
     if (!isset($wrapper->$part)) {
       $wrapper = NULL;
@@ -628,4 +628,16 @@ function search_api_facetapi_format_timestamp($timestamp, $precision = FACETAPI_
     $precision = FACETAPI_DATE_YEAR;
   }
   return format_date($timestamp, 'search_api_facetapi_' . $precision);
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function search_api_facetapi_autoload_info() {
+  return array(
+    'SearchApiFacetapiExampleService' => 'example_service.php',
+    'SearchApiFacetapiAdapter' => 'plugins/facetapi/adapter.inc',
+    'SearchApiFacetapiDate' => 'plugins/facetapi/query_type_date.inc',
+    'SearchApiFacetapiTerm' => 'plugins/facetapi/query_type_term.inc',
+  );
 }

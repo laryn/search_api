@@ -9,7 +9,7 @@
  * Allows the re-ordering of enabled data alterations and processors.
  */
 // Copied from filter.admin.js
-Drupal.behaviors.searchApiStatus = {
+Backdrop.behaviors.searchApiStatus = {
   attach: function (context, settings) {
     $('.search-api-status-wrapper input.form-checkbox', context).once('search-api-status', function () {
       var $checkbox = $(this);
@@ -34,13 +34,13 @@ Drupal.behaviors.searchApiStatus = {
           }
         }
         // Restripe table after toggling visibility of table row.
-        Drupal.tableDrag['search-api-' + $checkbox.attr('id').replace(/^edit-([^-]+)-.*$/, '$1') + '-order-table'].restripeTable();
+        Backdrop.tableDrag['search-api-' + $checkbox.attr('id').replace(/^edit-([^-]+)-.*$/, '$1') + '-order-table'].restripeTable();
       });
 
       // Attach summary for configurable items (only for screen-readers).
       if ($tab) {
-        $tab.fieldset.drupalSetSummary(function (tabContext) {
-          return $checkbox.is(':checked') ? Drupal.t('Enabled') : Drupal.t('Disabled');
+        $tab.fieldset.backdropSetSummary(function (tabContext) {
+          return $checkbox.is(':checked') ? Backdrop.t('Enabled') : Backdrop.t('Disabled');
         });
       }
 
@@ -53,7 +53,7 @@ Drupal.behaviors.searchApiStatus = {
 /**
  * Processes elements with the .dropbutton class on page load.
  */
-Drupal.behaviors.searchApiDropButton = {
+Backdrop.behaviors.searchApiDropButton = {
   attach: function (context, settings) {
     var $dropbuttons = $(context).find('.dropbutton-wrapper').once('dropbutton');
     if ($dropbuttons.length) {
@@ -92,7 +92,7 @@ function dropbuttonClickHandler(e) {
  */
 function DropButton(dropbutton, settings) {
   // Merge defaults with settings.
-  var options = $.extend({'title': Drupal.t('List additional actions')}, settings);
+  var options = $.extend({'title': Backdrop.t('List additional actions')}, settings);
   var $dropbutton = $(dropbutton);
   this.$dropbutton = $dropbutton;
   this.$list = $dropbutton.find('.dropbutton');
@@ -107,7 +107,7 @@ function DropButton(dropbutton, settings) {
     var $secondary = this.$actions.slice(1);
     $secondary.addClass('secondary-action');
     // Add toggle link.
-    $primary.after(Drupal.theme('dropbuttonToggle', options));
+    $primary.after(Backdrop.theme('dropbuttonToggle', options));
     // Bind mouse events.
     this.$dropbutton
       .addClass('dropbutton-multiple')
@@ -185,7 +185,7 @@ $.extend(DropButton.prototype, {
   }
 });
 
-$.extend(Drupal.theme, {
+$.extend(Backdrop.theme, {
   /**
    * A toggle is an interactive element often bound to a click handler.
    *
@@ -202,6 +202,6 @@ $.extend(Drupal.theme, {
 });
 
 // Expose constructor in the public space.
-Drupal.DropButton = DropButton;
+Backdrop.DropButton = DropButton;
 
 })(jQuery);

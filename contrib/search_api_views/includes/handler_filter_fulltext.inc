@@ -121,7 +121,7 @@ class SearchApiViewsHandlerFilterFulltext extends SearchApiViewsHandlerFilterTex
     $words = preg_split('/\s+/', $input);
     $quoted = FALSE;
     foreach ($words as $i => $word) {
-      $word_length = drupal_strlen($word);
+      $word_length = backdrop_strlen($word);
       if (!$word_length) {
         unset($words[$i]);
         continue;
@@ -222,9 +222,7 @@ class SearchApiViewsHandlerFilterFulltext extends SearchApiViewsHandlerFilterTex
           // nest both old and new keys array.
           if (!empty($keys['#negation']) != !empty($old['#negation']) || $keys['#conjunction'] != $old['#conjunction']) {
             $keys = array(
-              '#conjunction' => 'AND',
-              $old,
-              $keys,
+              '#conjunction' => 'AND', $old, $keys,
             );
           }
           // Otherwise, just add all individual words from the old keys to the

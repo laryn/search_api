@@ -70,6 +70,36 @@ function _search_api_views_index_unavailable(SearchApiIndex $index) {
   }
   if ($names) {
     views_invalidate_cache();
-    drupal_set_message(t('The following views were using the index %name: @views. You should disable or delete them.', array('%name' => $index->name, '@views' => implode(', ', $names))), 'warning');
+    backdrop_set_message(t('The following views were using the index %name: @views. You should disable or delete them.', array('%name' => $index->name, '@views' => implode(', ', $names))), 'warning');
   }
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function search_api_views_autoload_info() {
+  return array(
+    'SearchApiViewsFacetsBlockDisplay' => 'includes/display_facet_block.inc',
+    'SearchApiViewsHandlerArgument' => 'includes/handler_argument.inc',
+    'SearchApiViewsHandlerArgumentDate' => 'includes/handler_argument_date.inc',
+    'SearchApiViewsHandlerArgumentFulltext' => 'includes/handler_argument_fulltext.inc',
+    'SearchApiViewsHandlerArgumentMoreLikeThis' => 'includes/handler_argument_more_like_this.inc',
+    'SearchApiViewsHandlerArgumentString' => 'includes/handler_argument_string.inc',
+    'SearchApiViewsHandlerArgumentTaxonomyTerm' => 'includes/handler_argument_taxonomy_term.inc',
+    'SearchApiViewsHandlerFilter' => 'includes/handler_filter.inc',
+    'SearchApiViewsHandlerFilterBoolean' => 'includes/handler_filter_boolean.inc',
+    'SearchApiViewsHandlerFilterDate' => 'includes/handler_filter_date.inc',
+    'SearchApiViewsHandlerFilterEntity' => 'includes/handler_filter_entity.inc',
+    'SearchApiViewsHandlerFilterFulltext' => 'includes/handler_filter_fulltext.inc',
+    'SearchApiViewsHandlerFilterLanguage' => 'includes/handler_filter_language.inc',
+    'SearchApiViewsHandlerFilterNumeric' => 'includes/handler_filter_numeric.inc',
+    'SearchApiViewsHandlerFilterOptions' => 'includes/handler_filter_options.inc',
+    'SearchApiViewsHandlerFilterTaxonomyTerm' => 'includes/handler_filter_taxonomy_term.inc',
+    'SearchApiViewsHandlerFilterText' => 'includes/handler_filter_text.inc',
+    'SearchApiViewsHandlerFilterUser' => 'includes/handler_filter_user.inc',
+    'SearchApiViewsHandlerSort' => 'includes/handler_sort.inc',
+    'SearchApiViewsCache' => 'includes/plugin_cache.inc',
+    'SearchApiViewsContentCache' => 'includes/plugin_content_cache.inc',
+    'SearchApiViewsQuery' => 'includes/query.inc',
+  );
 }

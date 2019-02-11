@@ -21,8 +21,8 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
     parent::__construct($index, $options);
     $this->options += array(
       'title' => FALSE,
-      'alt'   => TRUE,
-      'tags'  => "h1 = 5\n" .
+      'alt' => TRUE,
+      'tags' => "h1 = 5\n" .
           "h2 = 3\n" .
           "h3 = 2\n" .
           "strong = 2\n" .
@@ -30,7 +30,7 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
           "em = 1.5\n" .
           'u = 1.5',
     );
-    $this->tags = drupal_parse_info_format($this->options['tags']);
+    $this->tags = backdrop_parse_info_format($this->options['tags']);
     // Specifying empty tags doesn't make sense.
     unset($this->tags['br'], $this->tags['hr']);
   }
@@ -55,8 +55,8 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
         '#title' => t('Tag boosts'),
         '#description' => t('Specify special boost values for certain HTML elements, in <a href="@link">INI file format</a>. ' .
             'The boost values of nested elements are multiplied, elements not mentioned will have the default boost value of 1. ' .
-            'Assign a boost of 0 to ignore the text content of that HTML element.',
-            array('@link' => url('http://api.drupal.org/api/function/drupal_parse_info_format/7'))),
+            'Assign a boost of 0 to ignore the text content of that HTML element.', 
+            array('@link' => url('http://api.drupal.org/api/function/backdrop_parse_info_format/7'))),
         '#default_value' => $this->options['tags'],
       ),
     );
@@ -70,7 +70,7 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
     if (empty($values['tags'])) {
       return;
     }
-    $tags = drupal_parse_info_format($values['tags']);
+    $tags = backdrop_parse_info_format($values['tags']);
     $errors = array();
     foreach ($tags as $key => $value) {
       if (is_array($value)) {

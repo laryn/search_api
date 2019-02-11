@@ -180,7 +180,7 @@ interface SearchApiDataSourceControllerInterface {
    *   The indexes for which the change should be tracked.
    * @param bool $dequeue
    *   (deprecated) If set to TRUE, also change the status of queued items.
-   *   The concept of queued items will be removed in the Drupal 8 version of
+   *   The concept of queued items will be removed in the Backdrop 8 version of
    *   this module.
    *
    * @return SearchApiIndex[]|null
@@ -210,7 +210,7 @@ interface SearchApiDataSourceControllerInterface {
    * @deprecated
    *   As of Search API 1.10, the cron queue is not used for indexing anymore,
    *   therefore this method has become useless. It will be removed in the
-   *   Drupal 8 version of this module.
+   *   Backdrop 8 version of this module.
    */
   public function trackItemQueued($item_ids, SearchApiIndex $index);
 
@@ -631,8 +631,8 @@ abstract class SearchApiAbstractDataSourceController implements SearchApiDataSou
       $this->checkIndex($index);
       $update = db_update($this->table)
         ->fields(array(
-          $this->changedColumn => REQUEST_TIME,
-        ))
+        $this->changedColumn => REQUEST_TIME,
+      ))
         ->condition($this->indexIdColumn, $index->id)
         ->condition($this->changedColumn, 0, $dequeue ? '<=' : '=');
       if ($item_ids !== FALSE) {
@@ -670,8 +670,8 @@ abstract class SearchApiAbstractDataSourceController implements SearchApiDataSou
     }
     $update = db_update($this->table)
       ->fields(array(
-        $this->changedColumn => -1,
-      ))
+      $this->changedColumn => -1,
+    ))
       ->condition($this->indexIdColumn, $index->id);
     if ($item_ids !== FALSE) {
       $update->condition($this->itemIdColumn, $item_ids, 'IN');
@@ -689,8 +689,8 @@ abstract class SearchApiAbstractDataSourceController implements SearchApiDataSou
     $this->checkIndex($index);
     db_update($this->table)
       ->fields(array(
-        $this->changedColumn => 0,
-      ))
+      $this->changedColumn => 0,
+    ))
       ->condition($this->itemIdColumn, $item_ids, 'IN')
       ->condition($this->indexIdColumn, $index->id)
       ->execute();
@@ -770,14 +770,12 @@ abstract class SearchApiAbstractDataSourceController implements SearchApiDataSou
   /**
    * {@inheritdoc}
    */
-  public function configurationFormValidate(array $form, array &$values, array &$form_state) {
-  }
+  public function configurationFormValidate(array $form, array &$values, array &$form_state) { }
 
   /**
    * {@inheritdoc}
    */
-  public function configurationFormSubmit(array $form, array &$values, array &$form_state) {
-  }
+  public function configurationFormSubmit(array $form, array &$values, array &$form_state) { }
 
   /**
    * {@inheritdoc}
@@ -803,7 +801,7 @@ abstract class SearchApiAbstractDataSourceController implements SearchApiDataSou
       $index_type = search_api_get_item_type_info($index->item_type);
       $index_type = empty($index_type['name']) ? $index->item_type : $index_type['name'];
       $msg = t(
-        'Invalid index @index of type @index_type passed to data source controller for type @this_type.',
+        'Invalid index @index of type @index_type passed to data source controller for type @this_type.', 
         array('@index' => $index->name, '@index_type' => $index_type, '@this_type' => $this->info['name'])
       );
       throw new SearchApiDataSourceException($msg);

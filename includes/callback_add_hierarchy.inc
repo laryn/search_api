@@ -57,7 +57,7 @@ class SearchApiAlterAddHierarchy extends SearchApiAbstractAlterCallback {
     // Change the saved type of fields in the index, if necessary.
     if (!empty($this->index->options['fields'])) {
       $fields = &$this->index->options['fields'];
-      $previous = drupal_map_assoc($this->options['fields']);
+      $previous = backdrop_map_assoc($this->options['fields']);
       foreach ($values['fields'] as $field) {
         list($key) = explode(':', $field);
         if (empty($previous[$field]) && isset($fields[$key]['type'])) {
@@ -65,7 +65,7 @@ class SearchApiAlterAddHierarchy extends SearchApiAbstractAlterCallback {
           $change = TRUE;
         }
       }
-      $new = drupal_map_assoc($values['fields']);
+      $new = backdrop_map_assoc($values['fields']);
       foreach ($previous as $field) {
         list($key) = explode(':', $field);
         if (empty($new[$field]) && isset($fields[$key]['type'])) {
@@ -142,7 +142,7 @@ class SearchApiAlterAddHierarchy extends SearchApiAbstractAlterCallback {
         $ret[$key]['getter callback'] = 'entity_property_verbatim_get';
         // The return value of info() has some additional internal values set,
         // which we have to unset for the use here.
-        unset($ret[$key]['name'], $ret[$key]['parent'], $ret[$key]['langcode'], $ret[$key]['clear'],
+        unset($ret[$key]['name'], $ret[$key]['parent'], $ret[$key]['langcode'], $ret[$key]['clear'], 
             $ret[$key]['property info alter'], $ret[$key]['property defaults']);
       }
       if (isset($ret[$key]['bundle'])) {

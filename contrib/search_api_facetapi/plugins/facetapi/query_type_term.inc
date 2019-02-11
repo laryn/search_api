@@ -170,7 +170,7 @@ class SearchApiFacetapiTerm extends FacetapiQueryType implements FacetapiQueryTy
     // The current search per facet is stored in a static variable (during
     // initActiveFilters) so that we can retrieve it here and get the correct
     // current search for this facet.
-    $search_ids = drupal_static('search_api_facetapi_active_facets', array());
+    $search_ids = backdrop_static('search_api_facetapi_active_facets', array());
     $facet_key = $facet['name'] . '@' . $this->adapter->getSearcher();
     if (empty($search_ids[$facet_key]) || !search_api_current_search($search_ids[$facet_key])) {
       return array();
@@ -180,7 +180,7 @@ class SearchApiFacetapiTerm extends FacetapiQueryType implements FacetapiQueryTy
     $build = array();
 
     // Always include the active facet items.
-    foreach ($this->adapter->getActiveItems($this->facet) as $filter)  {
+    foreach ($this->adapter->getActiveItems($this->facet) as $filter) {
       $build[$filter['value']]['#count'] = 0;
     }
 

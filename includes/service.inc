@@ -153,7 +153,7 @@ interface SearchApiServiceInterface {
    * Notifies the server that the field settings for the index have changed.
    *
    * If any user action is necessary as a result of this, the method should
-   * use drupal_set_message() to notify the user.
+   * use backdrop_set_message() to notify the user.
    *
    * @param SearchApiIndex $index
    *   The updated index.

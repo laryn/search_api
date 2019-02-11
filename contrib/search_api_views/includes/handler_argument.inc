@@ -79,8 +79,14 @@ class SearchApiViewsHandlerArgument extends views_handler_argument {
   public function option_definition() {
     $options = parent::option_definition();
 
-    $options['break_phrase'] = array('default' => FALSE, 'bool' => TRUE);
-    $options['not'] = array('default' => FALSE, 'bool' => TRUE);
+    $options['break_phrase'] = array(
+      'default' => FALSE,
+      'bool' => TRUE,
+    );
+    $options['not'] = array(
+      'default' => FALSE,
+      'bool' => TRUE,
+    );
 
     return $options;
   }
@@ -124,7 +130,7 @@ class SearchApiViewsHandlerArgument extends views_handler_argument {
     $operator = empty($this->options['not']) ? '=' : '<>';
 
     if (count($this->value) > 1) {
-      $filter = $this->query->createFilter(drupal_strtoupper($this->operator));
+      $filter = $this->query->createFilter(backdrop_strtoupper($this->operator));
       // $filter will be NULL if there were errors in the query.
       if ($filter) {
         foreach ($this->value as $value) {

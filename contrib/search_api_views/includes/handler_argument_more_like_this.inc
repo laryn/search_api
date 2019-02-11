@@ -79,7 +79,7 @@ class SearchApiViewsHandlerArgumentMoreLikeThis extends SearchApiViewsHandlerArg
       $server = $this->query->getIndex()->server();
       if (!$server->supportsFeature('search_api_mlt')) {
         $class = search_api_get_service_info($server->class);
-        watchdog('search_api_views', 'The search service "@class" does not offer "More like this" functionality.',
+        watchdog('search_api_views', 'The search service "@class" does not offer "More like this" functionality.', 
           array('@class' => $class['name']), WATCHDOG_ERROR);
         $this->query->abort();
         return;

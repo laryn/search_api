@@ -51,7 +51,7 @@ class SearchApiPorterStemmer extends SearchApiAbstractProcessor {
     // Load custom exceptions.
     $exceptions = $this->getExceptions();
 
-    $words = preg_split('/[^\p{L}\p{N}]+/u', $value, -1 , PREG_SPLIT_DELIM_CAPTURE);
+    $words = preg_split('/[^\p{L}\p{N}]+/u', $value, -1, PREG_SPLIT_DELIM_CAPTURE);
     $stemmed = array();
     foreach ($words as $i => $word) {
       if ($i % 2 == 0 && strlen($word)) {

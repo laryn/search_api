@@ -30,7 +30,7 @@ function search_api_menu() {
   $items[$pre . '/add_server'] = array(
     'title' => 'Add server',
     'description' => 'Create a new search server.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('search_api_admin_add_server'),
     'access arguments' => array('administer search_api'),
     'file' => 'search_api.admin.inc',
@@ -40,7 +40,7 @@ function search_api_menu() {
   $items[$pre . '/add_index'] = array(
     'title' => 'Add index',
     'description' => 'Create a new search index.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('search_api_admin_add_index'),
     'access arguments' => array('administer search_api'),
     'file' => 'search_api.admin.inc',
@@ -64,7 +64,7 @@ function search_api_menu() {
   $items[$pre . '/server/%search_api_server/edit'] = array(
     'title' => 'Edit',
     'description' => 'Edit server details.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('search_api_admin_server_edit', 5),
     'access arguments' => array('administer search_api'),
     'file' => 'search_api.admin.inc',
@@ -98,7 +98,7 @@ function search_api_menu() {
     'title callback' => 'search_api_title_delete_page',
     'title arguments' => array(5),
     'description' => 'Delete server.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('search_api_admin_confirm', 'server', 'delete', 5),
     'access callback' => 'search_api_access_delete_page',
     'access arguments' => array(5),
@@ -132,7 +132,7 @@ function search_api_menu() {
   $items[$pre . '/index/%search_api_index/edit'] = array(
     'title' => 'Edit',
     'description' => 'Edit index settings.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('search_api_admin_index_edit', 5),
     'access arguments' => array('administer search_api'),
     'file' => 'search_api.admin.inc',
@@ -143,7 +143,7 @@ function search_api_menu() {
   $items[$pre . '/index/%search_api_index/fields'] = array(
     'title' => 'Fields',
     'description' => 'Select indexed fields.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('search_api_admin_index_fields', 5),
     'access arguments' => array('administer search_api'),
     'file' => 'search_api.admin.inc',
@@ -154,7 +154,7 @@ function search_api_menu() {
   $items[$pre . '/index/%search_api_index/workflow'] = array(
     'title' => 'Filters',
     'description' => 'Edit indexing workflow.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('search_api_admin_index_workflow', 5),
     'access arguments' => array('administer search_api'),
     'file' => 'search_api.admin.inc',
@@ -179,7 +179,7 @@ function search_api_menu() {
     'title callback' => 'search_api_title_delete_page',
     'title arguments' => array(5),
     'description' => 'Delete index.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('search_api_admin_confirm', 'index', 'delete', 5),
     'access callback' => 'search_api_access_delete_page',
     'access arguments' => array(5),
@@ -200,7 +200,7 @@ function search_api_help($path) {
     case 'admin/help#search_api':
       $classes = array();
       foreach (search_api_get_service_info() as $id => $info) {
-        $id = drupal_clean_css_identifier($id);
+        $id = backdrop_clean_css_identifier($id);
         $name = check_plain($info['name']);
         $description = isset($info['description']) ? $info['description'] : '';
         $classes[] = "<h2 id=\"$id\">$name</h2>\n$description";
@@ -327,6 +327,16 @@ function search_api_permission() {
 }
 
 /**
+ * Implements hook_config_info().
+ */
+function search_api_config_info() {
+  $prefixes['search_api.settings'] = array(
+    'label' => t('Module name settings'),
+    'group' => t('Configuration'),
+  );
+}
+
+/**
  * Implements hook_cron().
  *
  * This will first execute any pending server tasks. After that, items will
@@ -344,7 +354,7 @@ function search_api_cron() {
   // Load all enabled, not read-only indexes.
   $conditions = array(
     'enabled' => TRUE,
-    'read_only' => 0
+    'read_only' => 0,
   );
   $indexes = search_api_index_load_multiple(FALSE, $conditions);
   if (!$indexes) {
@@ -354,7 +364,7 @@ function search_api_cron() {
   $ignored_servers = array();
   // Continue indexing, one batch from each index, until the time is up, but at
   // least index one batch per index.
-  $end = time() + variable_get('search_api_index_worker_callback_runtime', 15);
+  $end = time() + config_get('search_api.settings', 'search_api_index_worker_callback_runtime');
   $first_pass = TRUE;
   while (TRUE) {
     if (!$indexes) {
@@ -378,7 +388,7 @@ function search_api_cron() {
           if ($num) {
             $variables = array(
               '@num' => $num,
-              '%name' => $index->name
+              '%name' => $index->name,
             );
             watchdog('search_api', 'Indexed @num items for index %name.', $variables, WATCHDOG_INFO);
           }
@@ -391,7 +401,7 @@ function search_api_cron() {
           watchdog_exception('search_api', $e, '%type while trying to index items on %index: !message in %function (line %line of %file).', $vars);
         }
       }
-      if  (!$num) {
+      if (!$num) {
         // Couldn't index any items => stop indexing for this index in this
         // cron run.
         unset($indexes[$id]);
@@ -407,7 +417,7 @@ function search_api_cron() {
 function search_api_entity_info() {
   $info['search_api_server'] = array(
     'label' => t('Search server'),
-    'controller class' => 'EntityAPIControllerExportable',
+    'controller class' => 'EntityPlusControllerExportable',
     'metadata controller class' => FALSE,
     'entity class' => 'SearchApiServer',
     'base table' => 'search_api_server',
@@ -423,7 +433,7 @@ function search_api_entity_info() {
   );
   $info['search_api_index'] = array(
     'label' => t('Search index'),
-    'controller class' => 'EntityAPIControllerExportable',
+    'controller class' => 'EntityPlusControllerExportable',
     'metadata controller class' => FALSE,
     'entity class' => 'SearchApiIndex',
     'base table' => 'search_api_index',
@@ -586,7 +596,7 @@ function search_api_entity_property_info() {
  */
 function search_api_search_api_server_insert(SearchApiServer $server) {
   // Check whether this is actually part of a revert.
-  $reverts = &drupal_static('search_api_search_api_server_delete', array());
+  $reverts = &backdrop_static('search_api_search_api_server_delete', array());
   if (isset($reverts[$server->machine_name])) {
     $server->original = $reverts[$server->machine_name];
     unset($reverts[$server->machine_name]);
@@ -629,7 +639,7 @@ function search_api_search_api_server_update(SearchApiServer $server) {
 function search_api_search_api_server_delete(SearchApiServer $server) {
   // Only react on real delete, not revert.
   if ($server->hasStatus(ENTITY_IN_CODE)) {
-    $reverts = &drupal_static(__FUNCTION__, array());
+    $reverts = &backdrop_static(__FUNCTION__, array());
     $reverts[$server->machine_name] = $server;
     return;
   }
@@ -650,7 +660,7 @@ function search_api_search_api_server_delete(SearchApiServer $server) {
  */
 function search_api_search_api_index_insert(SearchApiIndex $index) {
   // Check whether this is actually part of a revert.
-  $reverts = &drupal_static('search_api_search_api_index_delete', array());
+  $reverts = &backdrop_static('search_api_search_api_index_delete', array());
   if (isset($reverts[$index->machine_name])) {
     $index->original = $reverts[$index->machine_name];
     unset($reverts[$index->machine_name]);
@@ -744,7 +754,7 @@ function search_api_search_api_index_update(SearchApiIndex $index) {
 function search_api_search_api_index_delete(SearchApiIndex $index) {
   // Only react on real delete, not revert.
   if ($index->hasStatus(ENTITY_IN_CODE)) {
-    $reverts = &drupal_static(__FUNCTION__, array());
+    $reverts = &backdrop_static(__FUNCTION__, array());
     $reverts[$index->machine_name] = $index;
     return;
   }
@@ -871,7 +881,7 @@ function search_api_entity_insert($entity, $type) {
   // continue.
   // We also only react on entity operations for types with property
   // information, as we don't provide search integration for the others.
-  if ($type == 'search_api_index' || !entity_get_property_info($type)) {
+  if ($type == 'search_api_index' || !entity_plus_get_property_info($type)) {
     return;
   }
   list($id) = entity_extract_ids($type, $entity);
@@ -896,7 +906,7 @@ function search_api_entity_insert($entity, $type) {
 function search_api_entity_update($entity, $type) {
   // We only react on entity operations for types with property information, as
   // we don't provide search integration for the others.
-  if (!entity_get_property_info($type)) {
+  if (!entity_plus_get_property_info($type)) {
     return;
   }
   list($id, , $new_bundle) = entity_extract_ids($type, $entity);
@@ -928,7 +938,7 @@ function search_api_entity_update($entity, $type) {
 function search_api_entity_delete($entity, $type) {
   // We only react on entity operations for types with property information, as
   // we don't provide search integration for the others.
-  if (!entity_get_property_info($type)) {
+  if (!entity_plus_get_property_info($type)) {
     return;
   }
   list($id) = entity_extract_ids($type, $entity);
@@ -986,7 +996,7 @@ function search_api_field_attach_rename_bundle($entity_type, $bundle_old, $bundl
       $index->save();
       // Clear all caches that could contain the bundle information.
       $index->resetCaches();
-      drupal_static_reset('search_api_get_datasource_controller');
+      backdrop_static_reset('search_api_get_datasource_controller');
     }
   }
 }
@@ -1003,7 +1013,7 @@ function search_api_field_update_field($field, $prior_field) {
   if ($before != $after && ($before == 1 || $after == 1)) {
     // Unfortunately, we cannot call this right away since the field information
     // is only stored after the hook is called.
-    drupal_register_shutdown_function('search_api_index_recalculate_fields');
+    backdrop_register_shutdown_function('search_api_index_recalculate_fields');
   }
 }
 
@@ -1069,8 +1079,8 @@ function search_api_module_implements_alter(array &$implementations, $hook) {
 function search_api_modules_enabled() {
   // New modules might offer additional item types or service classes,
   // invalidating the cached information.
-  drupal_static_reset('search_api_get_item_type_info');
-  drupal_static_reset('search_api_get_service_info');
+  backdrop_static_reset('search_api_get_item_type_info');
+  backdrop_static_reset('search_api_get_service_info');
 }
 
 /**
@@ -1079,8 +1089,8 @@ function search_api_modules_enabled() {
 function search_api_modules_disabled() {
   // The disabled modules might have offered item types or service classes,
   // invalidating the cached information.
-  drupal_static_reset('search_api_get_item_type_info');
-  drupal_static_reset('search_api_get_service_info');
+  backdrop_static_reset('search_api_get_item_type_info');
+  backdrop_static_reset('search_api_get_service_info');
 }
 
 /**
@@ -1320,7 +1330,7 @@ function search_api_track_item_change_for_indexes($type, array $item_ids, $index
  *   As of Search API 1.10, the cron queue is not used for indexing anymore,
  *   therefore this function has become useless. It will, along with
  *   SearchApiDataSourceControllerInterface::trackItemQueued(), be removed in
- *   the Drupal 8 version of this module.
+ *   the Backdrop 8 version of this module.
  */
 function search_api_track_item_queued(SearchApiIndex $index, array $item_ids) {
   try {
@@ -1509,7 +1519,7 @@ function search_api_execute_pending_tasks(SearchApiServer $server = NULL) {
         ),
       ),
     ),
-    'finished' => 'search_api_execute_pending_tasks_finished'
+    'finished' => 'search_api_execute_pending_tasks_finished',
   ));
   if ($server) {
     $path = 'admin/config/search/search_api/server/' . $server->machine_name;
@@ -1551,10 +1561,10 @@ function search_api_execute_pending_tasks_batch(SearchApiServer $server = NULL, 
 function search_api_execute_pending_tasks_finished($success, $results, $operations) {
   if ($success) {
     // Clear the previous warning.
-    drupal_get_messages('warning');
+    backdrop_get_messages('warning');
 
     // Alert user to the number of tasks executed.
-    drupal_set_message(format_plural($results['total'], 'Successfully executed @count task.', 'Successfully executed @count tasks.'));
+    backdrop_set_message(format_plural($results['total'], 'Successfully executed @count task.', 'Successfully executed @count tasks.'));
   }
 }
 
@@ -1611,11 +1621,11 @@ function search_api_access_execute_tasks_batch(SearchApiServer $server = NULL) {
 function search_api_server_tasks_add(SearchApiServer $server, $type, $index = NULL, $data = NULL) {
   db_insert('search_api_task')
     ->fields(array(
-      'server_id' => $server->machine_name,
-      'type' => $type,
-      'index_id' => $index ? (is_object($index) ? $index->machine_name : $index) : NULL,
-      'data' => isset($data) ? serialize($data) : NULL,
-    ))
+    'server_id' => $server->machine_name,
+    'type' => $type,
+    'index_id' => $index ? (is_object($index) ? $index->machine_name : $index) : NULL,
+    'data' => isset($data) ? serialize($data) : NULL,
+  ))
     ->execute();
 }
 
@@ -1662,7 +1672,7 @@ function search_api_index_recalculate_fields($indexes = FALSE) {
   if (!is_array($indexes)) {
     $indexes = search_api_index_load_multiple(FALSE);
   }
-  $stored_keys = drupal_map_assoc(array('type', 'entity_type', 'real_type', 'boost'));
+  $stored_keys = backdrop_map_assoc(array('type', 'entity_type', 'real_type', 'boost'));
   foreach ($indexes as $index) {
     if (empty($index->options['fields'])) {
       continue;
@@ -1783,7 +1793,7 @@ function search_api_index_specific_items(SearchApiIndex $index, array $ids) {
     }
     else {
       // Normally, items that can't be loaded shouldn't be returned by
-      // entity_load (and other loadItems() implementations). Therefore, this is
+      // entity_load_multiple (and other loadItems() implementations). Therefore, this is
       // an extremely rare case, which seems to happen during installation for
       // some specific setups.
       $type = search_api_get_item_type_info($index->item_type);
@@ -1823,14 +1833,14 @@ function search_api_index_specific_items(SearchApiIndex $index, array $ids) {
  * @see _search_api_index_queued_items()
  */
 function &search_api_index_specific_items_delayed(SearchApiIndex $index = NULL, array $ids = array()) {
-  // We cannot use drupal_static() here because the static cache is reset during
+  // We cannot use backdrop_static() here because the static cache is reset during
   // batch processing, which breaks batch handling.
   static $queue = array();
   static $registered = FALSE;
 
   // Only register the shutdown function once.
   if (empty($registered)) {
-    drupal_register_shutdown_function('_search_api_index_queued_items');
+    backdrop_register_shutdown_function('_search_api_index_queued_items');
     $registered = TRUE;
   }
 
@@ -1838,7 +1848,7 @@ function &search_api_index_specific_items_delayed(SearchApiIndex $index = NULL, 
   if ($index && $ids) {
     $index_id = $index->machine_name;
     $queue += array($index_id => array());
-    $queue[$index_id] += drupal_map_assoc($ids);
+    $queue[$index_id] += backdrop_map_assoc($ids);
   }
 
   return $queue;
@@ -1908,7 +1918,7 @@ function search_api_query($id, array $options = array()) {
  *   NULL, an array of all executed searches will be returned, keyed by ID.
  */
 function search_api_current_search($search_id = NULL, SearchApiQuery $query = NULL, array $results = array()) {
-  $searches = &drupal_static(__FUNCTION__, array());
+  $searches = &backdrop_static(__FUNCTION__, array());
 
   if (isset($query)) {
     if (!isset($search_id)) {
@@ -1980,7 +1990,7 @@ function search_api_default_field_types() {
  * @see hook_search_api_data_type_info()
  */
 function search_api_get_data_type_info($type = NULL) {
-  $types = &drupal_static(__FUNCTION__);
+  $types = &backdrop_static(__FUNCTION__);
   if (!isset($types)) {
     $default_types = search_api_default_field_types();
     $types = module_invoke_all('search_api_data_type_info');
@@ -1990,7 +2000,7 @@ function search_api_get_data_type_info($type = NULL) {
         $type_info['fallback'] = 'string';
       }
     }
-    drupal_alter('search_api_data_type_info', $types);
+    backdrop_alter('search_api_data_type_info', $types);
   }
   if (isset($type)) {
     return isset($types[$type]) ? $types[$type] : NULL;
@@ -2014,7 +2024,7 @@ function search_api_get_data_type_info($type = NULL) {
  *   specifying the module that adds a certain class.
  */
 function search_api_get_service_info($id = NULL) {
-  $services = &drupal_static(__FUNCTION__);
+  $services = &backdrop_static(__FUNCTION__);
 
   if (!isset($services)) {
     // Inlined version of module_invoke_all() to add "module" keys.
@@ -2032,7 +2042,7 @@ function search_api_get_service_info($id = NULL) {
       }
     }
 
-    // Same for drupal_alter().
+    // Same for backdrop_alter().
     foreach (module_implements('search_api_service_info_alter') as $module) {
       $function = $module . '_search_api_service_info_alter';
       if (function_exists($function)) {
@@ -2069,7 +2079,7 @@ function search_api_get_service_info($id = NULL) {
  * @see hook_search_api_item_type_info()
  */
 function search_api_get_item_type_info($type = NULL) {
-  $types = &drupal_static(__FUNCTION__);
+  $types = &backdrop_static(__FUNCTION__);
 
   if (!isset($types)) {
     // Inlined version of module_invoke_all() to add "module" keys.
@@ -2087,7 +2097,7 @@ function search_api_get_item_type_info($type = NULL) {
       }
     }
 
-    // Same for drupal_alter().
+    // Same for backdrop_alter().
     foreach (module_implements('search_api_item_type_info_alter') as $module) {
       $function = $module . '_search_api_item_type_info_alter';
       if (function_exists($function)) {
@@ -2121,7 +2131,7 @@ function search_api_get_item_type_info($type = NULL) {
  *   If the type is unknown or specifies an invalid data source controller.
  */
 function search_api_get_datasource_controller($type) {
-  $datasources = &drupal_static(__FUNCTION__, array());
+  $datasources = &backdrop_static(__FUNCTION__, array());
   if (empty($datasources[$type])) {
     $info = search_api_get_item_type_info($type);
     if (isset($info['datasource controller']) && class_exists($info['datasource controller'])) {
@@ -2144,7 +2154,7 @@ function search_api_get_datasource_controller($type) {
  *   An array of all available data alter callbacks, keyed by function name.
  */
 function search_api_get_alter_callbacks() {
-  $callbacks = &drupal_static(__FUNCTION__);
+  $callbacks = &backdrop_static(__FUNCTION__);
 
   if (!isset($callbacks)) {
     $callbacks = module_invoke_all('search_api_alter_callback_info');
@@ -2155,7 +2165,7 @@ function search_api_get_alter_callbacks() {
     }
 
     // Invoke alter hook.
-    drupal_alter('search_api_alter_callback_info', $callbacks);
+    backdrop_alter('search_api_alter_callback_info', $callbacks);
   }
 
   return $callbacks;
@@ -2170,7 +2180,7 @@ function search_api_get_alter_callbacks() {
  *   An array of all available processors, keyed by id.
  */
 function search_api_get_processors() {
-  $processors = &drupal_static(__FUNCTION__);
+  $processors = &backdrop_static(__FUNCTION__);
 
   if (!isset($processors)) {
     $processors = module_invoke_all('search_api_processor_info');
@@ -2181,7 +2191,7 @@ function search_api_get_processors() {
     }
 
     // Invoke alter hook.
-    drupal_alter('search_api_processor_info', $processors);
+    backdrop_alter('search_api_processor_info', $processors);
   }
 
   return $processors;
@@ -2597,7 +2607,7 @@ function search_api_server_load($id, $reset = FALSE) {
  * Load multiple servers at once, determined by IDs or machine names, or by
  * other conditions.
  *
- * @see entity_load()
+ * @see entity_load_multiple()
  *
  * @param array|false $ids
  *   An array of server IDs or machine names, or FALSE to load all servers.
@@ -2605,14 +2615,14 @@ function search_api_server_load($id, $reset = FALSE) {
  *   An array of conditions on the {search_api_server} table in the form
  *   'field' => $value.
  * @param bool $reset
- *   Whether to reset the internal entity_load cache.
+ *   Whether to reset the internal entity_load_multiple cache.
  *
  * @return SearchApiServer[]
  *   An array of server objects keyed by machine name.
  */
 function search_api_server_load_multiple($ids = array(), $conditions = array(), $reset = FALSE) {
-  $servers = entity_load('search_api_server', $ids, $conditions, $reset);
-  return entity_key_array_by_property($servers, 'machine_name');
+  $servers = entity_load_multiple('search_api_server', $ids, $conditions, $reset);
+  return entity_plus_key_array_by_property($servers, 'machine_name');
 }
 
 /**
@@ -2643,7 +2653,7 @@ function search_api_admin_item_title($object) {
  *   A translated version of either "Delete" or "Revert".
  */
 function search_api_title_delete_page(Entity $entity) {
-  return $entity->hasStatus(ENTITY_OVERRIDDEN) ? t('Revert') : t('Delete');
+  return entity_plus_has_status($entity->entityType(), $entity, ENTITY_OVERRIDDEN) ? t('Revert') : t('Delete');
 }
 
 /**
@@ -2670,7 +2680,7 @@ function search_api_access_disable_page(Entity $entity) {
  *   TRUE if the delete page can be accessed by the user, FALSE otherwise.
  */
 function search_api_access_delete_page(Entity $entity) {
-  return user_access('administer search_api') && $entity->hasStatus(ENTITY_CUSTOM);
+  return user_access('administer search_api') && entity_plus_has_status($entity->entityType(), $entity, ENTITY_CUSTOM);
 }
 
 /**
@@ -2810,7 +2820,7 @@ function search_api_index_load($id, $reset = FALSE) {
  * Load multiple indexes at once, determined by IDs or machine names, or by
  * other conditions.
  *
- * @see entity_load()
+ * @see entity_load_multiple()
  *
  * @param array|false $ids
  *   An array of index IDs or machine names, or FALSE to load all indexes.
@@ -2818,7 +2828,7 @@ function search_api_index_load($id, $reset = FALSE) {
  *   An array of conditions on the {search_api_index} table in the form
  *   'field' => $value.
  * @param bool $reset
- *   Whether to reset the internal entity_load cache.
+ *   Whether to reset the internal entity_load_multiple cache.
  *
  * @return SearchApiIndex[]
  *   An array of index objects keyed by machine name.
@@ -2827,8 +2837,8 @@ function search_api_index_load_multiple($ids = array(), $conditions = array(), $
   // This line is a workaround for a weird PDO bug in PHP 5.2.
   // See http://drupal.org/node/889286.
   new SearchApiIndex();
-  $indexes = entity_load('search_api_index', $ids, $conditions, $reset);
-  return entity_key_array_by_property($indexes, 'machine_name');
+  $indexes = entity_load_multiple('search_api_index', $ids, $conditions, $reset);
+  return entity_plus_key_array_by_property($indexes, 'machine_name');
 }
 
 /**
@@ -3059,9 +3069,9 @@ function search_api_get_sanitized_field_values(array $values) {
   // an array with "#value" and "#sanitize_callback" keys.
   foreach ($values as $field_id => $field_value) {
     if (is_array($field_value)
-      && isset($field_value['#sanitize_callback'])
-      && ($field_value['#sanitize_callback'] === FALSE || is_callable($field_value['#sanitize_callback']))
-      && array_key_exists('#value', $field_value)
+        && isset($field_value['#sanitize_callback'])
+        && ($field_value['#sanitize_callback'] === FALSE || is_callable($field_value['#sanitize_callback']))
+        && array_key_exists('#value', $field_value)
     ) {
       $sanitize_callback = $field_value['#sanitize_callback'];
       $field_value = $field_value['#value'];
@@ -3129,7 +3139,7 @@ function search_api_index_options_list() {
  */
 function search_api_entity_type_options_list() {
   $types = array();
-  foreach (array_keys(entity_get_property_info()) as $type) {
+  foreach (array_keys(entity_plus_get_property_info()) as $type) {
     $info = entity_get_info($type);
     if ($info) {
       $types[$type] = $info['label'];
@@ -3149,7 +3159,7 @@ function search_api_entity_type_options_list() {
  */
 function search_api_combined_bundle_options_list() {
   $types = array();
-  foreach (array_keys(entity_get_property_info()) as $type) {
+  foreach (array_keys(entity_plus_get_property_info()) as $type) {
     $info = entity_get_info($type);
     if (!empty($info['bundles'])) {
       foreach ($info['bundles'] as $bundle => $bundle_info) {
@@ -3207,7 +3217,7 @@ function _search_api_index_queued_items() {
  * and fields, regardless of bundle, are added to the wrapper.
  */
 function _search_api_wrapper_add_all_properties(EntityMetadataWrapper $wrapper, array $property_info) {
-  if ($properties = entity_get_all_property_info($wrapper->type())) {
+  if ($properties = entity_plus_get_all_property_info($wrapper->type())) {
     $property_info['properties'] = $properties;
   }
   return $property_info;
@@ -3317,7 +3327,7 @@ function _search_api_entity_datasource_bundle_change($type, $id, $old_bundle, $n
   );
   foreach (search_api_index_load_multiple(FALSE, $conditions) as $index) {
     if (!empty($index->options['datasource']['bundles'])) {
-      $bundles = drupal_map_assoc($index->options['datasource']['bundles']);
+      $bundles = backdrop_map_assoc($index->options['datasource']['bundles']);
       if (empty($bundles[$new_bundle]) != empty($bundles[$old_bundle])) {
         if (empty($bundles[$new_bundle])) {
           $controller->trackItemDelete(array($id), array($index));
@@ -3364,7 +3374,7 @@ function _search_api_batch_indexing_create(SearchApiIndex $index, $batch_size, $
       ),
       'progress_message' => $t('Completed about @percentage% of the indexing operation.'),
       'finished' => '_search_api_batch_indexing_finished',
-      'file' => drupal_get_path('module', 'search_api') . '/search_api.module',
+      'file' => backdrop_get_path('module', 'search_api') . '/search_api.module',
     );
     batch_set($batch);
     return TRUE;
@@ -3451,13 +3461,13 @@ function _search_api_batch_indexing_callback(SearchApiIndex $index, $batch_size,
 function _search_api_batch_indexing_finished($success, $results) {
   // Check if called from drush.
   if (!empty($results['drush'])) {
-    $drupal_set_message = 'drush_log';
+    $backdrop_set_message = 'drush_log';
     $format_plural = '_search_api_drush_format_plural';
     $t = 'dt';
     $success_message = 'success';
   }
   else {
-    $drupal_set_message = 'drupal_set_message';
+    $backdrop_set_message = 'backdrop_set_message';
     $format_plural = 'format_plural';
     $t = 't';
     $success_message = 'status';
@@ -3466,18 +3476,65 @@ function _search_api_batch_indexing_finished($success, $results) {
   // Display result messages.
   if ($success) {
     if (!empty($results['indexed'])) {
-      $drupal_set_message($format_plural($results['indexed'], 'Successfully indexed 1 item.', 'Successfully indexed @count items.'), $success_message);
+      $backdrop_set_message($format_plural($results['indexed'], 'Successfully indexed 1 item.', 'Successfully indexed @count items.'), $success_message);
 
       if (!empty($results['not indexed'])) {
-       $drupal_set_message($format_plural($results['not indexed'], '1 item could not be indexed. Check the logs for details.', '@count items could not be indexed. Check the logs for details.'), 'warning');
+        $backdrop_set_message($format_plural($results['not indexed'], '1 item could not be indexed. Check the logs for details.', '@count items could not be indexed. Check the logs for details.'), 'warning');
       }
     }
     else {
-      $drupal_set_message($t("Couldn't index items. Check the logs for details."), 'error');
+      $backdrop_set_message($t("Couldn't index items. Check the logs for details."), 'error');
     }
   }
   else {
-    $drupal_set_message($t("An error occurred while trying to index items. Check the logs for details."), 'error');
+    $backdrop_set_message($t("An error occurred while trying to index items. Check the logs for details."), 'error');
   }
 
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function search_api_autoload_info() {
+  return array(
+    'SearchApiAlterCallbackInterface' => 'includes/callback.inc',
+    'SearchApiAbstractAlterCallback' => 'includes/callback.inc',
+    'SearchApiAlterAddAggregation' => 'includes/callback_add_aggregation.inc',
+    'SearchApiAlterAddHierarchy' => 'includes/callback_add_hierarchy.inc',
+    'SearchApiAlterAddUrl' => 'includes/callback_add_url.inc',
+    'SearchApiAlterAddViewedEntity' => 'includes/callback_add_viewed_entity.inc',
+    'SearchApiAlterBundleFilter' => 'includes/callback_bundle_filter.inc',
+    'SearchApiAlterCommentAccess' => 'includes/callback_comment_access.inc',
+    'SearchApiAlterLanguageControl' => 'includes/callback_language_control.inc',
+    'SearchApiAlterNodeAccess' => 'includes/callback_node_access.inc',
+    'SearchApiAlterNodeStatus' => 'includes/callback_node_status.inc',
+    'SearchApiAlterRoleFilter' => 'includes/callback_role_filter.inc',
+    'SearchApiAlterAddUserContent' => 'includes/callback_user_content.inc',
+    'SearchApiAlterUserStatus' => 'includes/callback_user_status.inc',
+    'SearchApiDataSourceControllerInterface' => 'includes/datasource.inc',
+    'SearchApiAbstractDataSourceController' => 'includes/datasource.inc',
+    'SearchApiEntityDataSourceController' => 'includes/datasource_entity.inc',
+    'SearchApiExternalDataSourceController' => 'includes/datasource_external.inc',
+    'SearchApiCombinedEntityDataSourceController' => 'includes/datasource_multiple.inc',
+    'SearchApiException' => 'includes/exception.inc',
+    'SearchApiDataSourceException' => 'includes/exception.inc',
+    'SearchApiIndex' => 'includes/index_entity.inc',
+    'SearchApiProcessorInterface' => 'includes/processor.inc',
+    'SearchApiAbstractProcessor' => 'includes/processor.inc',
+    'SearchApiHighlight' => 'includes/processor_highlight.inc',
+    'SearchApiHtmlFilter' => 'includes/processor_html_filter.inc',
+    'SearchApiIgnoreCase' => 'includes/processor_ignore_case.inc',
+    'SearchApiPorterStemmer' => 'includes/processor_stemmer.inc',
+    'SearchApiPorter2' => 'includes/processor_stemmer.inc',
+    'SearchApiStopWords' => 'includes/processor_stopwords.inc',
+    'SearchApiTokenizer' => 'includes/processor_tokenizer.inc',
+    'SearchApiTransliteration' => 'includes/processor_transliteration.inc',
+    'SearchApiQueryInterface' => 'includes/query.inc',
+    'SearchApiQuery' => 'includes/query.inc',
+    'SearchApiQueryFilterInterface' => 'includes/query.inc',
+    'SearchApiQueryFilter' => 'includes/query.inc',
+    'SearchApiServer' => 'includes/server_entity.inc',
+    'SearchApiServiceInterface' => 'includes/service.inc',
+    'SearchApiAbstractService' => 'includes/service.inc',
+  );
 }

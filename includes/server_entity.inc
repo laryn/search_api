@@ -92,7 +92,12 @@ class SearchApiServer extends Entity {
    *   the specified values.
    */
   public function update(array $fields) {
-    $changeable = array('name' => 1, 'enabled' => 1, 'description' => 1, 'options' => 1);
+    $changeable = array(
+      'name' => 1,
+      'enabled' => 1,
+      'description' => 1,
+      'options' => 1,
+    );
     $changed = FALSE;
     foreach ($fields as $field => $value) {
       if (isset($changeable[$field]) && $value !== $this->$field) {
@@ -393,4 +398,31 @@ class SearchApiServer extends Entity {
     return array();
   }
 
+  /**
+   * Return a label for a signup form.
+   */
+  public function label() {
+    // return $this->title;
+    return 'the label';
+  }
+
+  /**
+   * Overrides Entity\Entity::uri().
+   */
+  public function uri() {
+    return array();
+  }
+  /**
+   * Implements EntityInterface::id().
+   */
+  public function id() {
+    return $this->id;
+  }
+
+  /**
+   * Implements EntityInterface::entityType().
+   */
+  public function entityType() {
+    return 'search_api_server';
+  }
 }

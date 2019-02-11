@@ -12,7 +12,7 @@ function search_api_test_menu() {
   return array(
     'search_api_test/insert' => array(
       'title' => 'Insert item',
-      'page callback' => 'drupal_get_form',
+      'page callback' => 'backdrop_get_form',
       'page arguments' => array('search_api_test_insert_item'),
       'access callback' => TRUE,
     ),
@@ -80,7 +80,7 @@ function search_api_test_insert_item_submit(array $form, array &$form_state) {
  * Load handler for search_api_test entities.
  */
 function search_api_test_load($id) {
-  $ret = entity_load('search_api_test', array($id));
+  $ret = entity_load_multiple('search_api_test', array($id));
   return $ret ? array_shift($ret) : NULL;
 }
 
@@ -269,6 +269,16 @@ class SearchApiTestService extends SearchApiAbstractService {
   }
 
   /**
+   * Implements hook_config_info().
+   */
+  function search_api_test_config_info() {
+    $prefixes['search_api_test.settings'] = array(
+      'label' => t('Module name settings'),
+      'group' => t('Configuration'),
+    );
+  }
+
+  /**
    * Implements SearchApiServiceInterface::indexItems().
    *
    * Indexes items by storing their IDs in the server's options.
@@ -280,7 +290,7 @@ class SearchApiTestService extends SearchApiAbstractService {
     $this->checkErrorState();
     // Refuse to index the item with the same ID as the
     // "search_api_test_indexing_break" variable, if it is set.
-    $exclude = variable_get('search_api_test_indexing_break', 8);
+    $exclude = config_get('search_api_test.settings', 'search_api_test_indexing_break');
     foreach ($items as $id => $item) {
       if ($id == $exclude) {
         unset($items[$id]);
@@ -290,7 +300,7 @@ class SearchApiTestService extends SearchApiAbstractService {
 
     $this->options += array('indexes' => array());
     $this->options['indexes'] += array($index->machine_name => array());
-    $this->options['indexes'][$index->machine_name] += drupal_map_assoc($ids);
+    $this->options['indexes'][$index->machine_name] += backdrop_map_assoc($ids);
     asort($this->options['indexes'][$index->machine_name]);
     $this->server->save();
 
@@ -304,7 +314,7 @@ class SearchApiTestService extends SearchApiAbstractService {
    * server being updated and, eventually, to a notice because there is no
    * server to be updated anymore.
    */
-  public function preDelete() {}
+  public function preDelete() { }
 
   /**
    * {@inheritdoc}
@@ -371,9 +381,19 @@ class SearchApiTestService extends SearchApiAbstractService {
    *   If the "search_api_test_error_state" variable is set.
    */
   protected function checkErrorState() {
-    if (variable_get('search_api_test_error_state', FALSE)) {
+    if (config_get('search_api_test.settings', 'search_api_test_error_state')) {
       throw new SearchApiException();
     }
+  }
+
+  /**
+   * Implements hook_autoload_info().
+   */
+  function search_api_test_autoload_info() {
+    return array(
+      'SearchApiTestService' => 'search_api_test.module',
+      'SearchApiDummyService' => 'search_api_test_2.module',
+    );
   }
 
 }

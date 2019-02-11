@@ -53,3 +53,21 @@ function search_api_test_schema() {
 
   return $schema;
 }
+
+/**
+ * Implements hook_update_N().
+ */
+function search_api_test_update_1000() {
+  $config = config('search_api_test.settings');
+  $config->set('search_api_test_indexing_break', update_variable_get('search_api_test_indexing_break', '8'));
+  $config->set('search_api_test_error_state', update_variable_get('search_api_test_error_state', 'FALSE'));
+  update_variable_del('search_api_test_indexing_break');
+  update_variable_del('search_api_test_error_state');
+}
+
+/**
+ * Implements hook_install().
+ */
+function search_api_test_install() {
+  // Dynamically generated variable data was detected.
+}

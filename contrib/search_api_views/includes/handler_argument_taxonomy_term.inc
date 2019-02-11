@@ -32,7 +32,7 @@ class SearchApiViewsHandlerArgumentTaxonomyTerm extends SearchApiViewsHandlerArg
     }
 
     if (!empty($this->value)) {
-      $terms = entity_load('taxonomy_term', $this->value);
+      $terms = entity_load_multiple('taxonomy_term', $this->value);
 
       if (!empty($terms)) {
         $filter = $this->query->createFilter($outer_conjunction);

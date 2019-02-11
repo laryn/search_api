@@ -37,7 +37,7 @@ class SearchApiCombinedEntityDataSourceController extends SearchApiAbstractDataS
 
     $items = array();
     foreach ($ids_by_type as $type => $type_ids) {
-      foreach (entity_load($type, array_keys($type_ids)) as $entity_id => $entity) {
+      foreach (entity_load_multiple($type, array_keys($type_ids)) as $entity_id => $entity) {
         $id = $type_ids[$entity_id];
         $item = (object) array($type => $entity);
         $item->item_id = $id;
@@ -161,7 +161,7 @@ class SearchApiCombinedEntityDataSourceController extends SearchApiAbstractDataS
       $types = $this->getEntityTypes($index);
 
       // Wherever possible, use a sub-select instead of the much slower
-      // entity_load().
+      // entity_load_multiple().
       foreach ($types as $type) {
         $entity_info = entity_get_info($type);
 
@@ -186,7 +186,7 @@ class SearchApiCombinedEntityDataSourceController extends SearchApiAbstractDataS
         }
       }
 
-      // In the absence of a "base table", use the slow entity_load().
+      // In the absence of a "base table", use the slow entity_load_multiple().
       if ($types) {
         foreach ($types as $type) {
           $query = new EntityFieldQuery();
@@ -226,7 +226,7 @@ class SearchApiCombinedEntityDataSourceController extends SearchApiAbstractDataS
     $ret = array();
 
     foreach ($indexes as $index_id => $index) {
-      $ids = drupal_map_assoc($item_ids);
+      $ids = backdrop_map_assoc($item_ids);
 
       if (!$skip_type_check) {
         $types = $this->getEntityTypes($index);
@@ -332,7 +332,7 @@ class SearchApiCombinedEntityDataSourceController extends SearchApiAbstractDataS
       $index = $this->getCallingIndex();
     }
     if (isset($index->options['datasource']['types'])) {
-      return drupal_map_assoc($index->options['datasource']['types']);
+      return backdrop_map_assoc($index->options['datasource']['types']);
     }
     return array();
   }

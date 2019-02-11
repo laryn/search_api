@@ -41,7 +41,7 @@ class SearchApiDummyService implements SearchApiServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function __construct(\SearchApiServer $server) {}
+  public function __construct(SearchApiServer $server) { }
 
   /**
    * {@inheritdoc}
@@ -53,12 +53,12 @@ class SearchApiDummyService implements SearchApiServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function configurationFormValidate(array $form, array &$values, array &$form_state) {}
+  public function configurationFormValidate(array $form, array &$values, array &$form_state) { }
 
   /**
    * {@inheritdoc}
    */
-  public function configurationFormSubmit(array $form, array &$values, array &$form_state) {}
+  public function configurationFormSubmit(array $form, array &$values, array &$form_state) { }
 
   /**
    * {@inheritdoc}
@@ -77,7 +77,7 @@ class SearchApiDummyService implements SearchApiServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function postCreate() {}
+  public function postCreate() { }
 
   /**
    * {@inheritdoc}
@@ -89,12 +89,12 @@ class SearchApiDummyService implements SearchApiServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function preDelete() {}
+  public function preDelete() { }
 
   /**
    * {@inheritdoc}
    */
-  public function addIndex(SearchApiIndex $index) {}
+  public function addIndex(SearchApiIndex $index) { }
 
   /**
    * {@inheritdoc}
@@ -106,7 +106,7 @@ class SearchApiDummyService implements SearchApiServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function removeIndex($index) {}
+  public function removeIndex($index) { }
 
   /**
    * {@inheritdoc}
@@ -118,7 +118,7 @@ class SearchApiDummyService implements SearchApiServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function deleteItems($ids = 'all', SearchApiIndex $index = NULL) {}
+  public function deleteItems($ids = 'all', SearchApiIndex $index = NULL) { }
 
   /**
    * {@inheritdoc}
@@ -132,5 +132,15 @@ class SearchApiDummyService implements SearchApiServiceInterface {
    */
   public function search(SearchApiQueryInterface $query) {
     return array();
+  }
+
+  /**
+   * Implements hook_autoload_info().
+   */
+  function search_api_test_2_autoload_info() {
+    return array(
+      'SearchApiTestService' => 'search_api_test.module',
+      'SearchApiDummyService' => 'search_api_test_2.module',
+    );
   }
 }

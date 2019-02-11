@@ -71,7 +71,7 @@ class SearchApiFacetapiAdapter extends FacetapiAdapter {
     // We statically store the current search per facet so that we can correctly
     // assign it when building the facets. See the build() method in the query
     // type plugin classes.
-    $active = &drupal_static('search_api_facetapi_active_facets', array());
+    $active = &backdrop_static('search_api_facetapi_active_facets', array());
     foreach ($facets as $facet) {
       $options = $this->getFacet($facet)->getSettings()->settings;
       // The 'default_true' option is a choice between "show on all but the
@@ -98,11 +98,11 @@ class SearchApiFacetapiAdapter extends FacetapiAdapter {
       $facet_key = $facet['name'] . '@' . $this->getSearcher();
       $active[$facet_key] = $search_id;
       $this->fields[$facet['name']] = array(
-        'field'             => $facet['field'],
-        'limit'             => $options['hard_limit'],
-        'operator'          => $options['operator'],
-        'min_count'         => $options['facet_mincount'],
-        'missing'           => $options['facet_missing'],
+        'field' => $facet['field'],
+        'limit' => $options['hard_limit'],
+        'operator' => $options['operator'],
+        'min_count' => $options['facet_mincount'],
+        'missing' => $options['facet_missing'],
       );
     }
   }
@@ -116,10 +116,12 @@ class SearchApiFacetapiAdapter extends FacetapiAdapter {
    *   The identifier of the executed search.
    */
   protected function rememberSearchId($index_id, $search_id) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     $search_ids = variable_get('search_api_facets_search_ids', array());
     if (empty($search_ids[$index_id][$search_id])) {
       $search_ids[$index_id][$search_id] = $search_id;
       asort($search_ids[$index_id]);
+      // TODO This variable was probably removed in Backdrop without replacement.
       variable_set('search_api_facets_search_ids', $search_ids);
     }
   }
@@ -206,7 +208,7 @@ class SearchApiFacetapiAdapter extends FacetapiAdapter {
       // properly.
       $keys = '[' . t('complex query') . ']';
     }
-    drupal_alter('search_api_facetapi_keys', $keys, $search[0]);
+    backdrop_alter('search_api_facetapi_keys', $keys, $search[0]);
     return $keys;
   }
 
@@ -230,6 +232,7 @@ class SearchApiFacetapiAdapter extends FacetapiAdapter {
     $facet = $form['#facetapi']['facet'];
     $facet_settings = $this->getFacet($facet)->getSettings();
     $options = $facet_settings->settings;
+    // TODO This variable was probably removed in Backdrop without replacement.
     $search_ids = variable_get('search_api_facets_search_ids', array());
     $search_ids = isset($search_ids[$this->info['instance']]) ? $search_ids[$this->info['instance']] : array();
     if (count($search_ids) > 1) {

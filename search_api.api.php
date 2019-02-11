@@ -109,7 +109,7 @@ function hook_search_api_item_type_info() {
   // Copied from search_api_search_api_item_type_info().
   $types = array();
 
-  foreach (entity_get_property_info() as $type => $property_info) {
+  foreach (entity_plus_get_property_info() as $type => $property_info) {
     if ($info = entity_get_info($type)) {
       $types[$type] = array(
         'name' => $info['label'],

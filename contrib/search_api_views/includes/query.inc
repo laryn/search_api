@@ -322,7 +322,7 @@ class SearchApiViewsQuery extends views_plugin_query {
    */
   public function alter(&$view) {
     parent::alter($view);
-    drupal_alter('search_api_views_query', $view, $this);
+    backdrop_alter('search_api_views_query', $view, $this);
   }
 
   /**
@@ -336,7 +336,7 @@ class SearchApiViewsQuery extends views_plugin_query {
     if ($this->errors || $this->abort) {
       if (error_displayable()) {
         foreach ($this->errors as $msg) {
-          drupal_set_message(check_plain($msg), 'error');
+          backdrop_set_message(check_plain($msg), 'error');
         }
       }
       $view->result = array();

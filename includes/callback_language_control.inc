@@ -27,10 +27,12 @@ class SearchApiAlterLanguageControl extends SearchApiAbstractAlterCallback {
    *
    * Only returns TRUE if the system is multilingual.
    *
-   * @see drupal_multilingual()
+   * @see backdrop_multilingual()
    */
   public function supportsIndex(SearchApiIndex $index) {
-    return drupal_multilingual();
+    // return backdrop_multilingual();
+    // todo
+    return FALSE;
   }
 
   /**
