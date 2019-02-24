@@ -1,5 +1,5 @@
 Search API
-----------
+==========
 
 This module provides a framework for easily creating searches on any entity
 known to Backdrop, using any kind of search engine. For site administrators, it is
@@ -8,10 +8,11 @@ facetting support and the ability to use the Views module for displaying search
 results, filters, etc. Also, with the Apache Solr integration [1], a
 high-performance search engine is available for use with the Search API.
 
-If you need help with the module, please post to the project's issue queue [2].
 
-[1] http://drupal.org/project/search_api_solr
-[2] http://drupal.org/project/issues/search_api
+HOW TO INSTALL:
+---------------
+- Install this module using the official Backdrop CMS instructions at 
+https://backdropcms.org/guide/modules
 
 
 Content:
@@ -108,7 +109,7 @@ As stated above, you will need at least one other module to use the Search API,
 namely one that defines a service class (e.g., search_api_db ("Database search")
 which can be found at [3]).
 
-[3] http://drupal.org/project/search_api_db
+[3] https://github.com/backdrop-contrib/search_api_db
 
 - Creating a server
   (Configuration > Search API > Add server)
@@ -400,4 +401,19 @@ Included components
     automatically provides configurable facet blocks on pages that execute
     a search query.
 
-[6] http://drupal.org/project/views
+
+LICENSE
+---------------    
+
+This project is GPL v2 software. See the LICENSE.txt file in this directory 
+for complete text.
+
+CURRENT MAINTAINERS
+---------------    
+
+Ported to Backdrop by [docwilmot](https://github.com/docwilmot)
+Looking for maintainers
+
+CREDITS   
+--------------- 
+Maintainer on Drupal [drunken monkey](https://www.drupal.org/u/drunken-monkey)

@@ -104,8 +104,7 @@ class SearchApiEntityDataSourceController extends SearchApiAbstractDataSourceCon
    * {@inheritdoc}
    */
   public function getItemId($item) {
-    $id = entity_id($this->entityType, $item);
-    return $id ? $id : NULL;
+    return $item->id();
   }
 
   /**
