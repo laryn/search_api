@@ -1,6 +1,7 @@
 name = Search API
 description = "Provides a generic API for modules offering search capabilities."
 dependencies[] = entity:entity
+dependencies[] = entity_plus
 backdrop = 1.x
 type = module
 package = Search
