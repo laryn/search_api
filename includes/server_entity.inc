@@ -83,6 +83,15 @@ class SearchApiServer extends Entity {
     parent::__construct($values, $entity_type);
   }
 
+	/**
+   * Returns a status for exportable entities
+   */
+	public function hasStatus($status) {
+		if (!empty($this->entityInfo['exportable'])) {
+			return isset($this->{$this->statusKey}) && ($this->{$this->statusKey} & $status) == $status;
+		}
+	}
+	
   /**
    * Helper method for updating entity properties.
    *
