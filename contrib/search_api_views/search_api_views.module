@@ -10,7 +10,8 @@
  */
 function search_api_views_views_api() {
   return array(
-    'api' => '3.0-alpha1',
+    'api' => '3.0',
+    'path' => backdrop_get_path('module', 'search_api_views') . '/includes',
   );
 }
 
