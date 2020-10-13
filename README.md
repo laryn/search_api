@@ -11,7 +11,7 @@ high-performance search engine is available for use with the Search API.
 
 HOW TO INSTALL:
 ---------------
-- Install this module using the official Backdrop CMS instructions at 
+- Install this module using the official Backdrop CMS instructions at
 https://backdropcms.org/guide/modules
 
 
@@ -405,15 +405,16 @@ Included components
 LICENSE
 ---------------    
 
-This project is GPL v2 software. See the LICENSE.txt file in this directory 
+This project is GPL v2 software. See the LICENSE.txt file in this directory
 for complete text.
 
 CURRENT MAINTAINERS
 ---------------    
 
-Ported to Backdrop by [docwilmot](https://github.com/docwilmot)
-Looking for maintainers
+- Ported to Backdrop by [docwilmot](https://github.com/docwilmot)
+
+- [Ray Burgess](https://github.com/earlyburg).
 
 CREDITS   
---------------- 
+---------------
 Maintainer on Drupal [drunken monkey](https://www.drupal.org/u/drunken-monkey)

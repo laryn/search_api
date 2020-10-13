@@ -184,14 +184,14 @@ class SearchApiIndex extends Entity {
     parent::__construct($values, $entity_type);
   }
 
-	/**
+  /**
    * Returns a status for exportable entities
    */
-	public function hasStatus($status) {
-		if (!empty($this->entityInfo['exportable'])) {
-			return isset($this->{$this->statusKey}) && ($this->{$this->statusKey} & $status) == $status;
-		}
-	}
+  public function hasStatus($status) {
+    if (!empty($this->entityInfo['exportable'])) {
+      return isset($this->{$this->statusKey}) && ($this->{$this->statusKey} & $status) == $status;
+    }
+  }
 
   /**
    * Execute necessary tasks for a newly created index.
