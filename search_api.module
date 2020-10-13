@@ -278,6 +278,7 @@ function search_api_theme() {
       'indexes' => array(),
       'options' => array(),
       'extra' => array(),
+      'status' => NULL,
     ),
     'file' => 'search_api.admin.inc',
   );
@@ -297,6 +298,7 @@ function search_api_theme() {
       'on_server' => NULL,
       'total_items' => 0,
       'read_only' => 0,
+      'status' => NULL,
     ),
     'file' => 'search_api.admin.inc',
   );

@@ -173,6 +173,11 @@ class SearchApiIndex extends Entity {
   public $read_only = 0;
 
   /**
+   * Status constant for exportable entities
+   */
+  public $status = ENTITY_CUSTOM;
+
+  /**
    * Constructor as a helper to the parent constructor.
    */
   public function __construct(array $values = array(), $entity_type = 'search_api_index') {

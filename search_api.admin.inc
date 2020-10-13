@@ -66,7 +66,7 @@ function search_api_admin_overview() {
     $row = array();
     $row[] = $server->enabled ? $t_enabled : $t_disabled;
     if ($show_config_status) {
-      $row[] = theme('entity_status', array('status' => $server->status));
+      $row[] = theme('entity_plus_status', array('status' => $server->status));
     }
     $row[] = $t_server;
     $row[] = l($server->name, $url);
@@ -91,7 +91,7 @@ function search_api_admin_overview() {
         $row = array();
         $row[] = $index->enabled ? $t_enabled : $t_disabled;
         if ($show_config_status) {
-          $row[] = theme('entity_status', array('status' => $index->status));
+          $row[] = theme('entity_plus_status', array('status' => $index->status));
         }
         $row[] = ' ';
         $row[] = $t_index;
@@ -116,7 +116,7 @@ function search_api_admin_overview() {
       $row = array();
       $row[] = $t_disabled;
       if ($show_config_status) {
-        $row[] = theme('entity_status', array('status' => $index->status));
+        $row[] = theme('entity_plus_status', array('status' => $index->status));
       }
       $row[] = array(
         'data' => $t_index,
@@ -512,7 +512,7 @@ function theme_search_api_server(array $variables) {
 
   if ($status != ENTITY_CUSTOM) {
     $label = t('Configuration status');
-    $info = theme('entity_status', array('status' => $status));
+    $info = theme('entity_plus_status', array('status' => $status));
     $class = ($status == ENTITY_OVERRIDDEN) ? 'warning' : 'ok';
     $rows[] = _search_api_deep_copy($row);
     $class = '';
@@ -1089,8 +1089,8 @@ function theme_search_api_index(array $variables) {
     if ($options['cron_limit']) {
       $class = 'ok';
       $info = format_plural(
-        $options['cron_limit'], 
-        'During cron runs, 1 item will be indexed per batch.', 
+        $options['cron_limit'],
+        'During cron runs, 1 item will be indexed per batch.',
         'During cron runs, @count items will be indexed per batch.'
       );
     }
@@ -1123,7 +1123,7 @@ function theme_search_api_index(array $variables) {
 
   if ($status != ENTITY_CUSTOM) {
     $label = t('Configuration status');
-    $info = theme('entity_status', array('status' => $status));
+    $info = theme('entity_plus_status', array('status' => $status));
     $class = ($status == ENTITY_OVERRIDDEN) ? 'warning' : 'ok';
     $rows[] = _search_api_deep_copy($row);
   }
@@ -1607,7 +1607,7 @@ function search_api_admin_index_workflow(array $form, array &$form_state, Search
     '#collapsible' => TRUE,
   );
   if ($index->server) {
-    $form['processors']['#description'] .= '<p>' . t("Check the <a href='@server-url'>server's</a> service class description for details.", 
+    $form['processors']['#description'] .= '<p>' . t("Check the <a href='@server-url'>server's</a> service class description for details.",
         array('@server-url' => url('admin/config/search/search_api/server/' . $index->server . '/edit'))) . '</p>';
   }
 
@@ -1867,7 +1867,7 @@ function search_api_admin_index_fields(array $form, array &$form_state, SearchAp
         'In any case, fields of type "Fulltext" will always be fulltext-searchable.</p>'),
   );
   if ($index->server) {
-    $form['description']['#description'] .= '<p>' . t("Check the <a href='@server-url'>server's</a> service class description for details.", 
+    $form['description']['#description'] .= '<p>' . t("Check the <a href='@server-url'>server's</a> service class description for details.",
         array('@server-url' => url('admin/config/search/search_api/server/' . $index->server . '/edit'))) . '</p>';
   }
   foreach ($fields as $key => $info) {
@@ -1943,7 +1943,7 @@ function search_api_admin_index_fields(array $form, array &$form_state, SearchAp
             t('Note that indexing an entity-valued field (like %field, which has type %type) directly will only index the entity ID. ' .
             'This will be used for filtering and also sorting (which might not be what you expect). ' .
             'The entity label will usually be used when displaying the field, though. ' .
-            'Use the "Add related fields" option at the bottom for indexing other fields of related entities.', 
+            'Use the "Add related fields" option at the bottom for indexing other fields of related entities.',
             array('%field' => $info['name'], '%type' => $label)) . '</p>';
         $entity_description_added = TRUE;
       }
