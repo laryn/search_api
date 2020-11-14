@@ -1,9 +1,7 @@
 name = Search Views
 description = Integrates the Search API with Views, enabling users to create views with searches as filters or arguments.
 dependencies[] = search_api:search_api
-dependencies[] = entity_plus:entity_plus
+dependencies[] = entity_plus (>1.x-1.0.10)
 backdrop = 1.x
 type = module
 package = Search
-
-; Views handlers/plugins
