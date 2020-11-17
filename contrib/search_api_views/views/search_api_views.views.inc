@@ -39,7 +39,7 @@ function search_api_views_views_data() {
       foreach ($wrapper as $key => $property) {
         $info = $property->info();
         if ($info) {
-          entity_views_field_definition($key, $info, $table);
+          entity_plus_views_field_definition($key, $info, $table);
         }
       }
 
@@ -73,7 +73,7 @@ function search_api_views_views_data() {
             }
           }
         }
-        $id = _entity_views_field_identifier($key, $table);
+        $id = _entity_plus_views_field_identifier($key, $table);
         if ($group) {
           // @todo Entity type label instead of $group?
           $table[$id]['group'] = $group;
@@ -171,9 +171,9 @@ function _search_api_views_add_handlers($id, array $field, EntityMetadataWrapper
   $inner_type = search_api_extract_inner_type($type);
 
   if (strpos($id, ':')) {
-    entity_views_field_definition($id, $wrapper->info(), $table);
+    entity_plus_views_field_definition($id, $wrapper->info(), $table);
   }
-  $id = _entity_views_field_identifier($id, $table);
+  $id = _entity_plus_views_field_identifier($id, $table);
   $table += array($id => array());
 
   if ($inner_type == 'text') {
