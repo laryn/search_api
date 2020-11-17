@@ -413,7 +413,7 @@ CURRENT MAINTAINERS
 
 - Ported to Backdrop by [docwilmot](https://github.com/docwilmot)
 
-- [Ray Burgess](https://github.com/earlyburg).
+- [earlyburg](https://github.com/earlyburg).
 
 CREDITS   
 ---------------
