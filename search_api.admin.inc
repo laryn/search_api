@@ -1926,7 +1926,7 @@ function search_api_admin_index_fields(array $form, array &$form_state, SearchAp
       );
       // Only add the multiple visible states if the VERSION string is >= 7.14.
       // See https://drupal.org/node/1464758.
-      if (version_compare(VERSION, '7.14', '>=')) {
+      if (version_compare(BACKDROP_VERSION, '1.17.0', '>=')) {
         foreach ($fulltext_types[$level] as $type) {
           $form['fields'][$key]['boost']['#states']['visible'][$css_key . '-type'][] = array('value' => $type);
         }

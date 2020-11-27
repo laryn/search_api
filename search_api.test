@@ -749,7 +749,7 @@ class SearchApiWebTest extends BackdropWebTestCase {
     $this->assertFalse(db_table_exists('search_api_index'), 'Search index table was successfully removed.');
     $this->assertFalse(db_table_exists('search_api_item'), 'Index items table was successfully removed.');
     $this->assertFalse(db_table_exists('search_api_task'), 'Server tasks table was successfully removed.');
-    $this->assertNull(variable_get('search_api_index_worker_callback_runtime'), 'Worker runtime variable was correctly removed.');
+    $this->assertNull(config_set('search_api.settings', 'search_api_index_worker_callback_runtime', 0), 'Worker runtime variable was correctly removed.');
   }
 
 }

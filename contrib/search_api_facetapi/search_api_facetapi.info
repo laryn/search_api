@@ -1,8 +1,7 @@
 name = Search Facets
-description = "Integrate the Search API with the Facet API to provide facetted searches."
+description = "Integrate the Search API with the Facet API to provide faceted searches."
 dependencies[] = search_api:search_api
 dependencies[] = facetapi:facetapi
 backdrop = 1.x
 type = module
 package = Search
-
