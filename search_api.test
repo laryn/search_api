@@ -420,10 +420,10 @@ class SearchApiWebTest extends BackdropWebTestCase {
     $this->assertNoText(t('1 item could not be indexed. Check the logs for details.'), "Index errors warning isn't displayed.");
     $this->assertText(t("Couldn't index items. Check the logs for details."), 'Index error is displayed.');
 
-    // No we set the "search_api_test_indexing_break" variable to 0, so all
+    // Now we set the "search_api_test_indexing_break" variable to 0, so all
     // items will be indexed. The remaining items (8, 9, 10) should therefore
     // be successfully indexed and no warning should show.
-    variable_set('search_api_test_indexing_break', 0);
+    config_set('search_api_test.settings', 'search_api_test_indexing_break', 0);
     $values = array(
       'limit' => -1,
     );
@@ -567,7 +567,7 @@ class SearchApiWebTest extends BackdropWebTestCase {
     $this->assertEqual(array_keys($results['results']), array(11), 'Indexing order test 1: correct results.');
 
     // Now index with a cron run, but stop at item 8.
-    variable_set('search_api_test_indexing_break', 8);
+    config_set('search_api_test.settings', 'search_api_test_indexing_break', 8);
     $this->cronRun();
     // Now just the four new items should have been indexed.
     $results = $this->doSearch();
@@ -575,7 +575,7 @@ class SearchApiWebTest extends BackdropWebTestCase {
     $this->assertEqual(array_keys($results['results']), array(11, 12, 13, 14), 'Indexing order test 2: correct results.');
 
     // This time stop at item 5 (should be the last one).
-    variable_set('search_api_test_indexing_break', 5);
+    config_set('search_api_test.settings', 'search_api_test_indexing_break', 5);
     $this->cronRun();
     // Now all new and changed items should have been indexed, except item 5.
     $results = $this->doSearch();
@@ -583,7 +583,7 @@ class SearchApiWebTest extends BackdropWebTestCase {
     $this->assertEqual(array_keys($results['results']), array(2, 8, 11, 12, 13, 14), 'Indexing order test 3: correct results.');
 
     // Index the remaining item.
-    variable_set('search_api_test_indexing_break', 0);
+    config_set('search_api_test.settings', 'search_api_test_indexing_break', 0);
     $this->cronRun();
     // Now all new and changed items should have been indexed.
     $results = $this->doSearch();
@@ -604,7 +604,7 @@ class SearchApiWebTest extends BackdropWebTestCase {
     $this->assertEqual($task_count, 0, 'No server tasks were previously saved.');
 
     // Set error state for test service, so all operations will fail.
-    variable_set('search_api_test_error_state', TRUE);
+    config_set('search_api_test.settings', 'search_api_test_error_state', TRUE);
 
     // Delete some items.
     $this->backdropGet('search_api_test/delete/8');
@@ -619,7 +619,7 @@ class SearchApiWebTest extends BackdropWebTestCase {
     $this->assertEqual($task_count, 2, 'Server tasks for deleted items were saved.');
 
     // Now reset the error state variable and run cron to delete the items.
-    variable_set('search_api_test_error_state', FALSE);
+    config_set('search_api_test.settings', 'search_api_test_error_state', FALSE);
     $this->cronRun();
 
     // Assert that the indexed items were indeed deleted from the server.
@@ -632,7 +632,7 @@ class SearchApiWebTest extends BackdropWebTestCase {
 
     // Now we first delete more items, then disable the server (thereby removing
     // the index from it) – all while in error state.
-    variable_set('search_api_test_error_state', TRUE);
+    config_set('search_api_test.settings', 'search_api_test_error_state', TRUE);
     $this->backdropGet('search_api_test/delete/14');
     $this->backdropGet('search_api_test/delete/2');
     $settings['enabled'] = 0;
@@ -655,7 +655,7 @@ class SearchApiWebTest extends BackdropWebTestCase {
     $this->assertEqual($task_count, 1, 'Only the "remove index" task is present in the server tasks.');
 
     // Reset the error state variable, re-enable the server.
-    variable_set('search_api_test_error_state', FALSE);
+    config_set('search_api_test.settings', 'search_api_test_error_state', FALSE);
     $settings['enabled'] = 1;
     $this->backdropPost("admin/config/search/search_api/server/{$this->server_id}/edit", $settings, t('Save settings'));
 
