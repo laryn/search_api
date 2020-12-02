@@ -529,8 +529,8 @@ function search_api_update_last_removed() {
  */
 function search_api_update_1000() {
   $config = config('search_api.settings');
-  $config->set('search_api_tasks', update_variable_get('search_api_tasks', 'dynamic value in file /search_api/search_api.install line 998'));
   $config->set('search_api_index_worker_callback_runtime', update_variable_get('search_api_index_worker_callback_runtime', '15'));
+  $config->save();
   update_variable_del('search_api_tasks');
   update_variable_del('search_api_index_worker_callback_runtime');
 }
