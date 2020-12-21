@@ -237,7 +237,7 @@ class SearchApiHighlight extends SearchApiAbstractProcessor {
       return $data;
     }
     $wrapper = $this->index->entityWrapper($result['entity'], FALSE);
-    $wrapper->language($language->language);
+    $wrapper->language($language->langcode);
     $extracted = search_api_extract_fields($wrapper, $needs_extraction, array('sanitize' => TRUE));
 
     foreach ($extracted as $field => $info) {

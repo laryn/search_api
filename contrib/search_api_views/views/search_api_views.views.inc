@@ -107,7 +107,7 @@ function search_api_views_views_data() {
       $table['search_api_excerpt']['title'] = t('Excerpt');
       $table['search_api_excerpt']['help'] = t('The search result excerpted to show found search terms.');
       $table['search_api_excerpt']['field']['type'] = 'text';
-      $table['search_api_excerpt']['field']['handler'] = 'entity_views_handler_field_text';
+      $table['search_api_excerpt']['field']['handler'] = 'entity_plus_views_handler_field_text';
 
       $table['search_api_views_fulltext']['group'] = t('Search');
       $table['search_api_views_fulltext']['title'] = t('Fulltext search');
