@@ -35,8 +35,9 @@
   text-align: center;
 }
 
-.search-api-index-status .progress .filled {
+.search-api-index-status .progress .bar .filled::after {
   background: #0074BD none;
+
 }
 
 /*
