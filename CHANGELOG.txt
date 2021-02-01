@@ -1,3 +1,6 @@
+Search API 1.x, dev (xxxx-xx-xx):
+---------------------------------
+
 Search API 1.27 (2021-02-01):
 -----------------------------
 - #3178035 by mvc, drunken monkey: Fixed OR facets for non-numeric hierarchical
