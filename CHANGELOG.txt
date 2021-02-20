@@ -1,5 +1,6 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #2104623 by drunken monkey: Fixed facet filters for multi-valued date fields.
 
 Search API 1.27 (2021-02-01):
 -----------------------------
