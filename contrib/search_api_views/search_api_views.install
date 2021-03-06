@@ -41,5 +41,3 @@ function _search_api_views_update_7101_helper(&$field, array $fields) {
   return FALSE;
 }
 
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_views_update_7102() { }
