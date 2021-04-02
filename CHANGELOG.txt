@@ -1,5 +1,7 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #3154538 by isholgueras, drunken monkey: Fixed exception handling in
+  datasource tracking methods.
 - #2104623 by drunken monkey: Fixed facet filters for multi-valued date fields.
 
 Search API 1.27 (2021-02-01):
