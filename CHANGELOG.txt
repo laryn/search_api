@@ -1,5 +1,7 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #2159827 by mh86, drunken monkey, farse: Fixed wrong search base paths in
+  Facet API adapter.
 - #3154538 by isholgueras, drunken monkey: Fixed exception handling in
   datasource tracking methods.
 - #2104623 by drunken monkey: Fixed facet filters for multi-valued date fields.

@@ -209,6 +209,7 @@ function search_api_facetapi_search_api_query_alter($query) {
   if ($index->server()->supportsFeature('search_api_facets')) {
     // This is the main point of communication between the facet system and the
     // search back-end - it makes the query respond to active facets.
+    search_api_facetapi_current_search_path($query);
     $searcher = 'search_api@' . $index->machine_name;
     $adapter = facetapi_adapter_load($searcher);
     if ($adapter) {
@@ -267,6 +268,29 @@ function search_api_facetapi_date_format_types() {
     'search_api_facetapi_' . FACETAPI_DATE_MINUTE => t('Search facets - Minutes'),
     'search_api_facetapi_' . FACETAPI_DATE_SECOND => t('Search facets - Seconds'),
   );
+}
+
+/**
+ * Helper function that statically stores the Search API's base path. Can
+ * either be used to store or retrieve the base path.
+ *
+ * This static store is used in SearchApiFacetapiAdapter::getSearchPath() in
+ * order to retrieve the current search base path. Just relying on
+ * search_api_current_search() to retrieve the current query is not enough, as
+ * the path might be requested before the query is finally executed and stored.
+ *
+ * @param SearchApiQueryInterface $query
+ *   When storing the base base, the query that is executed. Else NULL.
+ *
+ * @return
+ *   The Search API's base path.
+ */
+function search_api_facetapi_current_search_path(SearchApiQueryInterface $query = NULL) {
+  $path = &drupal_static(__FUNCTION__, '');
+  if ($query && $query->getOption('search_api_base_path')) {
+    $path = $query->getOption('search_api_base_path');
+  }
+  return $path;
 }
 
 /**
