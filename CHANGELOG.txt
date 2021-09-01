@@ -1,5 +1,7 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #3215213 by drunken monkey: Fixed undefined index "#value" in
+  SearchApiViewsHandlerFilterFulltext::exposed_validate().
 
 Search API 1.28 (2021-07-19):
 -----------------------------
