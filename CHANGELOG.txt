@@ -1,5 +1,7 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #2159827 by .bert, drunken monkey: Fixed regression with wrong search base
+  paths in Facet API adapter.
 - #3215213 by drunken monkey: Fixed undefined index "#value" in
   SearchApiViewsHandlerFilterFulltext::exposed_validate().
 
