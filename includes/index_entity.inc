@@ -175,7 +175,7 @@ class SearchApiIndex extends Entity {
   /**
    * Status constant for exportable entities
    */
-  public $status = ENTITY_CUSTOM;
+  public $status = ENTITY_PLUS_CUSTOM;
 
   /**
    * Constructor as a helper to the parent constructor.

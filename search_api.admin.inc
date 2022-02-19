@@ -22,7 +22,7 @@ function search_api_admin_overview() {
   $show_config_status = FALSE;
   foreach (search_api_index_load_multiple(FALSE) as $index) {
     $indexes[$index->server][$index->machine_name] = $index;
-    if (!$show_config_status && $index->status != ENTITY_CUSTOM) {
+    if (!$show_config_status && $index->status != ENTITY_PLUS_CUSTOM) {
       $show_config_status = TRUE;
     }
   }
@@ -32,7 +32,7 @@ function search_api_admin_overview() {
       unset($servers[$id]);
       $servers[$id] = $server;
     }
-    if (!$show_config_status && $server->status != ENTITY_CUSTOM) {
+    if (!$show_config_status && $server->status != ENTITY_PLUS_CUSTOM) {
       $show_config_status = TRUE;
     }
   }
@@ -510,10 +510,10 @@ function theme_search_api_server(array $variables) {
     $rows[] = _search_api_deep_copy($row);
   }
 
-  if ($status != ENTITY_CUSTOM) {
+  if ($status != ENTITY_PLUS_CUSTOM) {
     $label = t('Configuration status');
     $info = theme('entity_plus_status', array('status' => $status));
-    $class = ($status == ENTITY_OVERRIDDEN) ? 'warning' : 'ok';
+    $class = ($status == ENTITY_PLUS_OVERRIDDEN) ? 'warning' : 'ok';
     $rows[] = _search_api_deep_copy($row);
     $class = '';
   }
@@ -1121,10 +1121,10 @@ function theme_search_api_index(array $variables) {
     $rows[] = _search_api_deep_copy($row);
   }
 
-  if ($status != ENTITY_CUSTOM) {
+  if ($status != ENTITY_PLUS_CUSTOM) {
     $label = t('Configuration status');
     $info = theme('entity_plus_status', array('status' => $status));
-    $class = ($status == ENTITY_OVERRIDDEN) ? 'warning' : 'ok';
+    $class = ($status == ENTITY_PLUS_OVERRIDDEN) ? 'warning' : 'ok';
     $rows[] = _search_api_deep_copy($row);
   }
 
@@ -2288,7 +2288,7 @@ function search_api_admin_confirm(array $form, array &$form_state, $type, $actio
           break;
 
         case 'delete':
-          if ($entity->hasStatus(ENTITY_OVERRIDDEN)) {
+          if ($entity->hasStatus(ENTITY_PLUS_OVERRIDDEN)) {
             $text = array(
               t('Revert server @name', array('@name' => $entity->name)),
               t('Do you really want to revert this server?'),
@@ -2341,7 +2341,7 @@ function search_api_admin_confirm(array $form, array &$form_state, $type, $actio
           break;
 
         case 'delete':
-          if ($entity->hasStatus(ENTITY_OVERRIDDEN)) {
+          if ($entity->hasStatus(ENTITY_PLUS_OVERRIDDEN)) {
             $text = array(
               t('Revert index @name', array('@name' => $entity->name)),
               t('Do you really want to revert this index?'),

@@ -640,7 +640,7 @@ function search_api_search_api_server_update(SearchApiServer $server) {
  */
 function search_api_search_api_server_delete(SearchApiServer $server) {
   // Only react on real delete, not revert.
-  if ($server->hasStatus(ENTITY_IN_CODE)) {
+  if ($server->hasStatus(ENTITY_PLUS_IN_CODE)) {
     $reverts = &backdrop_static(__FUNCTION__, array());
     $reverts[$server->machine_name] = $server;
     return;
@@ -755,7 +755,7 @@ function search_api_search_api_index_update(SearchApiIndex $index) {
  */
 function search_api_search_api_index_delete(SearchApiIndex $index) {
   // Only react on real delete, not revert.
-  if ($index->hasStatus(ENTITY_IN_CODE)) {
+  if ($index->hasStatus(ENTITY_PLUS_IN_CODE)) {
     $reverts = &backdrop_static(__FUNCTION__, array());
     $reverts[$index->machine_name] = $index;
     return;
@@ -2655,7 +2655,7 @@ function search_api_admin_item_title($object) {
  *   A translated version of either "Delete" or "Revert".
  */
 function search_api_title_delete_page(Entity $entity) {
-  return entity_plus_has_status($entity->entityType(), $entity, ENTITY_OVERRIDDEN) ? t('Revert') : t('Delete');
+  return entity_plus_has_status($entity->entityType(), $entity, ENTITY_PLUS_OVERRIDDEN) ? t('Revert') : t('Delete');
 }
 
 /**
@@ -2682,7 +2682,7 @@ function search_api_access_disable_page(Entity $entity) {
  *   TRUE if the delete page can be accessed by the user, FALSE otherwise.
  */
 function search_api_access_delete_page(Entity $entity) {
-  return user_access('administer search_api') && entity_plus_has_status($entity->entityType(), $entity, ENTITY_CUSTOM);
+  return user_access('administer search_api') && entity_plus_has_status($entity->entityType(), $entity, ENTITY_PLUS_CUSTOM);
 }
 
 /**
@@ -2901,10 +2901,10 @@ function search_api_index_get_server(SearchApiIndex $index) {
  */
 function search_api_status_options_list() {
   return array(
-    ENTITY_CUSTOM => t('Custom'),
-    ENTITY_IN_CODE => t('Default'),
-    ENTITY_OVERRIDDEN => t('Overridden'),
-    ENTITY_FIXED => t('Fixed'),
+    ENTITY_PLUS_CUSTOM => t('Custom'),
+    ENTITY_PLUS_IN_CODE => t('Default'),
+    ENTITY_PLUS_OVERRIDDEN => t('Overridden'),
+    ENTITY_PLUS_FIXED => t('Fixed'),
   );
 }
 

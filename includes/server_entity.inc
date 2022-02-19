@@ -74,7 +74,7 @@ class SearchApiServer extends Entity {
   /**
    * Status constant for exportable entities
    */
-  public $status = ENTITY_CUSTOM;
+  public $status = ENTITY_PLUS_CUSTOM;
 
   /**
    * Constructor as a helper to the parent constructor.
@@ -91,7 +91,7 @@ class SearchApiServer extends Entity {
       return isset($this->{$this->statusKey}) && ($this->{$this->statusKey} & $status) == $status;
     }
   }
-	
+
   /**
    * Helper method for updating entity properties.
    *
