@@ -1843,7 +1843,10 @@ function &search_api_index_specific_items_delayed(SearchApiIndex $index = NULL, 
 
   // Only register the shutdown function once.
   if (empty($registered)) {
-    drupal_register_shutdown_function('_search_api_index_queued_items');
+    // Instead of registering the shutdown function directly, do it in a way
+    // that ensures it will run last. This helps avoid issues with other
+    // modules' shutdown functions, especially workbench_moderation_store().
+    drupal_register_shutdown_function('drupal_register_shutdown_function', '_search_api_index_queued_items');
     $registered = TRUE;
   }
 

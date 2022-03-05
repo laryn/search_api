@@ -1,5 +1,8 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #2930706 by donquixote, Graber, mibfire, drunken monkey, joel_osc: Fixed
+  "index items immediately" functionality in connection with Workbench
+  Moderation.
 - #2159827 by .bert, drunken monkey: Fixed regression with wrong search base
   paths in Facet API adapter.
 - #3215213 by drunken monkey: Fixed undefined index "#value" in
