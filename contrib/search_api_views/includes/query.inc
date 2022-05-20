@@ -320,7 +320,7 @@ class SearchApiViewsQuery extends views_plugin_query {
     }
 
     // Store the Views base path, if we have one.
-    $path = $this->view->get_path();
+    $path = $this->view->get_url();
     if ($path) {
       $this->query->setOption('search_api_base_path', $path);
     }
