@@ -798,14 +798,14 @@ function search_api_admin_add_index(array $form, array &$form_state) {
       '#default_value' => FALSE,
     );
     $form['options']['cron_limit'] = array(
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => t('Cron batch size'),
       '#description' => t('Set how many items will be indexed at once when indexing items during a cron run. ' .
           '"0" means that no items will be indexed by cron for this index, "-1" means that cron should index all items at once.'),
       '#default_value' => SEARCH_API_DEFAULT_CRON_LIMIT,
       '#size' => 4,
       '#attributes' => array('class' => array('search-api-cron-limit')),
-      '#element_validate' => array('element_validate_integer'),
+      '#min' => -1,
     );
   }
   elseif (!$old_type) {
@@ -1383,14 +1383,14 @@ function search_api_admin_index_edit(array $form, array &$form_state, SearchApiI
     ),
   );
   $form['options']['cron_limit'] = array(
-    '#type' => 'textfield',
+    '#type' => 'number',
     '#title' => t('Cron batch size'),
     '#description' => t('Set how many items will be indexed at once when indexing items during a cron run. ' .
         '"0" means that no items will be indexed by cron for this index, "-1" means that cron should index all items at once.'),
     '#default_value' => isset($index->options['cron_limit']) ? $index->options['cron_limit'] : SEARCH_API_DEFAULT_CRON_LIMIT,
     '#size' => 4,
     '#attributes' => array('class' => array('search-api-cron-limit')),
-    '#element_validate' => array('_element_validate_integer'),
+    '#min' => -1,
     '#states' => array(
       'invisible' => array(':input[name="read_only"]' => array('checked' => TRUE)),
     ),
