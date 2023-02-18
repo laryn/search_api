@@ -539,7 +539,12 @@ function drush_search_api_execute_tasks($server_id = NULL) {
   // Process batch op with drush.
   try {
     search_api_execute_pending_tasks($server);
-    drush_log(dt('!server tasks have been successfully executed.', array('!server' => $server->machine_name ? $server->machine_name : 'All')), 'ok');
+    if ($server) {
+      drush_log(dt('!server tasks have been successfully executed.', array('!server' => $server->machine_name ?: 'All')), 'ok');
+    }
+    else {
+      drush_log(dt('All tasks have been successfully executed.'), 'ok');
+    }
   }
   catch (SearchApiException $e) {
     drush_log($e->getMessage(), 'error');
@@ -721,3 +726,134 @@ function drush_search_api_server_disable($server_id = NULL) {
     drush_print(dt('The server was disabled successfully.'));
   }
 }
+
+
+$view = new view();
+$view->name = 'productoverzicht_merk';
+$view->description = 'Zoeken in producten op basis van taxonomy termen';
+$view->tag = 'zoeken';
+$view->base_table = 'search_api_index_default_node_index';
+$view->human_name = 'Productoverzicht taxonomy';
+$view->core = 7;
+$view->api_version = '3.0';
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+/* Display: Master */
+$handler = $view->new_display('default', 'Master', 'default');
+$handler->display->display_options['css_class'] = 'product-kolommen';
+$handler->display->display_options['use_more_always'] = FALSE;
+$handler->display->display_options['use_more_text'] = 'meer';
+$handler->display->display_options['access']['type'] = 'perm';
+$handler->display->display_options['cache']['type'] = 'none';
+$handler->display->display_options['query']['type'] = 'views_query';
+$handler->display->display_options['exposed_form']['type'] = 'basic';
+$handler->display->display_options['exposed_form']['options']['submit_button'] = 'Zoek';
+$handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Opnieuw instellen';
+$handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sorteren op';
+$handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
+$handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Oplopend';
+$handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Aflopend';
+$handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+$handler->display->display_options['pager']['type'] = 'full';
+$handler->display->display_options['pager']['options']['items_per_page'] = '24';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['pager']['options']['id'] = '0';
+$handler->display->display_options['pager']['options']['quantity'] = '9';
+$handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+$handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per pagina';
+$handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '24';
+$handler->display->display_options['pager']['options']['expose']['items_per_page_options_all'] = TRUE;
+$handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
+$handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Startpunt';
+$handler->display->display_options['pager']['options']['tags']['first'] = 'Â« eerste';
+$handler->display->display_options['pager']['options']['tags']['previous'] = 'â€¹ vorige';
+$handler->display->display_options['pager']['options']['tags']['next'] = 'volgende â€º';
+$handler->display->display_options['pager']['options']['tags']['last'] = 'laatste Â»';
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['style_options']['row_class'] = 'product-kolommen [field_merk] [type]';
+$handler->display->display_options['row_plugin'] = 'fields';
+/* Kop: Algemeen: Overzichtsgebied */
+$handler->display->display_options['header']['view']['id'] = 'view';
+$handler->display->display_options['header']['view']['table'] = 'views';
+$handler->display->display_options['header']['view']['field'] = 'view';
+$handler->display->display_options['header']['view']['empty'] = TRUE;
+$handler->display->display_options['header']['view']['view_to_insert'] = 'taxonomy_description:default';
+$handler->display->display_options['header']['view']['inherit_arguments'] = TRUE;
+/* Gedrag bij ontbreken van resultaten: Algemeen: Tekstveld */
+$handler->display->display_options['empty']['area']['id'] = 'area';
+$handler->display->display_options['empty']['area']['table'] = 'views';
+$handler->display->display_options['empty']['area']['field'] = 'area';
+$handler->display->display_options['empty']['area']['empty'] = TRUE;
+$handler->display->display_options['empty']['area']['content'] = 'Er zijn geen resultaten gevonden.';
+$handler->display->display_options['empty']['area']['format'] = 'full_html';
+/* Veld: Indexed Inhoud: Titel */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'search_api_index_default_node_index';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['label'] = '';
+$handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['title']['link_to_entity'] = 0;
+/* Contextueel filter: Zoeken: Indexed taxonomy term fields */
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['id'] = 'search_api_views_taxonomy_term';
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['table'] = 'search_api_index_default_node_index';
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['field'] = 'search_api_views_taxonomy_term';
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['default_action'] = 'default';
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['exception']['title'] = 'Alle';
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['default_argument_type'] = 'taxonomy_tid';
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['summary']['format'] = 'default_summary';
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['specify_validation'] = TRUE;
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['validate']['type'] = 'taxonomy_term';
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['validate_options']['vocabularies'] = array(
+  'tags' => 'tags',
+);
+$handler->display->display_options['arguments']['search_api_views_taxonomy_term']['validate']['fail'] = 'empty';
+/* Filtercriterium: Zoeken: Zoeken in volledige tekst */
+$handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
+$handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_default_node_index';
+$handler->display->display_options['filters']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
+$handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
+$handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
+$handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'zoekterm';
+$handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
+  2 => '2',
+  1 => 0,
+  5 => 0,
+  4 => 0,
+  3 => 0,
+  6 => 0,
+);
+$handler->display->display_options['filters']['search_api_views_fulltext']['min_length'] = '3';
+
+/* Display: Page */
+$handler = $view->new_display('page', 'Page', 'page');
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Veld: Indexed Inhoud: Merk */
+/* Veld: Indexed Inhoud: Titel */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'search_api_index_default_node_index';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['label'] = '';
+$handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['title']['link_to_entity'] = 0;
+$handler->display->display_options['path'] = 'taxonomy/term/%';
+$translatables['productoverzicht_merk'] = array(
+  t('Master'),
+  t('meer'),
+  t('Zoek'),
+  t('Opnieuw instellen'),
+  t('Sorteren op'),
+  t('Oplopend'),
+  t('Aflopend'),
+  t('Items per pagina'),
+  t('- Alle -'),
+  t('Startpunt'),
+  t('Â« eerste'),
+  t('â€¹ vorige'),
+  t('volgende â€º'),
+  t('laatste Â»'),
+  t('Er zijn geen resultaten gevonden.'),
+  t('Product variations'),
+  t('Alle'),
+  t('Page'),
+  t('Page PUUR'),
+);

@@ -1555,7 +1555,7 @@ function search_api_execute_pending_tasks_batch(SearchApiServer $server = NULL, 
 
   $args['@remaining'] = $remaining;
   $context['message'] = format_plural($executed, 'Successfully executed @count task, @remaining remaining.', 'Successfully executed @count tasks, @remaining remaining.', $args);
-  $context['finished'] = $executed / $total;
+  $context['finished'] = $total > 0 ? $executed / $total : 1.0;
 }
 
 /**

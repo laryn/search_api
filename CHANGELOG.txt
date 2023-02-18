@@ -1,5 +1,7 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #3339336 by drunken monkey, meyerrob: Fixed Drush bug when executing all
+  tasks.
 - #2930706 by donquixote, Graber, mibfire, drunken monkey, joel_osc: Fixed
   "index items immediately" functionality in connection with Workbench
   Moderation.
