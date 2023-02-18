@@ -1542,7 +1542,7 @@ function search_api_execute_pending_tasks(SearchApiServer $server = NULL) {
 /**
  * Executes pending server tasks as part of a batch operation.
  */
-function search_api_execute_pending_tasks_batch(SearchApiServer $server = NULL, &$context) {
+function search_api_execute_pending_tasks_batch(SearchApiServer $server = NULL, &$context = array()) {
   if (!isset($context['results']['total'])) {
     $context['results']['total'] = search_api_server_tasks_count($server);
   }
