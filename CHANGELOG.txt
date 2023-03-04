@@ -1,5 +1,7 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #3344569 by circuscowboy, drunken monkey: Fixed deprecation warning in the
+  SearchApiPorterStemmer processor.
 - #3338975 by drunken monkey, meyerrob: Fixed deprecation warning in PHP 8.0.
 - #3339336 by drunken monkey, meyerrob: Fixed Drush bug when executing all
   tasks.
