@@ -1,5 +1,6 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #3321246 by Ronino, drunken monkey: Fixed memory leak when indexing via Drush.
 - #3344569 by circuscowboy, drunken monkey: Fixed deprecation warning in the
   SearchApiPorterStemmer processor.
 - #3338975 by drunken monkey, meyerrob: Fixed deprecation warning in PHP 8.0.

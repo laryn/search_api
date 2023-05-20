@@ -1818,6 +1818,16 @@ function search_api_index_specific_items(SearchApiIndex $index, array $ids) {
       $index->datasource()->trackItemChange($diff, array($index));
     }
   }
+
+  // When indexing via Drush, multiple iterations of a batch will happen in the
+  // same PHP process, so the static cache will quickly fill up. To prevent
+  // this, clear it after each batch of items gets indexed.
+  if (function_exists('drush_backend_batch_process') && batch_get()) {
+    foreach (array_keys(entity_get_info()) as $entity_type) {
+      entity_get_controller($entity_type)->resetCache();
+    }
+  }
+
   return $indexed;
 }
 
