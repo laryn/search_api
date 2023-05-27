@@ -3509,3 +3509,60 @@ function _search_api_batch_indexing_finished($success, $results) {
   }
 
 }
+
+/**
+ * Swaps the current theme for the given one.
+ *
+ * Can be used when needing the theme layer during indexing, to produce
+ * predictable results.
+ *
+ * Based on the mailsystem module's mailsystem_theme_swap_theme().
+ *
+ * @param string $new_theme
+ *   The new theme to set.
+ *
+ * @return string|false
+ *   The old theme on success, FALSE if the new theme doesn't exist.
+ *
+ * @see mailsystem_theme_swap_theme()
+ */
+function _search_api_swap_theme($new_theme) {
+  // Make sure the theme exists.
+  $themes = list_themes();
+  if (empty($themes[$new_theme])) {
+    return FALSE;
+  }
+
+  // Both theme/theme_key are set to the new theme.
+  global $theme, $theme_key;
+
+  // Nothing to do here.
+  if ($theme == $new_theme) {
+    return $theme;
+  }
+
+  $old_theme = $theme;
+  $theme = $theme_key = $new_theme;
+
+  // Create the base_theme_info.
+  global $base_theme_info;
+  $base_theme = array();
+  $ancestor = $theme;
+  while ($ancestor && isset($themes[$ancestor]->base_theme)) {
+    $ancestor = $themes[$ancestor]->base_theme;
+    $base_theme[] = $themes[$ancestor];
+  }
+  $base_theme_info = array_reverse($base_theme);
+
+  // Some other theme related globals.
+  global $theme_engine, $theme_info, $theme_path;
+  $theme_engine = $themes[$theme]->engine;
+  $theme_info = $themes[$theme];
+  $theme_path = dirname($themes[$theme]->filename);
+
+  // We need to reset the drupal_alter and module_implements statics.
+  drupal_static_reset('drupal_alter');
+  drupal_static_reset('module_implements');
+
+  return $old_theme;
+}

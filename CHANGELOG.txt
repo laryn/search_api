@@ -1,5 +1,7 @@
 Search API 1.x, dev (xxxx-xx-xx):
 ---------------------------------
+- #1826006 by Hankthetank666, drunken monkey, florianmuellerCH, Ronino: Fixed
+  inconsistent theme used when rendering entities during indexing.
 - #3321246 by Ronino, drunken monkey: Fixed memory leak when indexing via Drush.
 - #3344569 by circuscowboy, drunken monkey: Fixed deprecation warning in the
   SearchApiPorterStemmer processor.
