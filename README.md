@@ -28,14 +28,15 @@ https://github.com/backdrop-contrib/search_api/issues
 
 
 LICENSE:
----------------    
+---------------
 This project is GPL v2 software. See the LICENSE.txt file in this directory
 for complete text.
 
 
 CURRENT MAINTAINERS:
----------------    
+---------------
 - [earlyburg](https://github.com/earlyburg).
+- [Laryn Kragt Bakker](https://github.com/laryn).
 
 
 CREDITS:
