@@ -11,9 +11,9 @@
  * @see search_api_menu()
  */
 function search_api_admin_overview() {
-  $base_path = backdrop_get_path('module', 'search_api') . '/';
-  backdrop_add_css($base_path . 'search_api.admin.css');
-  backdrop_add_js($base_path . 'search_api.admin.js');
+  $base_path = backdrop_get_path('module', 'search_api');
+  backdrop_add_css($base_path . '/css/search_api.admin.css');
+  backdrop_add_js($base_path . '/js/search_api.admin.js');
 
   $servers = search_api_server_load_multiple(FALSE);
   $indexes = array();
@@ -163,9 +163,9 @@ function search_api_admin_overview() {
  *   HTML for the dropbutton link list.
  */
 function theme_search_api_dropbutton(array &$variables) {
-  $base_path = backdrop_get_path('module', 'search_api') . '/';
-  backdrop_add_css($base_path . 'search_api.admin.css');
-  backdrop_add_js($base_path . 'search_api.admin.js');
+  $base_path = backdrop_get_path('module', 'search_api');
+  backdrop_add_css($base_path . '/css/search_api.admin.css');
+  backdrop_add_js($base_path . '/js/search_api.admin.js');
 
   $variables['attributes']['class'][] = 'dropbutton';
   $list = theme('links', $variables);
@@ -264,7 +264,7 @@ function search_api_admin_add_server(array $form, array &$form_state) {
   // If $info is not set, there are no service classes. Display an error message
   // telling the user how to change that and return an empty form.
   if (!isset($info)) {
-    backdrop_set_message(t('There are no service classes available for the Search API. Please install a <a href="@url">module that provides a service class</a> to proceed.', array('@url' => url('https://www.drupal.org/node/1254698'))), 'error');
+    backdrop_set_message(t('There are no service classes available for the Search API. Please install a <a href="@url">module that provides a service class</a> to proceed.', array('@url' => url('https://github.com/backdrop-contrib/search_api/wiki/Search-API-Documentation#service-class'))), 'error');
     return array();
   }
 
@@ -410,7 +410,7 @@ function search_api_admin_server_view(SearchApiServer $server, $action = NULL) {
     '#status' => $server->status,
     '#extra' => $server->getExtraInformation(),
   );
-  $render['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
+  $render['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/css/search_api.admin.css';
   if ($server->enabled) {
     $render['form'] = backdrop_get_form('search_api_server_status_form', $server);
   }
@@ -720,7 +720,7 @@ function search_api_admin_add_index(array $form, array &$form_state) {
 
   $old_type = empty($form_state['values']['item_type']) ? '' : $form_state['values']['item_type'];
 
-  $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
+  $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/css/search_api.admin.css';
   $form['#tree'] = TRUE;
 
   if (empty($form_state['step_one'])) {
@@ -1113,7 +1113,7 @@ function theme_search_api_index(array $variables) {
       $class = 'error';
     }
     else {
-      $vars['@url'] = url('https://drupal.org/node/2009804#server-index-status');
+      $vars['@url'] = url('https://github.com/backdrop-contrib/search_api/wiki/FAQ#what-is-the-server-index-status-for-a-search-index');
       $info = format_plural($on_server, 'There is 1 item indexed on the server for this index. (<a href="@url">More information</a>)', 'There are @count items indexed on the server for this index. (<a href="@url">More information</a>)', $vars);
       $class = '';
     }
@@ -1153,7 +1153,7 @@ function theme_search_api_index(array $variables) {
  * @see search_api_admin_index_status_form_submit()
  */
 function search_api_admin_index_status_form(array $form, array &$form_state, SearchApiIndex $index, array $status) {
-  $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
+  $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/css/search_api.admin.css';
   $form_state['index'] = $index;
 
   $form['index'] = array(
@@ -1315,7 +1315,7 @@ function search_api_admin_index_status_form_submit(array $form, array &$form_sta
 function search_api_admin_index_edit(array $form, array &$form_state, SearchApiIndex $index) {
   $form_state['index'] = $index;
 
-  $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
+  $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/css/search_api.admin.css';
   $form['#tree'] = TRUE;
   $form['name'] = array(
     '#type' => 'textfield',
@@ -1473,7 +1473,7 @@ function search_api_admin_index_workflow(array $form, array &$form_state, Search
 
   $form_state['index'] = $index;
   $form['#tree'] = TRUE;
-  $form['#attached']['js'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.js';
+  $form['#attached']['js'][] = backdrop_get_path('module', 'search_api') . '/js/search_api.admin.js';
 
   // Callbacks
 

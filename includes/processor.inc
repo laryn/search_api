@@ -163,7 +163,7 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
   }
 
   public function configurationForm() {
-    $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
+    $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/css/search_api.admin.css';
 
     $fields = $this->index->getFields();
     $field_options = array();
@@ -297,6 +297,9 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
   protected function normalizeTokens($tokens, $score = 1) {
     $ret = array();
     foreach ($tokens as $token) {
+      if (!is_array($token)) {
+        continue;
+      }
       if (empty($token['value']) && !is_numeric($token['value'])) {
         // Filter out empty tokens.
         continue;

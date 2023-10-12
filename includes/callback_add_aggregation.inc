@@ -32,7 +32,7 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
   protected $fulltextReductionSeparator;
 
   public function configurationForm() {
-    $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
+    $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/css/search_api.admin.css';
 
     $fields = $this->index->getFields(FALSE);
     $field_options = array();

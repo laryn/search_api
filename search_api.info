@@ -1,8 +1,10 @@
 name = Search API
 description = "Provides a generic API for modules offering search capabilities."
-dependencies[] = entity_plus (>=1.x-1.0.10)
 backdrop = 1.x
 type = module
 package = Search
+tags[] = Utility
+
+dependencies[] = entity_plus (>=1.x-1.0.10)
 
 configure = admin/config/search/search_api

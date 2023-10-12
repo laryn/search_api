@@ -959,7 +959,12 @@ function search_api_entity_delete($entity, $type) {
  * "Comment access" data alteration.
  */
 function search_api_node_access_records_alter(&$grants, $node) {
-  foreach (search_api_index_load_multiple(FALSE) as $index) {
+  $conditions = array(
+    'enabled' => 1,
+    'read_only' => 0,
+  );
+  $indexes = search_api_index_load_multiple(FALSE, $conditions);
+  foreach ($indexes as $index) {
     $item_ids = array();
     if (!empty($index->options['data_alter_callbacks']['search_api_alter_node_access']['status'])) {
       $item_id = $index->datasource()->getItemId($node);
@@ -977,8 +982,11 @@ function search_api_node_access_records_alter(&$grants, $node) {
     }
 
     if ($item_ids) {
-      $indexes = array($index->machine_name => $index);
-      search_api_track_item_change_for_indexes($index->item_type, $item_ids, $indexes);
+      search_api_track_item_change_for_indexes(
+        $index->item_type,
+        $item_ids,
+        array($index->machine_name => $index)
+      );
     }
   }
 }
@@ -1132,6 +1140,11 @@ function search_api_search_api_alter_callback_info() {
     'name' => t('Index hierarchy'),
     'description' => t('Allows to index hierarchical fields along with all their ancestors.'),
     'class' => 'SearchApiAlterAddHierarchy',
+  );
+  $callbacks['search_api_alter_file_entity_public'] = array(
+    'name' => t('Exclude private files'),
+    'description' => t('Exclude file entities in the private files folder from being indexed. <strong>Caution:</strong> This only affects the indexed file entities themselves. If an indexed entity has references to file entities in the private folder, those will still be indexed (or displayed) normally.'),
+    'class' => 'SearchApiAlterFileEntityPublic',
   );
   $callbacks['search_api_alter_language_control'] = array(
     'name' => t('Language control'),
@@ -1541,7 +1554,7 @@ function search_api_execute_pending_tasks(SearchApiServer $server = NULL) {
 /**
  * Executes pending server tasks as part of a batch operation.
  */
-function search_api_execute_pending_tasks_batch(SearchApiServer $server = NULL, &$context) {
+function search_api_execute_pending_tasks_batch(SearchApiServer $server = NULL, &$context = array()) {
   if (!isset($context['results']['total'])) {
     $context['results']['total'] = search_api_server_tasks_count($server);
   }
@@ -1554,7 +1567,7 @@ function search_api_execute_pending_tasks_batch(SearchApiServer $server = NULL, 
 
   $args['@remaining'] = $remaining;
   $context['message'] = format_plural($executed, 'Successfully executed @count task, @remaining remaining.', 'Successfully executed @count tasks, @remaining remaining.', $args);
-  $context['finished'] = $executed / $total;
+  $context['finished'] = $total > 0 ? $executed / $total : 1.0;
 }
 
 /**
@@ -1817,6 +1830,16 @@ function search_api_index_specific_items(SearchApiIndex $index, array $ids) {
       $index->datasource()->trackItemChange($diff, array($index));
     }
   }
+
+  // When indexing via Drush, multiple iterations of a batch will happen in the
+  // same PHP process, so the static cache will quickly fill up. To prevent
+  // this, clear it after each batch of items gets indexed.
+  if (function_exists('drush_backend_batch_process') && batch_get()) {
+    foreach (array_keys(entity_get_info()) as $entity_type) {
+      entity_get_controller($entity_type)->resetCache();
+    }
+  }
+
   return $indexed;
 }
 
@@ -1842,7 +1865,10 @@ function &search_api_index_specific_items_delayed(SearchApiIndex $index = NULL, 
 
   // Only register the shutdown function once.
   if (empty($registered)) {
-    backdrop_register_shutdown_function('_search_api_index_queued_items');
+    // Instead of registering the shutdown function directly, do it in a way
+    // that ensures it will run last. This helps avoid issues with other
+    // modules' shutdown functions, especially workbench_moderation_store().
+    backdrop_register_shutdown_function('backdrop_register_shutdown_function', '_search_api_index_queued_items');
     $registered = TRUE;
   }
 
@@ -3200,7 +3226,9 @@ function _search_api_index_queued_items() {
     if ($queue) {
       $indexes = search_api_index_load_multiple(array_keys($queue));
       foreach ($indexes as $index_id => $index) {
-        search_api_index_specific_items($index, $queue[$index_id]);
+        if ($index->enabled && !$index->read_only) {
+          search_api_index_specific_items($index, $queue[$index_id]);
+        }
       }
     }
 
@@ -3538,5 +3566,63 @@ function search_api_autoload_info() {
     'SearchApiServer' => 'includes/server_entity.inc',
     'SearchApiServiceInterface' => 'includes/service.inc',
     'SearchApiAbstractService' => 'includes/service.inc',
+    'SearchApiAlterFileEntityPublic' => 'includes/callback_file_entity_public.inc',
   );
+}
+
+/**
+ * Swaps the current theme for the given one.
+ *
+ * Can be used when needing the theme layer during indexing, to produce
+ * predictable results.
+ *
+ * Based on the mailsystem module's mailsystem_theme_swap_theme().
+ *
+ * @param string $new_theme
+ *   The new theme to set.
+ *
+ * @return string|false
+ *   The old theme on success, FALSE if the new theme doesn't exist.
+ *
+ * @see mailsystem_theme_swap_theme()
+ */
+function _search_api_swap_theme($new_theme) {
+  // Make sure the theme exists.
+  $themes = list_themes();
+  if (empty($themes[$new_theme])) {
+    return FALSE;
+  }
+
+  // Both theme/theme_key are set to the new theme.
+  global $theme, $theme_key;
+
+  // Nothing to do here.
+  if ($theme == $new_theme) {
+    return $theme;
+  }
+
+  $old_theme = $theme;
+  $theme = $theme_key = $new_theme;
+
+  // Create the base_theme_info.
+  global $base_theme_info;
+  $base_theme = array();
+  $ancestor = $theme;
+  while ($ancestor && isset($themes[$ancestor]->base_theme)) {
+    $ancestor = $themes[$ancestor]->base_theme;
+    $base_theme[] = $themes[$ancestor];
+  }
+  $base_theme_info = array_reverse($base_theme);
+
+  // Some other theme related globals.
+  global $theme_engine, $theme_info, $theme_path;
+  $theme_engine = $themes[$theme]->engine;
+  $theme_info = $themes[$theme];
+  $theme_path = dirname($themes[$theme]->filename);
+
+  // We need to reset the backdrop_alter and module_implements statics.
+  backdrop_static_reset('backdrop_alter');
+  backdrop_static_reset('module_implements');
+
+  return $old_theme;
 }
