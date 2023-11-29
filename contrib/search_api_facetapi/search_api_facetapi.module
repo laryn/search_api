@@ -8,10 +8,8 @@
  * Implements hook_config_info().
  */
 function search_api_facetapi_config_info() {
-  // If this configuration file points to one particular file, a "name" key
-  // will display that exact string for that file.
   $prefixes['search_api_facetapi.settings'] = array(
-    'label' => t('Search API module: Facet API Settings'),
+    'label' => t('Search API: Facet API Settings'),
     'group' => t('Configuration'),
   );
   return $prefixes;

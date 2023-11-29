@@ -333,9 +333,10 @@ function search_api_permission() {
  */
 function search_api_config_info() {
   $prefixes['search_api.settings'] = array(
-    'label' => t('Module name settings'),
+    'label' => t('Search API settings'),
     'group' => t('Configuration'),
   );
+  return $prefixes;
 }
 
 /**

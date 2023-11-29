@@ -273,9 +273,10 @@ class SearchApiTestService extends SearchApiAbstractService {
    */
   function search_api_test_config_info() {
     $prefixes['search_api_test.settings'] = array(
-      'label' => t('Module name settings'),
+      'label' => t('Search API Test settings'),
       'group' => t('Configuration'),
     );
+    return $prefixes;
   }
 
   /**
