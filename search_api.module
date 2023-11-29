@@ -827,7 +827,7 @@ function search_api_system_info_alter(&$info, $file, $type) {
       $sql = 'SELECT machine_name, name FROM {search_api_index} WHERE item_type IN (:types)';
       $indexes = db_query($sql, array(':types' => $types))->fetchAllKeyed();
       if ($indexes) {
-        $info['required'] = TRUE;
+        $info['disabled'] = TRUE;
 
         $links = array();
         foreach ($indexes as $id => $name) {
@@ -852,7 +852,7 @@ function search_api_system_info_alter(&$info, $file, $type) {
       $sql = 'SELECT machine_name, name FROM {search_api_server} WHERE class IN (:classes)';
       $servers = db_query($sql, array(':classes' => $classes))->fetchAllKeyed();
       if ($servers) {
-        $info['required'] = TRUE;
+        $info['disabled'] = TRUE;
 
         $links = array();
         foreach ($servers as $id => $name) {
