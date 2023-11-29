@@ -1014,6 +1014,15 @@ class SearchApiQueryFilter implements SearchApiQueryFilterInterface {
   protected $conjunction;
 
   /**
+   * Array of tags for the filter. Can be used to identify this filter down the
+   * line if necessary. This is primarily used by the facet system to support OR
+   * facet queries.
+   * 
+   * @var array
+   */
+  protected $tags;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct($conjunction = 'AND', array $tags = array()) {
