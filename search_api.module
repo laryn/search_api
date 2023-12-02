@@ -261,12 +261,6 @@ function search_api_hook_info() {
  * Implements hook_theme().
  */
 function search_api_theme() {
-  $themes['search_api_dropbutton'] = array(
-    'variables' => array(
-      'links' => array(),
-    ),
-    'file' => 'search_api.admin.inc',
-  );
   $themes['search_api_server'] = array(
     'variables' => array(
       'id' => NULL,

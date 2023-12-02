@@ -82,7 +82,12 @@ function search_api_admin_overview() {
       );
     }
     $links = array_merge($links, menu_contextual_links('search-api-server', $pre_server, array($server->machine_name)));
-    $row[] = theme('search_api_dropbutton', array('links' => $links));
+    $row[] = array(
+      'data' => array(
+        '#type' => 'dropbutton',
+        '#links' => $links,
+      ),
+    );
     $rows[] = _search_api_deep_copy($row);
 
     if (!empty($indexes[$server->machine_name])) {
@@ -105,7 +110,12 @@ function search_api_admin_overview() {
           );
         }
         $links = array_merge($links, menu_contextual_links('search-api-index', $pre_index, array($index->machine_name)));
-        $row[] = theme('search_api_dropbutton', array('links' => $links));
+        $row[] = array(
+          'data' => array(
+            '#type' => 'dropbutton',
+            '#links' => $links,
+          ),
+        );
         $rows[] = _search_api_deep_copy($row);
       }
     }
@@ -124,7 +134,12 @@ function search_api_admin_overview() {
       );
       $row[] = l($index->name, $url);
       $links = menu_contextual_links('search-api-index', $pre_index, array($index->machine_name));
-      $row[] = theme('search_api_dropbutton', array('links' => $links));
+      $row[] = array(
+        'data' => array(
+          '#type' => 'dropbutton',
+          '#links' => $links,
+        ),
+      );
       $rows[] = _search_api_deep_copy($row);
     }
   }
@@ -148,32 +163,6 @@ function search_api_admin_overview() {
     '#attributes' => array('class' => array('search-api-overview')),
     '#empty' => t('There are no search servers or indexes defined yet.'),
   );
-}
-
-/**
- * Returns HTML for a drobutton list of links.
- *
- * When using this, you have to
- *
- * @param array $variables
- *   An associative array containing the following keys:
- *   - links: An array of links, as expected by theme_links().
- *
- * @return string
- *   HTML for the dropbutton link list.
- */
-function theme_search_api_dropbutton(array &$variables) {
-  $base_path = backdrop_get_path('module', 'search_api');
-  backdrop_add_css($base_path . '/css/search_api.admin.css');
-  backdrop_add_js($base_path . '/js/search_api.admin.js');
-
-  $variables['attributes']['class'][] = 'dropbutton';
-  $list = theme('links', $variables);
-  return "<div class=\"dropbutton-wrapper\">
-  <div class=\"dropbutton-widget\">
-    $list
-  </div>
-</div>";
 }
 
 /**
