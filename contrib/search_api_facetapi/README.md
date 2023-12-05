@@ -114,12 +114,13 @@ If set, this path will be used as the base path from which facet links will be
 created. This can be used to show facets on pages without searches – e.g., as a
 landing page.
 
-- Hidden variable
+- Facet Search ID State
 
-The module uses one hidden variable, "search_api_facets_search_ids", to keep
+The module uses a state variable, "search_api_facets_search_ids", to keep
 track of the search IDs of searches executed for a given index. It is only
 updated when a facet is displayed for the respective search, so isn't really a
 reliable measure for this.
+
 In any case, if you e.g. did some test searches and now don't want them to show
-up in the block configuration forever after, just clear the variable:
-  variable_del("search_api_facets_search_ids")
+up in the block configuration forever after, just clear the state:
+  `state_del("search_api_facets_search_ids");`

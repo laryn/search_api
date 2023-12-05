@@ -112,13 +112,11 @@ class SearchApiFacetapiAdapter extends FacetapiAdapter {
    *   The identifier of the executed search.
    */
   protected function rememberSearchId($index_id, $search_id) {
-    // TODO This variable was probably removed in Backdrop without replacement.
-    $search_ids = config_get('search_api_facetapi.settings', 'search_api_facets_search_ids');
+    $search_ids = state_get('search_api_facets_search_ids');
     if (empty($search_ids[$index_id][$search_id])) {
       $search_ids[$index_id][$search_id] = $search_id;
       asort($search_ids[$index_id]);
-      // TODO This variable was probably removed in Backdrop without replacement.
-      config_set('search_api_facetapi.settings', 'search_api_facets_search_ids', $search_ids);
+      state_set('search_api_facets_search_ids', $search_ids);
     }
   }
 
@@ -228,7 +226,7 @@ class SearchApiFacetapiAdapter extends FacetapiAdapter {
     $facet = $form['#facetapi']['facet'];
     $facet_settings = $this->getFacet($facet)->getSettings();
     $options = $facet_settings->settings;
-    $search_ids = config_get('search_api_facetapi.settings', 'search_api_facets_search_ids');
+    $search_ids = state_get('search_api_facets_search_ids');
     $search_ids = isset($search_ids[$this->info['instance']]) ? $search_ids[$this->info['instance']] : array();
     if (count($search_ids) > 1) {
       $form['global']['default_true'] = array(
