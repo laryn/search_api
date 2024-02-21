@@ -190,11 +190,16 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
   }
 
   public function configurationFormValidate(array $form, array &$values, array &$form_state) {
-    $fields = array_filter($values['fields']);
-    if ($fields) {
-      $fields = array_fill_keys($fields, TRUE);
+    if (isset($values['fields']) && is_array($values['fields'])) {
+      $fields = array_filter($values['fields']);
+      if ($fields) {
+        $fields = array_fill_keys($fields, TRUE);
+      }
+      $values['fields'] = $fields;
     }
-    $values['fields'] = $fields;
+    else {
+      $values['fields'] = array();
+    }
   }
 
   public function configurationFormSubmit(array $form, array &$values, array &$form_state) {
