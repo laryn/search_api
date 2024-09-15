@@ -46,7 +46,7 @@ class SearchApiViewsCache extends views_plugin_cache_time {
       'current_page' => $this->view->get_current_page(),
       'search_api results' => $results,
     );
-    cache_set($cid, $data, $this->table, $this->cache_set_expire($type));
+    cache_set($cid, $data, $this->bin, $this->cache_set_expire($type));
   }
 
   /**
@@ -62,7 +62,7 @@ class SearchApiViewsCache extends views_plugin_cache_time {
 
     // Values to set: $view->result, $view->total_rows, $view->execute_time,
     // $view->current_page.
-    if ($cache = cache_get($this->get_results_key(), $this->table)) {
+    if ($cache = cache_get($this->get_results_key(), $this->bin)) {
       $cutoff = $this->cache_expire($type);
       if (!$cutoff || $cache->created > $cutoff) {
         $this->view->result = $cache->data['result'];
@@ -97,7 +97,7 @@ class SearchApiViewsCache extends views_plugin_cache_time {
         'query' => $query,
         'roles' => array_keys($user->roles),
         'super-user' => $user->uid == 1, // special caching for super user.
-        'language' => $GLOBALS['language']->language,
+        'language' => $GLOBALS['language']->langcode,
         'base_url' => $GLOBALS['base_url'],
         'offset' => $this->view->get_current_page() . '*' . $this->view->get_items_per_page() . '+' . $this->view->get_offset(),
       );
