@@ -45,14 +45,14 @@ function search_api_admin_overview() {
   $t_index = t('Index');
   $t_enabled['data'] = array(
     '#theme' => 'image',
-    '#path' => $base_path . 'enabled.png',
+    '#path' => $base_path . '/enabled.png',
     '#alt' => t('enabled'),
     '#title' => t('enabled'),
   );
   $t_enabled['class'] = array('search-api-status');
   $t_disabled['data'] = array(
     '#theme' => 'image',
-    '#path' => $base_path . 'disabled.png',
+    '#path' => $base_path . '/disabled.png',
     '#alt' => t('disabled'),
     '#title' => t('disabled'),
   );
