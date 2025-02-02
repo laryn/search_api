@@ -11,6 +11,14 @@
 class SearchApiStopWords extends SearchApiAbstractProcessor {
 
   /**
+   * An array whose keys are the stopwords set in either the file or the text
+   * field.
+   *
+   * @var array
+   */
+  protected $stopwords;
+
+  /**
    * Holds all words ignored for the last query.
    *
    * @var array
