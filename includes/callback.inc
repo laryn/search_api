@@ -192,7 +192,7 @@ abstract class SearchApiAbstractAlterCallback implements SearchApiAlterCallbackI
    * @return bool
    *   TRUE if the index is a multi-entity index, FALSE otherwise.
    */
-  protected function isMultiEntityIndex(SearchApiIndex $index = NULL) {
+  protected function isMultiEntityIndex(?SearchApiIndex $index = NULL) {
     $index = $index ? $index : $this->index;
     return $index->datasource() instanceof SearchApiCombinedEntityDataSourceController;
   }
