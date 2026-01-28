@@ -161,11 +161,7 @@ class SearchApiEntityDataSourceController extends SearchApiAbstractDataSourceCon
         if ($bundles = $this->getIndexBundles($index)) {
           $bundle_column = $this->bundleKey;
           if (!db_field_exists($table, $bundle_column)) {
-            if ($this->entityType == 'taxonomy_term') {
-              $bundle_column = 'vid';
-              $bundles = db_query('SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name IN (:bundles)', array(':bundles' => $bundles))->fetchCol();
-            }
-            elseif ($this->entityType == 'flagging') {
+            if ($this->entityType == 'flagging') {
               $bundle_column = 'fid';
               $bundles = db_query('SELECT fid FROM {flag} WHERE name IN (:bundles)', array(':bundles' => $bundles))->fetchCol();
             }
