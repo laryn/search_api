@@ -75,11 +75,11 @@ class SearchApiViewsHandlerFilterTaxonomyTerm extends SearchApiViewsHandlerFilte
     $form['value']['#title'] = $title;
 
     if ($vocabulary && $this->options['type'] == 'textfield') {
-      $form['value']['#autocomplete_path'] = 'admin/views/ajax/autocomplete/taxonomy/' . $vocabulary->vid;
+      $form['value']['#autocomplete_path'] = 'admin/views/ajax/autocomplete/taxonomy/' . $vocabulary->machine_name;
     }
     else {
       if ($vocabulary && !empty($this->options['hierarchy'])) {
-        $tree = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
+        $tree = taxonomy_get_tree($vocabulary->machine_name, 0, NULL, TRUE);
         $options = array();
 
         if ($tree) {
@@ -93,15 +93,13 @@ class SearchApiViewsHandlerFilterTaxonomyTerm extends SearchApiViewsHandlerFilte
       else {
         $options = array();
         $query = db_select('taxonomy_term_data', 'td');
-        $query->innerJoin('taxonomy_vocabulary', 'tv', 'td.vid = tv.vid');
         $query->fields('td');
-        $query->orderby('tv.weight');
-        $query->orderby('tv.name');
+        $query->orderby('td.vocabulary');
         $query->orderby('td.weight');
         $query->orderby('td.name');
         $query->addTag('taxonomy_term_access');
         if ($vocabulary) {
-          $query->condition('tv.machine_name', $vocabulary->machine_name);
+          $query->condition('td.vocabulary', $vocabulary->machine_name);
         }
         $result = $query->execute();
         $tids = array();
@@ -272,11 +270,10 @@ class SearchApiViewsHandlerFilterTaxonomyTerm extends SearchApiViewsHandlerFilte
     }
 
     $query = db_select('taxonomy_term_data', 'td');
-    $query->innerJoin('taxonomy_vocabulary', 'tv', 'td.vid = tv.vid');
     $query->fields('td');
     $query->condition('td.name', $names);
     if (!empty($this->definition['vocabulary'])) {
-      $query->condition('tv.machine_name', $this->definition['vocabulary']);
+      $query->condition('td.machine_name', $this->definition['vocabulary']);
     }
     $query->addTag('taxonomy_term_access');
     $result = $query->execute();
