@@ -359,7 +359,7 @@ class SearchApiServer extends Entity {
    * @see SearchApiServiceInterface::deleteItems()
    * @see search_api_server_tasks_add()
    */
-  public function deleteItems($ids = 'all', SearchApiIndex $index = NULL) {
+  public function deleteItems($ids = 'all', ?SearchApiIndex $index = NULL) {
     $this->ensureProxy();
     try {
       $this->proxy->deleteItems($ids, $index);
