@@ -317,12 +317,12 @@ function drush_search_api_status($index_id = NULL) {
   }
   // See search_api_index_status()
   $rows = array(array(
-      dt('Id'),
-      dt('Index'),
-      dt('% Complete'),
-      dt('Indexed'),
-      dt('Total'),
-    ));
+    dt('Id'),
+    dt('Index'),
+    dt('% Complete'),
+    dt('Indexed'),
+    dt('Total'),
+  ));
   foreach ($indexes as $index) {
     $status = search_api_index_status($index);
     $complete = ($status['total'] > 0) ? 100 * round($status['indexed'] / $status['total'], 3) . '%' : '-';

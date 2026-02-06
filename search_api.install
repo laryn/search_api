@@ -353,12 +353,12 @@ function search_api_install() {
             'title' => 0,
             'alt' => 1,
             'tags' => "h1 = 5\n" .
-                "h2 = 3\n" .
-                "h3 = 2\n" .
-                "strong = 2\n" .
-                "b = 2\n" .
-                "em = 1.5\n" .
-                "u = 1.5",
+            "h2 = 3\n" .
+            "h3 = 2\n" .
+            "strong = 2\n" .
+            "b = 2\n" .
+            "em = 1.5\n" .
+            "u = 1.5",
           ),
         ),
         'search_api_tokenizer' => array(
@@ -409,8 +409,6 @@ function search_api_install() {
   entity_info_cache_clear();
   search_api_index_insert($values);
   backdrop_set_message(t('The Search API module was installed. A new default node index was created.'));
-  // Dynamically generated variable data was detected on the following lines.
-  // /search_api/search_api.install line 998
 }
 
 /**
@@ -462,60 +460,6 @@ function search_api_disable() {
 function search_api_uninstall() {
   config_clear('search_api.settings', 'search_api_index_worker_callback_runtime');
 }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7101() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7102() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7103() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7107() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7104() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7105() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7106() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7108() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7109() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7110() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7111() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7112() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7113() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7114() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7115() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7116() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7117() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_update_7118() { }
 
 /**
  * Implements hook_update_last_removed().

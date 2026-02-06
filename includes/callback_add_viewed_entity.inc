@@ -19,6 +19,9 @@ class SearchApiAlterAddViewedEntity extends SearchApiAbstractAlterCallback {
     return (bool) $index->getEntityType();
   }
 
+  /**
+ *
+ */
   public function configurationForm() {
     $view_modes = array();
     if ($entity_type = $this->index->getEntityType()) {
@@ -69,6 +72,9 @@ class SearchApiAlterAddViewedEntity extends SearchApiAbstractAlterCallback {
     return $form;
   }
 
+  /**
+ *
+ */
   public function alterItems(array &$items) {
     // Prevent session information from being saved while indexing.
     backdrop_save_session(FALSE);
@@ -143,6 +149,9 @@ class SearchApiAlterAddViewedEntity extends SearchApiAbstractAlterCallback {
     backdrop_save_session(TRUE);
   }
 
+  /**
+ *
+ */
   public function propertyInfo() {
     return array(
       'search_api_viewed' => array(

@@ -65,7 +65,7 @@ class SearchApiViewsHandlerFilterTaxonomyTerm extends SearchApiViewsHandlerFilte
     parent::value_form($form, $form_state);
 
     if (!empty($this->definition['vocabulary'])) {
-      $vocabulary = taxonomy_vocabulary_machine_name_load($this->definition['vocabulary']);
+      $vocabulary = taxonomy_vocabulary_load($this->definition['vocabulary']);
       $title = t('Select terms from vocabulary @voc', array('@voc' => $vocabulary->name));
     }
     else {

@@ -25,6 +25,9 @@ class SearchApiStopWords extends SearchApiAbstractProcessor {
    */
   protected $ignored = array();
 
+  /**
+ *
+ */
   public function configurationForm() {
     $form = parent::configurationForm();
 
@@ -52,6 +55,9 @@ class SearchApiStopWords extends SearchApiAbstractProcessor {
     return $form;
   }
 
+  /**
+ *
+ */
   public function configurationFormValidate(array $form, array &$values, array &$form_state) {
     parent::configurationFormValidate($form, $values, $form_state);
 
@@ -62,6 +68,9 @@ class SearchApiStopWords extends SearchApiAbstractProcessor {
     }
   }
 
+  /**
+ *
+ */
   public function process(&$value) {
     $stopwords = $this->getStopWords();
     if (empty($stopwords) || !is_string($value)) {
@@ -77,11 +86,17 @@ class SearchApiStopWords extends SearchApiAbstractProcessor {
     $value = implode(' ', $words);
   }
 
+  /**
+ *
+ */
   public function preprocessSearchQuery(SearchApiQuery $query) {
     $this->ignored = array();
     parent::preprocessSearchQuery($query);
   }
 
+  /**
+ *
+ */
   public function postprocessSearchResults(array &$response, SearchApiQuery $query) {
     if ($this->ignored) {
       if (isset($response['ignored'])) {

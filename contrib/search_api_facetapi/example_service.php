@@ -101,7 +101,6 @@ abstract class SearchApiFacetapiExampleService extends SearchApiAbstractService 
   public function search(SearchApiQueryInterface $query) {
     // We assume here that we have an AI search which understands English
     // commands.
-
     // First, create the normal search query, without facets.
     $search = new SuperCoolAiSearch($query->getIndex());
     $search->cmd('create basic search for the following query', $query);

@@ -155,8 +155,10 @@ function search_api_admin_overview() {
   );
   $header[] = t('Name');
   $header[] = array('data' => t('Operations'));
+  $intro = '<p>' . t('A search server and search index are used to execute searches. Several indexes can exist per server.<br />You need at least one server and one index to create searches on your site.') . '</p>';
 
   return array(
+    '#prefix' => $intro,
     '#theme' => 'table',
     '#header' => $header,
     '#rows' => $rows,
@@ -1464,8 +1466,7 @@ function search_api_admin_index_workflow(array $form, array &$form_state, Search
   $form['#tree'] = TRUE;
   $form['#attached']['js'][] = backdrop_get_path('module', 'search_api') . '/js/search_api.admin.js';
 
-  // Callbacks
-
+  // Callbacks.
   $callbacks = empty($options['data_alter_callbacks']) ? array() : $options['data_alter_callbacks'];
   $callback_objects = isset($form_state['callbacks']) ? $form_state['callbacks'] : array();
   foreach ($callback_info as $name => $callback) {
@@ -1560,8 +1561,7 @@ function search_api_admin_index_workflow(array $form, array &$form_state, Search
     }
   }
 
-  // Processors
-
+  // Processors.
   $processors = empty($options['processors']) ? array() : $options['processors'];
   $processor_objects = isset($form_state['processors']) ? $form_state['processors'] : array();
   foreach ($processor_info as $name => $processor) {
@@ -2022,13 +2022,12 @@ function _search_api_admin_get_fields(SearchApiIndex $index, EntityMetadataWrapp
   // in one of the arrays. Since this uses an iterative instead of a recursive
   // approach, it is a bit complicated, with three arrays tracking the current
   // depth.
-
   // A wrapper for a specific field name prefix, e.g. 'user:' mapped to the user
-  // wrapper
+  // wrapper.
   $wrappers = array('' => $wrapper);
-  // Display names for the prefixes
+  // Display names for the prefixes.
   $prefix_names = array('' => '');
-  // The list nesting level for entities with a certain prefix
+  // The list nesting level for entities with a certain prefix.
   $nesting_levels = array('' => 0);
 
   $types = search_api_default_field_types();
@@ -2405,7 +2404,5 @@ function search_api_admin_confirm_submit(array $form, array &$form_state) {
     backdrop_set_message(t('An error has occurred while performing the desired action. Check the logs for details.'), 'error');
   }
 
-  $form_state['redirect'] = $action == 'delete'
-      ? "admin/config/search/search_api"
-      : "admin/config/search/search_api/$type/$id";
+  $form_state['redirect'] = ($action == 'delete') ? "admin/config/search/search_api" : "admin/config/search/search_api/$type/$id";
 }

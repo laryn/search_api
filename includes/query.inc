@@ -108,8 +108,9 @@ interface SearchApiQueryInterface {
    *
    * @throws SearchApiException
    *   If one of the fields isn't of type "text".
+   *
+   * @todo Allow calling with NULL.
    */
-  // @todo Allow calling with NULL.
   public function fields(array $fields);
 
   /**
@@ -524,7 +525,7 @@ class SearchApiQuery implements SearchApiQueryInterface {
           }
           elseif ($v[0] == '"') {
             $len = strlen($v);
-            if ($len > 1 && $v[$len -1] == '"') {
+            if ($len > 1 && $v[$len - 1] == '"') {
               $ret[$k] = substr($v, 1, -1);
             }
             else {
@@ -719,7 +720,7 @@ class SearchApiQuery implements SearchApiQueryInterface {
         $this->addLanguages($this->options['languages']);
       }
 
-      // Add fulltext fields, unless set
+      // Add fulltext fields, unless set.
       if ($this->fields === NULL) {
         $this->fields = $this->index->getFulltextFields();
       }
@@ -1017,7 +1018,7 @@ class SearchApiQueryFilter implements SearchApiQueryFilterInterface {
    * Array of tags for the filter. Can be used to identify this filter down the
    * line if necessary. This is primarily used by the facet system to support OR
    * facet queries.
-   * 
+   *
    * @var array
    */
   protected $tags;

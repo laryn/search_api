@@ -145,7 +145,6 @@ class SearchApiEntityDataSourceController extends SearchApiAbstractDataSourceCon
 
     if (!empty($this->entityInfo['base table']) && $this->idKey) {
       // Use a subselect, which will probably be much faster than entity_load_multiple().
-
       // Assumes that all entities use the "base table" property and the
       // "entity keys[id]" in the same way as the default controller.
       $table = $this->entityInfo['base table'];

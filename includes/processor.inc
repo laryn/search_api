@@ -158,10 +158,16 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
     $this->options = $options;
   }
 
+  /**
+ *
+ */
   public function supportsIndex(SearchApiIndex $index) {
     return TRUE;
   }
 
+  /**
+ *
+ */
   public function configurationForm() {
     $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/css/search_api.admin.css';
 
@@ -189,6 +195,9 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
     return $form;
   }
 
+  /**
+ *
+ */
   public function configurationFormValidate(array $form, array &$values, array &$form_state) {
     if (isset($values['fields']) && is_array($values['fields'])) {
       $fields = array_filter($values['fields']);
@@ -202,6 +211,9 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
     }
   }
 
+  /**
+ *
+ */
   public function configurationFormSubmit(array $form, array &$values, array &$form_state) {
     $this->options = $values;
     return $values;
@@ -267,9 +279,9 @@ abstract class SearchApiAbstractProcessor implements SearchApiProcessorInterface
           }
           if (!is_array($v)) {
             $v = array(array(
-                'value' => $v,
-                'score' => 1,
-              ));
+              'value' => $v,
+              'score' => 1,
+            ));
           }
         }
       }

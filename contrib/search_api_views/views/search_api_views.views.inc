@@ -88,7 +88,7 @@ function search_api_views_views_data() {
         _search_api_views_add_handlers($key, $field, $tmp, $table);
       }
 
-      // Special handlers
+      // Special handlers.
       $table['search_api_language']['filter']['handler'] = 'SearchApiViewsHandlerFilterLanguage';
 
       $table['search_api_id']['title'] = t('Entity ID');

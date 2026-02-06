@@ -10,6 +10,9 @@
  */
 class SearchApiAlterAddUrl extends SearchApiAbstractAlterCallback {
 
+  /**
+ *
+ */
   public function alterItems(array &$items) {
     foreach ($items as &$item) {
       $url = $this->index->datasource()->getItemUrl($item);
@@ -21,6 +24,9 @@ class SearchApiAlterAddUrl extends SearchApiAbstractAlterCallback {
     }
   }
 
+  /**
+ *
+ */
   public function propertyInfo() {
     return array(
       'search_api_url' => array(

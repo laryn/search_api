@@ -8,8 +8,9 @@
 /**
  * Processor for stripping HTML from indexed fulltext data. Supports assigning
  * custom boosts for any HTML element.
+ *
+ * @todo Process query?
  */
-// @todo Process query?
 class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
 
   /**
@@ -17,24 +18,30 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
    */
   protected $tags;
 
+  /**
+ *
+ */
   public function __construct(SearchApiIndex $index, array $options = array()) {
     parent::__construct($index, $options);
     $this->options += array(
       'title' => FALSE,
       'alt' => TRUE,
       'tags' => "h1 = 5\n" .
-          "h2 = 3\n" .
-          "h3 = 2\n" .
-          "strong = 2\n" .
-          "b = 2\n" .
-          "em = 1.5\n" .
-          'u = 1.5',
+      "h2 = 3\n" .
+      "h3 = 2\n" .
+      "strong = 2\n" .
+      "b = 2\n" .
+      "em = 1.5\n" .
+      'u = 1.5',
     );
     $this->tags = backdrop_parse_info_format($this->options['tags']);
     // Specifying empty tags doesn't make sense.
     unset($this->tags['br'], $this->tags['hr']);
   }
 
+  /**
+ *
+ */
   public function configurationForm() {
     $form = parent::configurationForm();
     $form += array(
@@ -55,7 +62,7 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
         '#title' => t('Tag boosts'),
         '#description' => t('Specify special boost values for certain HTML elements, in <a href="@link">INI file format</a>. ' .
             'The boost values of nested elements are multiplied, elements not mentioned will have the default boost value of 1. ' .
-            'Assign a boost of 0 to ignore the text content of that HTML element.', 
+            'Assign a boost of 0 to ignore the text content of that HTML element.',
             array('@link' => url('http://api.drupal.org/api/function/backdrop_parse_info_format/7'))),
         '#default_value' => $this->options['tags'],
       ),
@@ -64,6 +71,9 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
     return $form;
   }
 
+  /**
+ *
+ */
   public function configurationFormValidate(array $form, array &$values, array &$form_state) {
     parent::configurationFormValidate($form, $values, $form_state);
 
@@ -88,6 +98,9 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
     }
   }
 
+  /**
+ *
+ */
   protected function processFieldValue(&$value) {
     $text = str_replace(array('<', '>'), array(' <', '> '), $value); // Let removed tags still delimit words.
     if ($this->options['title']) {
@@ -105,6 +118,9 @@ class SearchApiHtmlFilter extends SearchApiAbstractProcessor {
     }
   }
 
+  /**
+ *
+ */
   protected function parseText(&$text, $active_tag = NULL, $boost = 1) {
     $ret = array();
     while (($pos = strpos($text, '<')) !== FALSE) {

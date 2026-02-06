@@ -230,14 +230,14 @@ interface SearchApiServiceInterface {
    *   Either an array containing the ids of the items that should be deleted,
    *   or 'all' if all items should be deleted. Other formats might be
    *   recognized by implementing classes, but these are not standardized.
-   * @param SearchApiIndex $index
+   * @param ?SearchApiIndex $index
    *   The index from which items should be deleted, or NULL if all indexes on
    *   this server should be cleared (then, $ids has to be 'all').
    *
    * @throws SearchApiException
    *   If an error occurred while trying to delete the items.
    */
-  public function deleteItems($ids = 'all', SearchApiIndex $index = NULL);
+  public function deleteItems($ids = 'all', ?SearchApiIndex $index = NULL);
 
   /**
    * Creates a query object for searching on an index lying on this server.

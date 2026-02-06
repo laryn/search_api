@@ -754,9 +754,9 @@ class SearchApiIndex extends Entity {
   /**
    * Returns a list of all known fields for this index.
    *
-   * @param $only_indexed (optional)
+   * @param (optional) $only_indexed
    *   Return only indexed fields, not all known fields. Defaults to TRUE.
-   * @param $get_additional (optional)
+   * @param (optional) $get_additional
    *   Return not only known/indexed fields, but also related entities whose
    *   fields could additionally be added to the index.
    *
@@ -829,12 +829,11 @@ class SearchApiIndex extends Entity {
       // contained in one of the arrays.
       // Since this uses an iterative instead of a recursive approach, it is a bit
       // complicated, with three arrays tracking the current depth.
-
-      // A wrapper for a specific field name prefix, e.g. 'user:' mapped to the user wrapper
+      // A wrapper for a specific field name prefix, e.g. 'user:' mapped to the user wrapper.
       $wrappers = array('' => $wrapper);
-      // Display names for the prefixes
+      // Display names for the prefixes.
       $prefix_names = array('' => '');
-      // The list nesting level for entities with a certain prefix
+      // The list nesting level for entities with a certain prefix.
       $nesting_levels = array('' => 0);
 
       $types = search_api_default_field_types();
@@ -935,7 +934,7 @@ class SearchApiIndex extends Entity {
         $options = array();
         $options['fields'] = $flat;
         $options['additional fields'] = $additional;
-        $this->fields[$only_indexed][$get_additional] =  $options;
+        $this->fields[$only_indexed][$get_additional] = $options;
       }
       cache_set($cid, $this->fields[$only_indexed][$get_additional]);
     }
@@ -1056,7 +1055,7 @@ class SearchApiIndex extends Entity {
    * Return a label for a signup form.
    */
   public function label() {
-    // return $this->title;
+    // Return $this->title;.
     return 'the index entity label';
   }
 

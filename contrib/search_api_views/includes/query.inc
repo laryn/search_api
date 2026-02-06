@@ -627,14 +627,18 @@ class SearchApiViewsQuery extends views_plugin_query {
 
   //
   // Query interface methods (proxy to $this->query)
-  //
+  /**
 
+ */
   public function createFilter($conjunction = 'AND', $tags = array()) {
     if (!$this->errors) {
       return $this->query->createFilter($conjunction, $tags);
     }
   }
 
+  /**
+ *
+ */
   public function keys($keys = NULL) {
     if (!$this->errors) {
       $this->query->keys($keys);
@@ -642,6 +646,9 @@ class SearchApiViewsQuery extends views_plugin_query {
     return $this;
   }
 
+  /**
+ *
+ */
   public function fields(array $fields) {
     if (!$this->errors) {
       $this->query->fields($fields);
@@ -675,6 +682,9 @@ class SearchApiViewsQuery extends views_plugin_query {
     return $this;
   }
 
+  /**
+ *
+ */
   public function sort($field, $order = 'ASC') {
     if (!$this->errors) {
       $this->query->sort($field, $order);
@@ -682,6 +692,9 @@ class SearchApiViewsQuery extends views_plugin_query {
     return $this;
   }
 
+  /**
+ *
+ */
   public function range($offset = NULL, $limit = NULL) {
     if (!$this->errors) {
       $this->query->range($offset, $limit);
@@ -689,10 +702,16 @@ class SearchApiViewsQuery extends views_plugin_query {
     return $this;
   }
 
+  /**
+ *
+ */
   public function getIndex() {
     return $this->index;
   }
 
+  /**
+ *
+ */
   public function &getKeys() {
     if (!$this->errors) {
       return $this->query->getKeys();
@@ -701,12 +720,18 @@ class SearchApiViewsQuery extends views_plugin_query {
     return $ret;
   }
 
+  /**
+ *
+ */
   public function getOriginalKeys() {
     if (!$this->errors) {
       return $this->query->getOriginalKeys();
     }
   }
 
+  /**
+ *
+ */
   public function &getFields() {
     if (!$this->errors) {
       return $this->query->getFields();
@@ -715,12 +740,18 @@ class SearchApiViewsQuery extends views_plugin_query {
     return $ret;
   }
 
+  /**
+ *
+ */
   public function getFilter() {
     if (!$this->errors) {
       return $this->query->getFilter();
     }
   }
 
+  /**
+ *
+ */
   public function &getSort() {
     if (!$this->errors) {
       return $this->query->getSort();
@@ -729,6 +760,9 @@ class SearchApiViewsQuery extends views_plugin_query {
     return $ret;
   }
 
+  /**
+ *
+ */
   public function getOption($name, $default = NULL) {
     if (!$this->errors) {
       return $this->query->getOption($name, $default);
@@ -736,6 +770,9 @@ class SearchApiViewsQuery extends views_plugin_query {
     return $default;
   }
 
+  /**
+ *
+ */
   public function setOption($name, $value) {
     if (!$this->errors) {
       return $this->query->setOption($name, $value);
@@ -743,6 +780,9 @@ class SearchApiViewsQuery extends views_plugin_query {
     return NULL;
   }
 
+  /**
+ *
+ */
   public function &getOptions() {
     if (!$this->errors) {
       return $this->query->getOptions();

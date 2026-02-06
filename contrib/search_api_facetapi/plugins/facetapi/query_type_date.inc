@@ -70,7 +70,7 @@ class SearchApiFacetapiDate extends SearchApiFacetapiTerm implements FacetapiQue
         }
       }
       $date_query = $query->createFilter($operator, array("facet:$field"));
-      foreach($active_items as $active_item) {
+      foreach ($active_items as $active_item) {
         $filter = $this->createRangeFilter($active_item['value']);
         if ($filter) {
           $this->addFacetFilter($date_query, $field, $filter, $query);

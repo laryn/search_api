@@ -320,7 +320,7 @@ class SearchApiTestService extends SearchApiAbstractService {
   /**
    * {@inheritdoc}
    */
-  public function deleteItems($ids = 'all', SearchApiIndex $index = NULL) {
+  public function deleteItems($ids = 'all', ?SearchApiIndex $index = NULL) {
     $this->checkErrorState();
     if ($ids == 'all') {
       if ($index) {

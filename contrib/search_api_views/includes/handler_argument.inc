@@ -33,7 +33,9 @@ class SearchApiViewsHandlerArgument extends views_handler_argument {
    *
    * @return boolean
    */
-  // @todo Change and implement set_breadcrumb()?
+  /**
+ *@todo Change and implement set_breadcrumb()?
+ */
   public function uses_breadcrumb() {
     return FALSE;
   }
@@ -49,24 +51,24 @@ class SearchApiViewsHandlerArgument extends views_handler_argument {
       'ignore' => array(
         'title' => t('Display all values'),
         'method' => 'default_ignore',
-        'breadcrumb' => TRUE, // generate a breadcrumb to here
+        'breadcrumb' => TRUE, // Generate a breadcrumb to here.
       ),
       'not found' => array(
         'title' => t('Hide view / Page not found (404)'),
         'method' => 'default_not_found',
-        'hard fail' => TRUE, // This is a hard fail condition
+        'hard fail' => TRUE, // This is a hard fail condition.
       ),
       'empty' => array(
         'title' => t('Display empty text'),
         'method' => 'default_empty',
-        'breadcrumb' => TRUE, // generate a breadcrumb to here
+        'breadcrumb' => TRUE, // Generate a breadcrumb to here.
       ),
       'default' => array(
         'title' => t('Provide default argument'),
         'method' => 'default_default',
         'form method' => 'default_argument_form',
         'has default argument' => TRUE,
-        'default only' => TRUE, // this can only be used for missing argument, not validation failure
+        'default only' => TRUE, // This can only be used for missing argument, not validation failure.
       ),
     );
 
@@ -76,6 +78,9 @@ class SearchApiViewsHandlerArgument extends views_handler_argument {
     return $defaults;
   }
 
+  /**
+ *
+ */
   public function option_definition() {
     $options = parent::option_definition();
 
@@ -91,6 +96,9 @@ class SearchApiViewsHandlerArgument extends views_handler_argument {
     return $options;
   }
 
+  /**
+ *
+ */
   public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 

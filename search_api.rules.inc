@@ -5,7 +5,6 @@
  * Search API Rules integration.
  */
 
-
 /**
  * Implements hook_rules_action_info().
  */
@@ -51,10 +50,10 @@ function _search_api_rules_access() {
 /**
  * Rules action for indexing an item.
  */
-function _search_api_rules_action_index(EntityBackdropWrapper $wrapper, SearchApiIndex $index = NULL, $index_immediately = TRUE) {
+function _search_api_rules_action_index(EntityBackdropWrapper $wrapper, ?SearchApiIndex $index = NULL, $index_immediately = TRUE) {
   // If we do not have an index, we need to guess the item type to use.
   // @todo Since this can only be used with entities anyways, we can just loop
-//   over the item type information and use all types with that entity type.
+  //   over the item type information and use all types with that entity type.
   $type = $wrapper->type();
   $item_ids = array($wrapper->getIdentifier());
 
@@ -86,8 +85,4 @@ function _search_api_rules_action_index(EntityBackdropWrapper $wrapper, SearchAp
   else {
     search_api_get_datasource_controller($type)->trackItemChange($item_ids, $indexes);
   }
-}
-
-function _search_api_rules_action_index_help() {
-  return t('Queues an item for reindexing. If "index immediately" is disabled then the item will be indexed during the next cron run.');
 }

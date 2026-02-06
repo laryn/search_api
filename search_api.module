@@ -195,30 +195,6 @@ function search_api_menu() {
 }
 
 /**
- * Implements hook_help().
- */
-function search_api_help($path) {
-  switch ($path) {
-    case 'admin/help#search_api':
-      $classes = array();
-      foreach (search_api_get_service_info() as $id => $info) {
-        $id = backdrop_clean_css_identifier($id);
-        $name = check_plain($info['name']);
-        $description = isset($info['description']) ? $info['description'] : '';
-        $classes[] = "<h2 id=\"$id\">$name</h2>\n$description";
-      }
-      $output = '';
-      if ($classes) {
-        $output .= '<p>' . t('The following service classes are available for creating a search server.') . "</p>\n";
-        $output .= implode("\n\n", $classes);
-      }
-      return $output;
-    case 'admin/config/search/search_api':
-      return '<p>' . t('A search server and search index are used to execute searches. Several indexes can exist per server.<br />You need at least one server and one index to create searches on your site.') . '</p>';
-  }
-}
-
-/**
  * Implements hook_hook_info().
  */
 function search_api_hook_info() {
@@ -375,9 +351,7 @@ function search_api_cron() {
         continue;
       }
 
-      $limit = isset($index->options['cron_limit'])
-        ? $index->options['cron_limit']
-        : SEARCH_API_DEFAULT_CRON_LIMIT;
+      $limit = isset($index->options['cron_limit']) ? $index->options['cron_limit'] : SEARCH_API_DEFAULT_CRON_LIMIT;
       $num = 0;
       if ($limit) {
         try {
@@ -1631,11 +1605,11 @@ function search_api_access_execute_tasks_batch(?SearchApiServer $server = NULL) 
 function search_api_server_tasks_add(SearchApiServer $server, $type, $index = NULL, $data = NULL) {
   db_insert('search_api_task')
     ->fields(array(
-    'server_id' => $server->machine_name,
-    'type' => $type,
-    'index_id' => $index ? (is_object($index) ? $index->machine_name : $index) : NULL,
-    'data' => isset($data) ? serialize($data) : NULL,
-  ))
+      'server_id' => $server->machine_name,
+      'type' => $type,
+      'index_id' => $index ? (is_object($index) ? $index->machine_name : $index) : NULL,
+      'data' => isset($data) ? serialize($data) : NULL,
+    ))
     ->execute();
 }
 
@@ -1819,7 +1793,7 @@ function search_api_index_specific_items(SearchApiIndex $index, array $ids) {
     // no better way than to mark them as indexed first...
     if (count($indexed) < count($ids)) {
       // Believe it or not but this is actually quite faster than the equivalent
-      // $diff = array_diff($ids, $indexed);
+      // $diff = array_diff($ids, $indexed);.
       $diff = array_keys(array_diff_key(array_flip($ids), array_flip($indexed)));
       $index->datasource()->trackItemIndexed($diff, $index);
       $index->datasource()->trackItemChange($diff, array($index));
@@ -2900,7 +2874,7 @@ function search_api_index_url(SearchApiIndex $index) {
  *
  * @return SearchApiServer|null
  *   The server this index currently resides on, or NULL if the index is
- * currently unassigned.
+ *   currently unassigned.
  */
 function search_api_index_get_server(SearchApiIndex $index) {
   try {
@@ -3275,7 +3249,7 @@ function _search_api_convert_custom_type($callback, $value, $original_type, $typ
  * Used as a helper function in search_api_admin_index_view().
  *
  * @param SearchApiIndex $index
- *   The index
+ *   The index.
  *
  * @return int
  *   The number of items found on the server for this index, if the latter is

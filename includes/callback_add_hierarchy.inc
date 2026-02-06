@@ -142,7 +142,7 @@ class SearchApiAlterAddHierarchy extends SearchApiAbstractAlterCallback {
         $ret[$key]['getter callback'] = 'entity_plus_property_verbatim_get';
         // The return value of info() has some additional internal values set,
         // which we have to unset for the use here.
-        unset($ret[$key]['name'], $ret[$key]['parent'], $ret[$key]['langcode'], $ret[$key]['clear'], 
+        unset($ret[$key]['name'], $ret[$key]['parent'], $ret[$key]['langcode'], $ret[$key]['clear'],
             $ret[$key]['property info alter'], $ret[$key]['property defaults']);
       }
       if (isset($ret[$key]['bundle'])) {

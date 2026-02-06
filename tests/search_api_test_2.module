@@ -118,7 +118,7 @@ class SearchApiDummyService implements SearchApiServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function deleteItems($ids = 'all', SearchApiIndex $index = NULL) { }
+  public function deleteItems($ids = 'all', ?SearchApiIndex $index = NULL) { }
 
   /**
    * {@inheritdoc}

@@ -96,7 +96,7 @@ class SearchApiViewsCache extends views_plugin_cache_time {
       $key_data += array(
         'query' => $query,
         'roles' => array_keys($user->roles),
-        'super-user' => $user->uid == 1, // special caching for super user.
+        'super-user' => $user->uid == 1, // Special caching for super user.
         'language' => $GLOBALS['language']->langcode,
         'base_url' => $GLOBALS['base_url'],
         'offset' => $this->view->get_current_page() . '*' . $this->view->get_items_per_page() . '+' . $this->view->get_offset(),

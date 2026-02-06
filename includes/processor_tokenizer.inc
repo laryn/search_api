@@ -21,6 +21,9 @@ class SearchApiTokenizer extends SearchApiAbstractProcessor {
    */
   protected $ignorable;
 
+  /**
+ *
+ */
   public function configurationForm() {
     $form = parent::configurationForm();
 
@@ -40,7 +43,7 @@ class SearchApiTokenizer extends SearchApiAbstractProcessor {
         '#title' => t('Whitespace characters'),
         '#description' => t('Specify the characters that should be regarded as whitespace and therefore used as word-delimiters. ' .
             'Specify the characters as a <a href="@link">PCRE character class</a>. ' .
-            'Note: For non-English content, the default setting might not be suitable.', 
+            'Note: For non-English content, the default setting might not be suitable.',
             array('@link' => url('http://www.php.net/manual/en/regexp.reference.character-classes.php'))),
         '#default_value' => "[^[:alnum:]]",
       ),
@@ -60,6 +63,9 @@ class SearchApiTokenizer extends SearchApiAbstractProcessor {
     return $form;
   }
 
+  /**
+ *
+ */
   public function configurationFormValidate(array $form, array &$values, array &$form_state) {
     parent::configurationFormValidate($form, $values, $form_state);
 
@@ -75,6 +81,9 @@ class SearchApiTokenizer extends SearchApiAbstractProcessor {
     }
   }
 
+  /**
+ *
+ */
   protected function processFieldValue(&$value) {
     $this->prepare();
     if ($this->ignorable) {
@@ -91,6 +100,9 @@ class SearchApiTokenizer extends SearchApiAbstractProcessor {
     }
   }
 
+  /**
+ *
+ */
   protected function process(&$value) {
     // We don't touch integers, NULL values or the like.
     if (is_string($value)) {
@@ -104,6 +116,9 @@ class SearchApiTokenizer extends SearchApiAbstractProcessor {
     }
   }
 
+  /**
+ *
+ */
   protected function prepare() {
     if (!isset($this->spaces)) {
       $this->spaces = str_replace('/', '\/', $this->options['spaces']);

@@ -5,39 +5,9 @@
  * Install, update and uninstall functions for the search_api_views module.
  */
 
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function search_api_views_update_7101() { }
-
 /**
- * Helper function for replacing field identifiers.
- *
- * @param $field
- *   Some data to be searched for field names that should be altered. Passed by
- *   reference.
- * @param array $fields
- *   An array mapping Search API field identifiers (as previously used by Views)
- *   to the new, sanitized Views field identifiers.
- *
- * @return bool
- *   TRUE if any data was changed, FALSE otherwise.
+ * Implements hook_update_last_removed().
  */
-function _search_api_views_update_7101_helper(&$field, array $fields) {
-  if (is_array($field)) {
-    $change = FALSE;
-    $new_field = array();
-    foreach ($field as $k => $v) {
-      $new_k = $k;
-      $change |= _search_api_views_update_7101_helper($new_k, $fields);
-      $change |= _search_api_views_update_7101_helper($v, $fields);
-      $new_field[$new_k] = $v;
-    }
-    $field = $new_field;
-    return $change;
-  }
-  if (isset($fields[$field])) {
-    $field = $fields[$field];
-    return TRUE;
-  }
-  return FALSE;
+function search_api_views_update_last_removed() {
+  return 7101;
 }
-

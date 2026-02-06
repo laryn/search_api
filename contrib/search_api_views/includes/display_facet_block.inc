@@ -9,13 +9,22 @@
  * Plugin class for displaying search facets in a block.
  */
 class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
+  /**
+ *
+ */
   public function displays_exposed() {
     return FALSE;
   }
+  /**
+ *
+ */
   public function uses_exposed() {
     return FALSE;
   }
 
+  /**
+ *
+ */
   public function option_definition() {
     $options = parent::option_definition();
 
@@ -26,6 +35,9 @@ class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
     return $options;
   }
 
+  /**
+ *
+ */
   public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
@@ -69,12 +81,18 @@ class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
     }
   }
 
+  /**
+ *
+ */
   public function options_validate(&$form, &$form_state) {
     if (substr($this->view->base_table, 0, 17) != 'search_api_index_') {
       form_set_error('', t('The "Facets block" display can only be used with base tables based on Search API indexes.'));
     }
   }
 
+  /**
+ *
+ */
   public function options_submit(&$form, &$form_state) {
     parent::options_submit($form, $form_state);
 
@@ -91,6 +109,9 @@ class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
     }
   }
 
+  /**
+ *
+ */
   public function options_summary(&$categories, &$options) {
     parent::options_summary($categories, $options);
 
@@ -114,6 +135,9 @@ class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
 
   protected $field_options = NULL;
 
+  /**
+ *
+ */
   protected function getFieldOptions() {
     if (!isset($this->field_options)) {
       $index_id = substr($this->view->base_table, 17);
@@ -121,7 +145,7 @@ class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
         $table = views_fetch_data($this->view->base_table);
         $table = empty($table['table']['base']['title']) ? $this->view->base_table : $table['table']['base']['title'];
         throw new SearchApiException(t('The "Facets block" display cannot be used with a view for @basetable. ' .
-            'Please only use this display with base tables representing search indexes.', 
+            'Please only use this display with base tables representing search indexes.',
             array('@basetable' => $table)));
       }
       $this->field_options = array();
@@ -151,6 +175,9 @@ class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
     }
   }
 
+  /**
+ *
+ */
   public function query() {
     parent::query();
 
@@ -179,6 +206,9 @@ class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
     $this->view->query->range(0, 0);
   }
 
+  /**
+ *
+ */
   public function render() {
     if (substr($this->view->base_table, 0, 17) != 'search_api_index_') {
       form_set_error('', t('The "Facets block" display can only be used with base tables based on Search API indexes.'));
@@ -291,6 +321,9 @@ class SearchApiViewsFacetsBlockDisplay extends views_plugin_display_block {
     );
   }
 
+  /**
+ *
+ */
   public function execute() {
     $info['content'] = $this->render();
     $info['content']['more'] = $this->render_more_link();

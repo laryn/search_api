@@ -90,14 +90,14 @@ class SearchApiViewsHandlerFilterDate extends SearchApiViewsHandlerFilterNumeric
 
     $is_date_popup = ($this->options['widget_type'] == 'date_popup' && module_exists('date_popup'));
 
-    // If the operator is between
+    // If the operator is between.
     if ($this->operator == 'between') {
       if ($is_date_popup) {
         $form['value']['min']['#type'] = 'date_popup';
-        $form['value']['min']['#date_format'] =  $this->options['date_popup_format'];
+        $form['value']['min']['#date_format'] = $this->options['date_popup_format'];
         $form['value']['min']['#date_year_range'] = $this->options['year_range'];
         $form['value']['max']['#type'] = 'date_popup';
-        $form['value']['max']['#date_format'] =  $this->options['date_popup_format'];
+        $form['value']['max']['#date_format'] = $this->options['date_popup_format'];
         $form['value']['max']['#date_year_range'] = $this->options['year_range'];
       }
     }
@@ -109,7 +109,7 @@ class SearchApiViewsHandlerFilterDate extends SearchApiViewsHandlerFilterNumeric
       // @see date_views_filter_handler_simple::value_form()
       $form['value']['#id'] = 'date_views_exposed_filter-' . bin2hex(backdrop_random_bytes(16));
       $form['value']['#type'] = 'date_popup';
-      $form['value']['#date_format'] =  $this->options['date_popup_format'];
+      $form['value']['#date_format'] = $this->options['date_popup_format'];
       $form['value']['#date_year_range'] = $this->options['year_range'];
       unset($form['value']['#description']);
     }

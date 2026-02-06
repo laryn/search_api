@@ -73,9 +73,9 @@ class SearchApiViewsHandlerFilterNumeric extends SearchApiViewsHandlerFilter {
 
     $single_field_operators = $this->operator_options();
     unset(
-      $single_field_operators['empty'], 
-      $single_field_operators['not empty'], 
-      $single_field_operators['between'], 
+      $single_field_operators['empty'],
+      $single_field_operators['not empty'],
+      $single_field_operators['between'],
       $single_field_operators['not between']
     );
     $between_operators = array('between', 'not between');

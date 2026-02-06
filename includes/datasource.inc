@@ -660,8 +660,8 @@ abstract class SearchApiAbstractDataSourceController implements SearchApiDataSou
       $this->checkIndex($index);
       $update = db_update($this->table)
         ->fields(array(
-        $this->changedColumn => REQUEST_TIME,
-      ))
+          $this->changedColumn => REQUEST_TIME,
+        ))
         ->condition($this->indexIdColumn, $index->id)
         ->condition($this->changedColumn, 0, $dequeue ? '<=' : '=');
       if ($item_ids !== FALSE) {
@@ -715,8 +715,8 @@ abstract class SearchApiAbstractDataSourceController implements SearchApiDataSou
     }
     $update = db_update($this->table)
       ->fields(array(
-      $this->changedColumn => -1,
-    ))
+        $this->changedColumn => -1,
+      ))
       ->condition($this->indexIdColumn, $index->id);
     if ($item_ids !== FALSE) {
       $update->condition($this->itemIdColumn, $item_ids, 'IN');

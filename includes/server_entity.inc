@@ -171,8 +171,7 @@ class SearchApiServer extends Entity {
     return call_user_func_array(array($this->proxy, $name), $arguments);
   }
 
-  // Proxy methods
-
+  // Proxy methods.
   // For increased clarity, and since some parameters are passed by reference,
   // we don't use the __call() magic method for those. This also gives us the
   // opportunity to do additional error handling.
@@ -416,7 +415,7 @@ class SearchApiServer extends Entity {
    * Return a label for a signup form.
    */
   public function label() {
-    // return $this->title;
+    // Return $this->title;.
     return 'the label';
   }
 

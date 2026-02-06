@@ -537,16 +537,16 @@ class SearchApiWebTest extends BackdropWebTestCase {
     // Now insert some new items, and mark others as changed. Make sure that
     // each action has a unique timestamp, so the order will be correct.
     $this->backdropGet('search_api_test/touch/8');
-    $this->insertItems(1);// item 11
+    $this->insertItems(1);// Item 11.
     sleep(1);
     $this->backdropGet('search_api_test/touch/2');
-    $this->insertItems(1);// item 12
+    $this->insertItems(1);// Item 12.
     sleep(1);
     $this->backdropGet('search_api_test/touch/5');
-    $this->insertItems(1);// item 13
+    $this->insertItems(1);// Item 13.
     sleep(1);
     $this->backdropGet('search_api_test/touch/8');
-    $this->insertItems(1); // item 14
+    $this->insertItems(1); // Item 14.
 
     // Check whether the status display is right.
     $this->checkIndexStatus(7, 14, FALSE, 0);

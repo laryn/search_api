@@ -31,6 +31,9 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
    */
   protected $fulltextReductionSeparator;
 
+  /**
+ *
+ */
   public function configurationForm() {
     $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/css/search_api.admin.css';
 
@@ -145,6 +148,9 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
     return $form;
   }
 
+  /**
+ *
+ */
   public function configurationFormValidate(array $form, array &$values, array &$form_state) {
     unset($values['actions']);
     if (empty($values['fields'])) {
@@ -160,6 +166,9 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
     }
   }
 
+  /**
+ *
+ */
   public function configurationFormSubmit(array $form, array &$values, array &$form_state) {
     if (empty($values['fields'])) {
       return array();
@@ -177,6 +186,9 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
     return $values;
   }
 
+  /**
+ *
+ */
   public function alterItems(array &$items) {
     if (!$items) {
       return;
@@ -268,6 +280,9 @@ class SearchApiAlterAddAggregation extends SearchApiAbstractAlterCallback {
     return $ret;
   }
 
+  /**
+ *
+ */
   public function propertyInfo() {
     $types = $this->getTypes('type');
     $ret = array();

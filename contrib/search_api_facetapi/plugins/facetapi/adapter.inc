@@ -159,7 +159,7 @@ class SearchApiFacetapiAdapter extends FacetapiAdapter {
       // show on a per-searcher basis as we do with the facets. Therefore we
       // cannot match it up to the correct "current search".
       // I suspect that http://drupal.org/node/593658 would help.
-      // For now, just taking the first current search for this index. :-/
+      // For now, just taking the first current search for this index. :-/.
       foreach (search_api_current_search() as $search) {
         list($query) = $search;
         if ($query->getIndex()->machine_name == $index_id) {
